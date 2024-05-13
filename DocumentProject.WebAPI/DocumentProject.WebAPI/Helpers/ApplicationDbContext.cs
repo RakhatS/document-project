@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using DocumentProject.WebAPI.Data;
 
 namespace DocumentProject.WebAPI.Helpers
 {
@@ -15,5 +16,11 @@ namespace DocumentProject.WebAPI.Helpers
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
+
+
+        public DbSet<Application> Applications { get; set; }
+        public DbSet<Manager> Managers { get; set; }
+        public DbSet<Member> Members { get; set; }
+        public DbSet<Organization> Organizations { get; set; }
     }
 }
