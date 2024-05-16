@@ -2,5 +2,6 @@
 {
     public enum ApplicationStatus
     {
+        Awaiting, Signed, Unsigned
     }
 }
