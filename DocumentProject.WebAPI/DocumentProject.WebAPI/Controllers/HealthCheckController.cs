@@ -8,7 +8,7 @@ namespace DocumentProject.WebAPI.Controllers
     public class HealthCheckController : ControllerBase
     {
         [HttpGet]
-        public bool Get()
+        public async Task<bool> Get()
         {
             return true;
         }

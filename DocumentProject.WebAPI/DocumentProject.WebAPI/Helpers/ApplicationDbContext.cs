@@ -14,6 +14,20 @@ namespace DocumentProject.WebAPI.Helpers
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Organization>()
+              .HasMany(s => s.Applications).WithOne(a => a.Organization).HasForeignKey(a => a.OrganizationId);
+
+            modelBuilder.Entity<Organization>()
+              .HasMany(s => s.Members).WithOne(a => a.Organization).HasForeignKey(a => a.OrganizationId);
+
+            modelBuilder.Entity<Manager>()
+              .HasMany(s => s.Organizations).WithOne(a => a.OwnerManager).HasForeignKey(a => a.OwnerManagerId);
+
+            modelBuilder.Entity<Member>()
+              .HasMany(s => s.Applications).WithOne(a => a.Member).HasForeignKey(a => a.MemberId);
+
+
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
 
