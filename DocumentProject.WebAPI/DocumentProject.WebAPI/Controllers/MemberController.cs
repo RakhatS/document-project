@@ -1,4 +1,5 @@
-﻿using DocumentProject.WebAPI.Data;
+﻿using AutoMapper;
+using DocumentProject.WebAPI.Data;
 using DocumentProject.WebAPI.Data.Enums;
 using DocumentProject.WebAPI.DTO;
 using DocumentProject.WebAPI.Helpers;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Data;
 
 namespace DocumentProject.WebAPI.Controllers
@@ -26,6 +28,23 @@ namespace DocumentProject.WebAPI.Controllers
             _dbContext = dbContext;
         }
 
+        [Authorize(Roles = "Member")]
+        [HttpGet("Current")]
+        public async Task<MemberDTO?> CurrentMember()
+        {
+            var member = await _dbContext.Members
+               .SingleOrDefaultAsync(x => x.IdentityUser.Email == User.ToUserInfo().UserName
+                            || x.IdentityUser.UserName == User.ToUserInfo().UserName);
+
+
+            if (member == null)
+            {
+                Response.StatusCode = 401;
+                return null;
+            }
+
+            return Mapper.Map<Member, MemberDTO>(member);
+        }
 
 
         [Authorize(Roles = "Manager")]
@@ -59,7 +78,7 @@ namespace DocumentProject.WebAPI.Controllers
                 return null;
             }
 
-            if(organization.OwnerManagerId != manager.Id)
+            if (organization.OwnerManagerId != manager.Id)
             {
                 Response.StatusCode = 400;
                 await Response.WriteAsync("You cannot create a member for this organization");
@@ -84,6 +103,26 @@ namespace DocumentProject.WebAPI.Controllers
             await _dbContext.SaveChangesAsync(default);
 
             return newMemberReq;
+        }
+
+
+        [Authorize]
+        [HttpGet("OrganizationMembers")]
+        public async Task<List<MemberDTO>?> GetOrganizationMembers(Guid organizationid)
+        {
+
+            var organization = await _dbContext.Organizations
+                .Include(x => x.Members)
+                .SingleOrDefaultAsync(x => x.Id == organizationid);
+
+            if (organization == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Organization not found");
+                return null;
+            }
+
+            return Mapper.Map<List<Member>, List<MemberDTO>>(organization.Members);
         }
     }
 }

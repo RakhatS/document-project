@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using DocumentProject.WebAPI.Data;
+using DocumentProject.WebAPI.DTO;
 
 namespace DocumentProject.WebAPI.Helpers
 {
@@ -12,6 +14,15 @@ namespace DocumentProject.WebAPI.Helpers
                 Mapper.Reset();
                 Mapper.Initialize(cfg =>
                 {
+                    cfg.CreateMap<Manager, ManagerDTO>().ForMember(
+                       dest => dest.Email,
+                       opt => opt.MapFrom(src => src.IdentityUser.Email));
+                    cfg.CreateMap<Member, MemberDTO>().ForMember(
+                       dest => dest.Email,
+                       opt => opt.MapFrom(src => src.IdentityUser.Email));
+
+                    cfg.CreateMap<Application, ApplicationDTO>();
+                    cfg.CreateMap<Organization, OrganizationDTO>();
                 });
             }
 

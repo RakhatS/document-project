@@ -1,4 +1,5 @@
-﻿using DocumentProject.WebAPI.Data;
+﻿using AutoMapper;
+using DocumentProject.WebAPI.Data;
 using DocumentProject.WebAPI.Data.Enums;
 using DocumentProject.WebAPI.DTO;
 using DocumentProject.WebAPI.Helpers;
@@ -52,6 +53,52 @@ namespace DocumentProject.WebAPI.Controllers
             newOrganizationReq.DateCreated = newOrganization.DateCreated;
 
             return newOrganizationReq;
+        }
+
+
+
+
+
+
+
+
+        [Authorize]
+        [HttpGet("GetById")]
+        public async Task<OrganizationDTO?> GetOrganizationById(Guid organizationid)
+        {
+            var organization = await _dbContext.Organizations
+                  .Include(x => x.Members)
+                  .SingleOrDefaultAsync(x => x.Id == organizationid);
+
+            if (organization == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Organization not found");
+                return null;
+            }
+
+            return Mapper.Map<Organization, OrganizationDTO>(organization);
+        }
+
+
+
+
+        [Authorize]
+        [HttpGet("ManagerOrganizations")]
+        public async Task<List<OrganizationDTO>?> GetManagerOrganizations()
+        {
+            var manager = await _dbContext.Managers
+                .Include(x => x.Organizations)
+                .SingleOrDefaultAsync(x => x.IdentityUser.UserName == User.ToUserInfo().UserName);
+
+            if (manager == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Manager not found");
+                return null;
+            }
+
+            return Mapper.Map<List<Organization>, List<OrganizationDTO>>(manager.Organizations);
         }
     }
 }
