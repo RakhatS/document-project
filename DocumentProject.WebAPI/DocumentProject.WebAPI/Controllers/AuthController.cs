@@ -83,7 +83,7 @@ namespace DocumentProject.WebAPI.Controllers
 
 
         [HttpPost]
-        [Route("Manager/SignUp")]
+        [Route("Manager/SignIn")]
         public async Task<object?> ManagerSignIn([FromBody] LoginViewModel model)
         {
             model.Email = model.Email.ToLower().Trim();
@@ -113,7 +113,7 @@ namespace DocumentProject.WebAPI.Controllers
 
 
         [HttpPost]
-        [Route("Member/SignUp")]
+        [Route("Member/SignIn")]
         public async Task<object?> MemberSignIn([FromBody] LoginViewModel model)
         {
             model.Email = model.Email.ToLower().Trim();

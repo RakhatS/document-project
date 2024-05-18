@@ -9,7 +9,7 @@ namespace DocumentProject.WebAPI.Helpers
         {
             return new UserInfo
             {
-                Username = claimsPrincipal.Identity.Name
+                UserName = claimsPrincipal.Identity.Name
             };
         }
     }
