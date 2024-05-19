@@ -48,7 +48,7 @@ namespace DocumentProject.WebAPI.Controllers
                 return null;
             }
 
-            if(organization.Id != member.OrganizationId)
+            if (organization.Id != member.OrganizationId)
             {
                 Response.StatusCode = 400;
                 await Response.WriteAsync("You cannot create an application for this organization");
@@ -58,9 +58,9 @@ namespace DocumentProject.WebAPI.Controllers
 
             var newApplication = new Application
             {
-               Status = ApplicationStatus.Awaiting.ToString(),
-               MemberId = member.Id,
-               OrganizationId = organization.Id,
+                Status = ApplicationStatus.Awaiting.ToString(),
+                MemberId = member.Id,
+                OrganizationId = organization.Id,
             };
 
             await _dbContext.Applications.AddAsync(newApplication);
@@ -114,5 +114,93 @@ namespace DocumentProject.WebAPI.Controllers
 
             return Mapper.Map<List<Application>, List<ApplicationDTO>>(organization.Applications);
         }
+
+
+
+
+        [Authorize(Roles = "Member")]
+        [HttpDelete("Delete")]
+        public async Task DeleteApplication([FromQuery] Guid applicationId)
+        {
+            var member = await _dbContext.Members.SingleOrDefaultAsync(x => x.IdentityUser.UserName == User.ToUserInfo().UserName);
+
+            if (member == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Member not found");
+                return;
+            }
+
+            var application = await _dbContext.Applications
+                .SingleOrDefaultAsync(x => x.Id == applicationId);
+
+            if (application == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Application not found");
+                return;
+            }
+
+            if(application.MemberId!= member.Id)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("You cannot delete this application");
+                return;
+            }
+
+            _dbContext.Applications.Remove(application);
+            await _dbContext.SaveChangesAsync();
+
+        }
+
+
+
+
+        [Authorize(Roles = "Manager")]
+        [HttpPut("ChangeStatus")]
+        public async Task<ApplicationDTO?> ChangeApplicationStatus([FromQuery] Guid applicationId, [FromQuery] string newStatus)
+        {
+            if(newStatus != ApplicationStatus.Signed.ToString() && newStatus != ApplicationStatus.Unsigned.ToString())
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Invalid status");
+                return null;
+            }
+
+            var member = await _dbContext.Members.SingleOrDefaultAsync(x => x.IdentityUser.UserName == User.ToUserInfo().UserName);
+
+            if (member == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Member not found");
+                return null;
+            }
+
+            var application = await _dbContext.Applications
+             .SingleOrDefaultAsync(x => x.Id == applicationId);
+
+            if (application == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Application not found");
+                return null;
+            }
+
+            if(application.Status != ApplicationStatus.Awaiting.ToString())
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync($"This application has already been {application.Status.ToLower()}");
+                return null;
+            }
+
+
+            application.Status = newStatus;
+
+            await _dbContext.SaveChangesAsync();
+
+            return Mapper.Map<Application, ApplicationDTO>(application);
+        }
+
+
     }
 }
