@@ -83,7 +83,7 @@ namespace DocumentProject.WebAPI.Controllers
 
 
 
-        [Authorize]
+        [Authorize(Roles = "Manager")]
         [HttpGet("ManagerOrganizations")]
         public async Task<List<OrganizationDTO>?> GetManagerOrganizations()
         {
