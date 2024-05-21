@@ -16,6 +16,7 @@ import { JwtInterceptor } from './_helpers/jwt.interceptor';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
+import { OrganizationPageComponent } from './organization-page/organization-page.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { ToastrModule } from 'ngx-toastr';
     MainPageComponent,
     MyApplicationsPageComponent,
     MyOrganizationsPageComponent,
-    SignInPageComponent
+    SignInPageComponent,
+    OrganizationPageComponent
   ],
   imports: [
     BrowserModule,
