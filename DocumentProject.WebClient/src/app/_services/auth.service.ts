@@ -4,6 +4,8 @@ import { AccessTokenService } from './accesstoken.service';
 import { RegisterModel } from '../_models/registermodel';
 import { Observable } from 'rxjs';
 import { LoginModel } from '../_models/loginmodel';
+import { ManagerService } from './manager.service';
+import { MemberService } from './member.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,9 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private accessTokenService: AccessTokenService
+    private accessTokenService: AccessTokenService,
+    private memberService: MemberService,
+    private managerService: ManagerService
   ) { }
 
 
@@ -24,7 +28,7 @@ export class AuthService {
     return this.http.post<any>(api, model);
   }
   signIn(model: LoginModel): Observable<any> {
-    let api = "SignIn";
+    let api = "/SignIn";
     return this.http.post<any>(api, model);
   }
 
@@ -37,4 +41,17 @@ export class AuthService {
     let api = "/Member/SignIn";
     return this.http.post<any>(api, model);
   }
+
+
+  currentUser(): Observable<any> {
+    var role = this.accessTokenService.getUserRole();
+
+    if (role == "Manager") {
+      return this.managerService.currentManager();
+    }
+    else {
+      return this.memberService.currentMember();
+    }
+  }
+
 }

@@ -80,7 +80,7 @@ namespace DocumentProject.WebAPI.Controllers
 
         [HttpPost]
         [Route("SignIn")]
-        public async Task<object?> ManagerSignIn([FromBody] LoginViewModel model)
+        public async Task<object?> SignIn([FromBody] LoginViewModel model)
         {
             model.Email = model.Email.ToLower().Trim();
 

@@ -28,13 +28,13 @@ export class SignInPageComponent implements OnInit {
     this.loading = true
     this.authService.signIn(this.loginModel).subscribe(async res => {
       this.accessTokenService.setAccessToken(res["access_token"]);
-      // console.log(res);
-      // this.accountService.current().subscribe(c => {
-      //   this.accountService.currentUser = c;
-      //   this.router.navigate(['/courses']);
-      //   this.loading = false;
-      //   this.isInCorrect = false;
-      // })
+
+      this.authService.currentUser().subscribe(c => {
+        // this.accountService.currentUser = c;
+        this.router.navigate(['/']);
+        this.loading = false;
+        this.isInCorrect = false;
+      })
     }, async err => {
       this.isInCorrect = true;
       this.loading = false;
