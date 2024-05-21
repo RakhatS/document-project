@@ -99,11 +99,11 @@ namespace DocumentProject.WebAPI.Controllers
 
         [Authorize]
         [HttpGet("OrganizationApplications")]
-        public async Task<List<ApplicationDTO>?> GetOrganizationApplications(Guid organizationid)
+        public async Task<List<ApplicationDTO>?> GetOrganizationApplications([FromQuery] Guid organizationId)
         {
             var organization = await _dbContext.Organizations
                     .Include(x => x.Applications)
-                    .SingleOrDefaultAsync(x => x.Id == organizationid);
+                    .SingleOrDefaultAsync(x => x.Id == organizationId);
 
             if (organization == null)
             {
