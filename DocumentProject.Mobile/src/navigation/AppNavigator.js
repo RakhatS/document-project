@@ -4,13 +4,14 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import "react-native-gesture-handler";
 import { createStackNavigator } from "@react-navigation/stack";
 import TabNavigator from "./TabNavigator";
-import AuthStack from "./AuthStack";
-import TimerScreen from "../screens/DebateKeeperScreens/TimerScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Tournament from "../screens/HomeScreens/Tournament";
-import Coin from "../screens/ToolsScreens/Coin";
 import { useAtom } from "jotai";
 import { IsSigned } from "../constants/atom";
+import WelcomeScreen from "../screens/LoginPage/WelcomeScreen";
+import MemberTabNavigator from "./MemberTabNavigator";
+import MemberLoginScreen from "../screens/LoginPage/MemberLoginScreen";
+import ManagerLoginScreen from "../screens/LoginPage/ManagerLoginScreen";
+import { USER_ROLES } from "../enums";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -42,40 +43,47 @@ const AppNavigator = () => {
     return (
       <Stack.Navigator
         initialRouteName={
-          role == "USER_ROLES.ROLE_DRIVER"
-            ? "DriverTab"
-            : role == "USER_ROLES.ROLE_OWNER"
-            ? "OwnerTab"
+          role == USER_ROLES.ROLE_MEMBER
+            ? "MemberTab"
+            : role == USER_ROLES.ROLE_MANAGER
+            ? "ManagerTab"
             : "Welcome"
         }
-        screenOptions={{
+        screenOptiorrns={{
           cardStyle: { backgroundColor: "#FFFFFF" },
         }}
       >
         <Stack.Screen
-          name="Welcome"
-          component={AuthStack}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Tab"
+          name="ManagerTab"
           component={TabNavigator}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="TimerScreen"
-          component={TimerScreen}
-          options={({ route }) => ({ title: route.params })}
-        />
-        <Stack.Screen
-          name="Tournament"
-          component={Tournament}
+          name="MemberTab"
+          component={MemberTabNavigator}
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="Coin"
-          component={Coin}
-          options={{ headerShown: true }}
+          name="Welcome"
+          component={WelcomeScreen}
+          options={{
+            header: () => null,
+            gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="MemberLoginScreen"
+          component={MemberLoginScreen}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="ManagerLoginScreen"
+          component={ManagerLoginScreen}
+          options={{
+            header: () => null,
+          }}
         />
       </Stack.Navigator>
     );

@@ -3,12 +3,12 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Ionicons";
-import DebateScreen from "../screens/DebateScreens/DebateScreen";
+import HomeScreen from "../screens/HomeScreens/HomeScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const TabNavigator = () => {
+const MemberTabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -43,7 +43,7 @@ const TabNavigator = () => {
         //  header: () => <Header />,
       })}
     >
-      <Tab.Screen name="Главная" component={DebateScreen} />
+      <Tab.Screen name="Главная" component={HomeScreen} />
       {/* <Tab.Screen name="Дебаты" component={DebateStack} />
       <Tab.Screen name="Time Keeper" component={DebateKeeperStack} />
       <Tab.Screen name="Инструменты" component={ToolsStack} /> */}
@@ -51,6 +51,6 @@ const TabNavigator = () => {
   );
 };
 
-export default TabNavigator;
+export default MemberTabNavigator;
 
 const styles = StyleSheet.create({});

@@ -1,21 +1,22 @@
 import React, { useEffect } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { COLORS } from "../../utils/helper";
 
 const WelcomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Добро пожаловать в BetterCargo!</Text>
+      <Text style={styles.title}>Welcome to Document Project!</Text>
       <TouchableOpacity
-        style={[styles.button, { backgroundColor: "rgba(255, 192, 72, 0.4)" }]}
-        onPress={() => navigation.navigate("OwnerLogin")}
+        style={[styles.button, { backgroundColor: COLORS.PINK }]}
+        onPress={() => navigation.navigate("ManagerLoginScreen")}
       >
-        <Text style={styles.buttonText}>Я - владелец</Text>
+        <Text style={styles.buttonText}>I am a manager</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.button, { backgroundColor: "rgba(255, 192, 72, 0.6)" }]}
-        onPress={() => navigation.navigate("DriverLogin")}
+        style={[styles.button, { backgroundColor: COLORS.PINK }]}
+        onPress={() => navigation.navigate("MemberLoginScreen")}
       >
-        <Text style={styles.buttonText}>Я - водитель</Text>
+        <Text style={styles.buttonText}>I am a member</Text>
       </TouchableOpacity>
     </View>
   );
@@ -26,7 +27,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#EDE0D4",
+    backgroundColor: COLORS.MAIN_BLUE,
     padding: 20,
   },
   title: {
@@ -34,10 +35,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 30,
     textAlign: "center",
-    color: "#7F5539", // Dark brownish-orange
+    color: COLORS.GRAY1, // Dark brownish-orange
   },
   button: {
-    backgroundColor: "rgba(255, 192, 72, 0.4)", // Light orange with transparency
+    backgroundColor: COLORS.PINK, // Light orange with transparency
     paddingVertical: 15,
     paddingHorizontal: 40,
     borderRadius: 10,
@@ -53,7 +54,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    color: "#7F5539", // Dark brownish-orange
+    color: COLORS.GRAY1, // Dark brownish-orange
     fontWeight: "bold",
     textAlign: "center",
   },
