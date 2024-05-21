@@ -43,7 +43,7 @@ namespace DocumentProject.WebAPI.Controllers
             {
                 Name = newOrganizationReq.Name,
                 OwnerManagerId = manager.Id,
-                Type = newOrganizationReq.Type
+                Type = OrganizationType.Company.ToString()
             };
 
             await _dbContext.Organizations.AddAsync(newOrganization);
@@ -64,7 +64,7 @@ namespace DocumentProject.WebAPI.Controllers
 
         [Authorize]
         [HttpGet("GetById")]
-        public async Task<OrganizationDTO?> GetOrganizationById(Guid organizationid)
+        public async Task<OrganizationDTO?> GetOrganizationById([FromQuery] Guid organizationid)
         {
             var organization = await _dbContext.Organizations
                   .Include(x => x.Members)
@@ -83,7 +83,7 @@ namespace DocumentProject.WebAPI.Controllers
 
 
 
-        [Authorize]
+        [Authorize(Roles = "Manager")]
         [HttpGet("ManagerOrganizations")]
         public async Task<List<OrganizationDTO>?> GetManagerOrganizations()
         {

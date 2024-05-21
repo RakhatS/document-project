@@ -2,6 +2,6 @@
 {
     public enum OrganizationType
     {
-        University
+        University, Company
     }
 }
