@@ -38,10 +38,8 @@ namespace DocumentProject.WebAPI.Controllers
 
 
             if (member == null)
-            {
-                Response.StatusCode = 401;
                 return null;
-            }
+            
 
             return Mapper.Map<Member, MemberDTO>(member);
         }

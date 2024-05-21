@@ -31,10 +31,7 @@ namespace DocumentProject.WebAPI.Controllers
 
 
             if (manager == null)
-            {
-                Response.StatusCode = 401;
                 return null;
-            }
 
             return Mapper.Map<Manager, ManagerDTO>(manager);
         }

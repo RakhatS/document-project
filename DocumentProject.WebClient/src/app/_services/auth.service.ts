@@ -6,13 +6,14 @@ import { Observable } from 'rxjs';
 import { LoginModel } from '../_models/loginmodel';
 import { ManagerService } from './manager.service';
 import { MemberService } from './member.service';
+import { Constants } from '../_helpers/contants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  apiStudent = "api/Auth";
+  api = Constants.ServerUrl +  "api/Auth";
 
 
   constructor(
@@ -24,21 +25,21 @@ export class AuthService {
 
 
   managerSignUp(model: RegisterModel): Observable<any> {
-    let api = "/Manager/SignUp";
+    let api = this.api + "/Manager/SignUp";
     return this.http.post<any>(api, model);
   }
   signIn(model: LoginModel): Observable<any> {
-    let api = "/SignIn";
+    let api = this.api + "/SignIn";
     return this.http.post<any>(api, model);
   }
 
   managerSignIn(model: LoginModel): Observable<any> {
-    let api = "/Manager/SignIn";
+    let api = this.api + "/Manager/SignIn";
     return this.http.post<any>(api, model);
   }
 
   memberSignIn(model: RegisterModel): Observable<any> {
-    let api = "/Member/SignIn";
+    let api = this.api + "/Member/SignIn";
     return this.http.post<any>(api, model);
   }
 
