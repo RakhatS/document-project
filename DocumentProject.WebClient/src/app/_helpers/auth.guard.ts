@@ -14,21 +14,18 @@ export class AuthGuard implements CanActivate {
   ) { }
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    let currentPerson = await this.authService.currentUser().toPromise();
-    if (currentPerson == null) {
-      this.router.navigate(['/']);
+    try {
+      let currentUser = await this.authService.currentUser().toPromise();
+      if (currentUser == null) {
+        this.router.navigate(['/sign-in']);
+        return false;
+      }
+      return true;
+    }
+    catch {
+      this.router.navigate(['/sign-in']);
       return false;
     }
-    if (route.data)
-      this.checkUserLogin(route);
-    return true;
   }
-  checkUserLogin(route: ActivatedRouteSnapshot): boolean {
-    const userRole = this.accessTokenService.getUserRole();
-    if (route.data['role'] && route.data['role'].indexOf(userRole) === -1) {
-      this.router.navigate(['/']);
-      return false;
-    }
-    return true;
-  }
+
 }
