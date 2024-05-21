@@ -23,7 +23,10 @@ export class AuthService {
     let api = "/Manager/SignUp";
     return this.http.post<any>(api, model);
   }
-
+  signIn(model: LoginModel): Observable<any> {
+    let api = "SignIn";
+    return this.http.post<any>(api, model);
+  }
 
   managerSignIn(model: LoginModel): Observable<any> {
     let api = "/Manager/SignIn";

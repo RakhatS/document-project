@@ -78,6 +78,33 @@ namespace DocumentProject.WebAPI.Controllers
 
 
 
+        [HttpPost]
+        [Route("SignIn")]
+        public async Task<object?> ManagerSignIn([FromBody] LoginViewModel model)
+        {
+            model.Email = model.Email.ToLower().Trim();
+
+ 
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+            if (!result.Succeeded)
+            {
+
+                Response.StatusCode = 401;
+                await Response.WriteAsync("Invalid username or password.");
+                return null;
+            }
+
+            if (await _dbContext.Managers.AnyAsync(x => x.IdentityUser.UserName == model.Email))
+            {
+                return await TokenGenerator.GenerateToken(model.Email, UserRole.Manager.ToString());
+            }
+            else if(await _dbContext.Members.AnyAsync(x => x.IdentityUser.UserName == model.Email))
+            {
+                return await TokenGenerator.GenerateToken(model.Email, UserRole.Member.ToString());
+            }
+
+            return null;
+        }
 
 
 
