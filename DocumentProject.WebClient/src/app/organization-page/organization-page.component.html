@@ -3,10 +3,10 @@
 </div>
 
 <main>
-  <div class="row">
+  <div class="row" *ngIf="organization">
     <div class="col card">
       <h3>Applications</h3>
-      <div>
+      <div *ngIf="organization!.applications!.length > 0">
         <table class="table">
           <thead>
             <tr>
@@ -66,7 +66,7 @@
           </div>
         </div>
       </div>
-      <div>
+      <div *ngIf="organization!.members!.length > 0">
         <table class="table">
           <thead>
             <tr>
