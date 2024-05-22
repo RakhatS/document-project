@@ -1,10 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AccessTokenService } from '../_services/accesstoken.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
   styleUrls: ['./main-page.component.scss']
 })
-export class MainPageComponent {
+export class MainPageComponent implements OnInit {
+
+
+  constructor(private accessTokenService: AccessTokenService,
+    private router: Router
+  ) { }
+
+  ngOnInit(): void {
+    if (this.accessTokenService.getUserRole() == "Manager") {
+      this.router.navigate(['my-organizations']);
+    }
+    else if (this.accessTokenService.getUserRole() == "Member") { 
+      this.router.navigate(['my-organization']);
+    }
+  }
 
 }

@@ -19,13 +19,16 @@ namespace DocumentProject.WebAPI.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ApplicationDbContext _dbContext;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
 
         public MemberController(ApplicationDbContext dbContext,
-                                  UserManager<IdentityUser> userManager)
+                                  UserManager<IdentityUser> userManager,
+                                  RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _dbContext = dbContext;
+            _roleManager = roleManager;
         }
 
         [Authorize(Roles = "Member")]
@@ -83,6 +86,8 @@ namespace DocumentProject.WebAPI.Controllers
                 await Response.WriteAsync("You cannot create a member for this organization");
                 return null;
             }
+            await _roleManager.CreateAsync(new IdentityRole(UserRole.Member.ToString()));
+
 
 
             var user = new IdentityUser();
@@ -92,6 +97,7 @@ namespace DocumentProject.WebAPI.Controllers
 
 
             await _userManager.AddToRoleAsync(user, UserRole.Member.ToString());
+
             var newMember = new Member();
             newMember.IdentityUser = user;
             newMember.FirstName = newMemberReq.FirstName;
@@ -111,7 +117,7 @@ namespace DocumentProject.WebAPI.Controllers
         {
 
             var organization = await _dbContext.Organizations
-                .Include(x => x.Members)
+                .Include(x => x.Members).ThenInclude(x => x.IdentityUser)
                 .SingleOrDefaultAsync(x => x.Id == organizationId);
 
             if (organization == null)
