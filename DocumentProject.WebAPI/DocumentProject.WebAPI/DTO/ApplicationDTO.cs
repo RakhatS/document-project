@@ -7,6 +7,7 @@ namespace DocumentProject.WebAPI.DTO
         public string Status { get; set; }
 
         public Guid MemberId { get; set; }
+        public MemberDTO? Member { get; set; }
         public Guid OrganizationId { get; set; }
     }
 }

@@ -39,6 +39,7 @@ export class OrganizationPageComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.organizationId = params['organizationId'];
+      
       this.getOrganization();
     });
   }
@@ -51,6 +52,8 @@ export class OrganizationPageComponent implements OnInit {
     this.loading = true;
     this.organizationService.getOrganizationById(this.organizationId).subscribe(res => {
       this.organization = res;
+      console.log(this.organization);
+      
       this.loading = false;
       this.getApplications();
       this.getMembers();
@@ -91,5 +94,19 @@ export class OrganizationPageComponent implements OnInit {
     })
   }
 
-  createMember() { }
+  createMember() {
+    if (!this.organizationId || !this.organization)
+      return;
+
+    this.newMember.organizationId = this.organizationId;
+
+    this.loading = true;
+    this.memberService.createOrganizationMember(this.newMember).subscribe(res => {
+      this.loading = false;
+      this.getMembers();
+    }, error => {
+      this.toastr.error(error.statusText);
+      this.loading = false;
+    })
+  }
 }

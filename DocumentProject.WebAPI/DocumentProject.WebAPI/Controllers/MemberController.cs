@@ -58,7 +58,8 @@ namespace DocumentProject.WebAPI.Controllers
             newMemberReq.Email = newMemberReq.Email.ToLower().Trim();
 
 
-            var manager = await _dbContext.Managers.SingleOrDefaultAsync(x => x.IdentityUser.UserName == User.ToUserInfo().UserName);
+            var manager = await _dbContext.Managers
+                .SingleOrDefaultAsync(x => x.IdentityUser.UserName == User.ToUserInfo().UserName);
 
             if (manager == null)
             {

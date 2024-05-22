@@ -102,7 +102,7 @@ namespace DocumentProject.WebAPI.Controllers
         public async Task<List<ApplicationDTO>?> GetOrganizationApplications([FromQuery] Guid organizationId)
         {
             var organization = await _dbContext.Organizations
-                    .Include(x => x.Applications)
+                    .Include(x => x.Applications).ThenInclude(x => x.Member)
                     .SingleOrDefaultAsync(x => x.Id == organizationId);
 
             if (organization == null)

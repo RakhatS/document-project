@@ -6,22 +6,27 @@
   <div class="row" *ngIf="organization">
     <div class="col card">
       <h3>Applications</h3>
-      <div *ngIf="organization!.applications!.length > 0">
+      <div *ngIf="organization.applications">
         <table class="table">
           <thead>
             <tr>
+              <th scope="col">№</th>
+              <!-- <th scope="col">Type</th> -->
+              <th scope="col">Status</th>
+              <th scope="col">Member</th>
               <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
+            <tr *ngFor="let application of organization.applications; let i = index;">
+              <th scope="row">{{ i + 1 }}</th>
+              <!-- <td>{{ application.type }}</td> -->
+              <td>{{ application.status }}</td>
+              <td>
+                <a *ngIf="application.member">
+                  {{ application.member.firstName }} {{ application.member.lastName }}</a>
+              </td>
+              <td></td>
             </tr>
           </tbody>
         </table>
@@ -57,8 +62,9 @@
                 </div>
                 <div class="mb-3">
                   <label for="inputNewMemberPassword" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="inputNewMemberPassword" [(ngModel)]="newMember.password"
-                    [ngModelOptions]="{standalone: true}" required [disabled]="loading">
+                  <input type="password" class="form-control" id="inputNewMemberPassword"
+                    [(ngModel)]="newMember.password" [ngModelOptions]="{standalone: true}" required
+                    [disabled]="loading">
                 </div>
                 <button type="submit" class="btn btn-primary" [disabled]="loading">Create</button>
               </form>
@@ -66,22 +72,22 @@
           </div>
         </div>
       </div>
-      <div *ngIf="organization!.members!.length > 0">
+      <div *ngIf="organization.members">
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">#</th>
-              <th scope="col">First</th>
-              <th scope="col">Last</th>
-              <th scope="col">Handle</th>
+              <th scope="col">№</th>
+              <th scope="col">Email</th>
+              <th scope="col">First name</th>
+              <th scope="col">Last name</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
+            <tr *ngFor="let member of organization.members; let i = index;">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ member.email }}</td>
+              <td>{{ member.firstName }}</td>
+              <td>{{ member.lastName }}</td>
             </tr>
           </tbody>
         </table>
