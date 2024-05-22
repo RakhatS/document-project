@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Ionicons";
 import HomeScreen from "../screens/Member/HomeScreen";
 import ProfileScreen from "../screens/Member/ProfileScreen";
+import MainScreen from "../screens/Member/MainScreen";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -29,7 +30,7 @@ const MemberTabNavigator = () => {
         //  header: () => <Header />,
       })}
     >
-      <Tab.Screen name="Главная" component={HomeScreen} />
+      <Tab.Screen name="Главная" component={MainScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );

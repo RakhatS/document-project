@@ -3,6 +3,7 @@ import AppNavigator from "./src/navigation/AppNavigator";
 import { useFonts } from "expo-font";
 import { NavigationContainer } from "@react-navigation/native";
 import { PaperProvider } from "react-native-paper";
+import { StatusBar } from "react-native";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -17,6 +18,7 @@ export default function App() {
     <PaperProvider>
       <NavigationContainer>
         <AppNavigator />
+        <StatusBar barStyle="dark-content" backgroundColor={"red"} />
       </NavigationContainer>
     </PaperProvider>
   );
