@@ -8,7 +8,6 @@ import {
   StyleSheet,
   TextInput,
   ActivityIndicator,
-  Image,
   Keyboard,
   TouchableWithoutFeedback,
   KeyboardAvoidingView,
@@ -35,6 +34,10 @@ const ManagerLoginScreen = () => {
   };
 
   const handleRegister = async () => {
+    await AsyncStorage.setItem("access_token", "fdfadsf");
+    await AsyncStorage.setItem("role", "ROLE_MANAGER");
+    setSigned(true);
+    return;
     const emailValid = validateEmail(email);
     if (emailValid == null) {
       // console.log('email is not valid!');
@@ -52,8 +55,6 @@ const ManagerLoginScreen = () => {
           password: password,
         }),
       };
-
-      // console.log(options.body);
 
       const response = await fetch(
         SERVER_URL + "/api/OwnerAuth/Login",
@@ -89,34 +90,26 @@ const ManagerLoginScreen = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView style={styles.container}>
           <View style={{ alignItems: "center" }}>
-            {/* <Image
-              source={require("../../assets/icon2x.png")}
-              style={{ width: 200, height: 200 }}
-              resizeMode="contain"
-            /> */}
-
             <Text style={styles.title}>Document Project</Text>
           </View>
 
-          <View
-            style={{ width: "100%", paddingTop: 10, paddingHorizontal: 20 }}
-          >
+          <View style={styles.inputContainer}>
             <Text style={styles.inputText}>Login</Text>
             <TextInput
               style={styles.input}
-              placeholder="Эл.  почта"
-              placeholderTextColor={"#8e8e8e"}
+              placeholder="Email"
+              placeholderTextColor={COLORS.DARK_BLUE}
               value={email}
               onChangeText={(text) => setEmail(text)}
             />
           </View>
 
-          <View style={{ width: "100%", paddingHorizontal: 20 }}>
+          <View style={styles.inputContainer}>
             <Text style={styles.inputText}>Password</Text>
             <TextInput
               style={styles.input}
-              placeholder="Пароль"
-              placeholderTextColor={"#8e8e8e"}
+              placeholder="Password"
+              placeholderTextColor={COLORS.DARK_BLUE}
               value={password}
               onChangeText={(text) => setPassword(text)}
               secureTextEntry
@@ -125,15 +118,10 @@ const ManagerLoginScreen = () => {
 
           <TouchableOpacity
             style={styles.button}
-            // onPress={() => handleRegister()}
-            onPress={async () => {
-              await AsyncStorage.setItem("access_token", "fdfadsf");
-              await AsyncStorage.setItem("role", "ROLE_MANAGER");
-              setSigned(true);
-            }}
+            onPress={() => handleRegister()}
           >
             {isLoading ? (
-              <ActivityIndicator size={20} color={COLORS.orange} />
+              <ActivityIndicator size={20} color={COLORS.LIGHT_BLUE} />
             ) : (
               <Text style={styles.buttonText}>Sign in</Text>
             )}
@@ -149,13 +137,20 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: COLORS.orange,
+    backgroundColor: COLORS.LIGHT_BLUE,
+    padding: 20,
   },
   title: {
     fontSize: 45,
     fontWeight: "600",
     textAlign: "center",
-    color: "#000000",
+    color: COLORS.DARK_BLUE,
+    marginBottom: 40,
+  },
+  inputContainer: {
+    width: "100%",
+    paddingHorizontal: 20,
+    marginBottom: 20,
   },
   input: {
     width: "100%",
@@ -163,51 +158,38 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     borderRadius: 10,
     paddingHorizontal: 20,
-    marginBottom: 20,
-    color: "#000000",
-  },
-  checkboxContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
-  },
-  checkbox: {
-    alignSelf: "center",
-  },
-  label: {
-    marginLeft: 8,
-    fontSize: 18,
-    color: "#2F2E41",
+    color: COLORS.DARK_BLUE,
+    borderWidth: 1,
+    borderColor: COLORS.MEDIUM_BLUE,
   },
   button: {
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#2F2E41",
+    backgroundColor: COLORS.MEDIUM_BLUE,
     paddingVertical: 15,
     paddingHorizontal: 50,
-    borderRadius: 10,
+    borderRadius: 25,
     marginBottom: 20,
-    shadowColor: "#000",
+    shadowColor: COLORS.DARK_BLUE,
     shadowOffset: {
       width: 0,
-      height: 2,
+      height: 4,
     },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
     elevation: 5,
     marginTop: 10,
   },
   buttonText: {
-    fontSize: 25,
-    color: "#fff",
+    fontSize: 20,
+    color: COLORS.LIGHT_BLUE,
     fontWeight: "600",
     textAlign: "center",
   },
   inputText: {
     fontWeight: "600",
-    fontSize: 25,
-    lineHeight: 23,
-    color: "#2F2E41",
+    fontSize: 18,
+    color: COLORS.DARK_BLUE,
     marginBottom: 5,
   },
 });
