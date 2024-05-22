@@ -4,6 +4,7 @@ import { AccessTokenService } from '../_services/accesstoken.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Organization } from '../_models/organization';
+import { ApplicationService } from '../_services/application.service';
 
 @Component({
   selector: 'app-organization-page',
@@ -23,7 +24,8 @@ export class OrganizationPageComponent implements OnInit {
     private accessTokenService: AccessTokenService,
     private router: Router,
     private toastr: ToastrService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private applicationService: ApplicationService
   ) { }
 
   ngOnInit(): void {
@@ -47,6 +49,20 @@ export class OrganizationPageComponent implements OnInit {
     this.organizationService.getOrganizationById(this.organizationId).subscribe(res => {
       this.organization = res;
       this.loading = false;
+      this.getApplications();
+    }, error => {
+      this.toastr.error(error.statusText);
+      this.loading = false;
+    })
+  }
+
+
+  getApplications() {
+    if (!this.organizationId)
+      return;
+
+    this.applicationService.getOrganizationApplications(this.organizationId).subscribe(res => {
+      this.organization!.applications = res;
     }, error => {
       this.toastr.error(error.statusText);
       this.loading = false;
