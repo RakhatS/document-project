@@ -4,11 +4,88 @@
 
 <main>
   <div class="row">
-    <div class="col">
+    <div class="col card">
       <h3>Applications</h3>
+      <div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Handle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <div class="col">
+    <div class="col card">
       <h3>Members</h3>
+      <div class="accordion" id="accordionCreateMember">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseCreateMember" aria-expanded="false" aria-controls="collapseCreateMember">
+              Create a new member
+            </button>
+          </h2>
+          <div id="collapseCreateMember" class="accordion-collapse collapse" data-bs-parent="#accordionCreateMember">
+            <div class="accordion-body">
+              <form (ngSubmit)="createMember()" ngNativeValidate *ngIf="newMember">
+                <div class="mb-3">
+                  <label for="inputNewMemberEmail" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="inputNewMemberEmail" [(ngModel)]="newMember.email"
+                    [ngModelOptions]="{standalone: true}" required [disabled]="loading">
+                </div>
+                <div class="mb-3">
+                  <label for="inputNewMemberFirstName" class="form-label">First name</label>
+                  <input type="text" class="form-control" id="inputNewMemberFirstName" [(ngModel)]="newMember.firstName"
+                    [ngModelOptions]="{standalone: true}" required [disabled]="loading">
+                </div>
+                <div class="mb-3">
+                  <label for="inputNewMemberLastName" class="form-label">Last name</label>
+                  <input type="text" class="form-control" id="inputNewMemberLastName" [(ngModel)]="newMember.lastName"
+                    [ngModelOptions]="{standalone: true}" required [disabled]="loading">
+                </div>
+                <div class="mb-3">
+                  <label for="inputNewMemberPassword" class="form-label">Password</label>
+                  <input type="password" class="form-control" id="inputNewMemberPassword" [(ngModel)]="newMember.password"
+                    [ngModelOptions]="{standalone: true}" required [disabled]="loading">
+                </div>
+                <button type="submit" class="btn btn-primary" [disabled]="loading">Create</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">First</th>
+              <th scope="col">Last</th>
+              <th scope="col">Handle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>Mark</td>
+              <td>Otto</td>
+              <td>@mdo</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </main>

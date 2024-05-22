@@ -1,5 +1,6 @@
 import { BaseModel } from "./abstract/base-model";
 import { Application } from "./application";
+import { Member } from "./member";
 
 export class Organization extends BaseModel {
   name: string | undefined;
@@ -7,4 +8,5 @@ export class Organization extends BaseModel {
   ownerManagerId: string | undefined;
 
   applications: Application[] = []
+  members: Member[] = []
 }

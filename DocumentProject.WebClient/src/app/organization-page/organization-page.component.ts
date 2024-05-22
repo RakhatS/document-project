@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Organization } from '../_models/organization';
 import { ApplicationService } from '../_services/application.service';
+import { MemberService } from '../_services/member.service';
+import { Member } from '../_models/member';
 
 @Component({
   selector: 'app-organization-page',
@@ -16,7 +18,7 @@ export class OrganizationPageComponent implements OnInit {
 
   organizationId: string | undefined;
   organization: Organization | undefined;
-
+  newMember: Member = new Member();
   loading: boolean = false;
 
 
@@ -25,7 +27,8 @@ export class OrganizationPageComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private route: ActivatedRoute,
-    private applicationService: ApplicationService
+    private applicationService: ApplicationService,
+    private memberService: MemberService
   ) { }
 
   ngOnInit(): void {
@@ -37,7 +40,7 @@ export class OrganizationPageComponent implements OnInit {
     this.route.params.subscribe(params => {
       this.organizationId = params['organizationId'];
       this.getOrganization();
-    })
+    });
   }
 
   getOrganization() {
@@ -50,22 +53,43 @@ export class OrganizationPageComponent implements OnInit {
       this.organization = res;
       this.loading = false;
       this.getApplications();
+      this.getMembers();
     }, error => {
       this.toastr.error(error.statusText);
       this.loading = false;
-    })
+    });
   }
 
 
   getApplications() {
-    if (!this.organizationId)
+    if (!this.organizationId || !this.organization)
       return;
 
+    this.loading = true;
     this.applicationService.getOrganizationApplications(this.organizationId).subscribe(res => {
       this.organization!.applications = res;
+      this.loading = false;
+    }, error => {
+      this.toastr.error(error.statusText);
+      this.loading = false;
+    });
+  }
+
+
+  getMembers() {
+    if (!this.organizationId || !this.organization)
+      return;
+
+    this.loading = true;
+
+    this.memberService.getOrganizationMembers(this.organizationId).subscribe(res => {
+      this.organization!.members = res;
+      this.loading = false;
     }, error => {
       this.toastr.error(error.statusText);
       this.loading = false;
     })
   }
+
+  createMember() { }
 }

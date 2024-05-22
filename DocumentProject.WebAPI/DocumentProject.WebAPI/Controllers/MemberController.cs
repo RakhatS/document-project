@@ -106,12 +106,12 @@ namespace DocumentProject.WebAPI.Controllers
 
         [Authorize]
         [HttpGet("OrganizationMembers")]
-        public async Task<List<MemberDTO>?> GetOrganizationMembers(Guid organizationid)
+        public async Task<List<MemberDTO>?> GetOrganizationMembers(Guid organizationId)
         {
 
             var organization = await _dbContext.Organizations
                 .Include(x => x.Members)
-                .SingleOrDefaultAsync(x => x.Id == organizationid);
+                .SingleOrDefaultAsync(x => x.Id == organizationId);
 
             if (organization == null)
             {

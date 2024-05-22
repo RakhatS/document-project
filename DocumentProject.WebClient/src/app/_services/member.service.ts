@@ -17,4 +17,14 @@ export class MemberService {
     let api = this.api + "/Current";
     return this.http.get<Member>(api);
   }
+
+  createOrganizationMember(newMember: Member): Observable<Member> {
+    let api = this.api + "/CreateOrganizationMember";
+    return this.http.post<Member>(api, newMember);
+  }
+
+  getOrganizationMembers(organizationId: string): Observable<Member[]> {
+    let api = this.api + "/OrganizationMembers?organizationId=" + organizationId;
+    return this.http.get<Member[]>(api);
+  }
 }
