@@ -12,6 +12,9 @@ import MemberTabNavigator from "./MemberTabNavigator";
 import MemberLoginScreen from "../screens/LoginPage/MemberLoginScreen";
 import ManagerLoginScreen from "../screens/LoginPage/ManagerLoginScreen";
 import { USER_ROLES } from "../enums";
+import { SERVER_URL } from "../utils/helper";
+import CreateApplication from "../screens/Manager/CreateApplication";
+import CurrentApplication from "../screens/Manager/CurrentApplication";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -21,11 +24,12 @@ const AppNavigator = () => {
   const [role, setRole] = useState("");
 
   useEffect(() => {
+    console.log(signed);
     const getid = async () => {
       let token = await AsyncStorage.getItem("access_token");
       let role = await AsyncStorage.getItem("role");
-      // // console.log('Token: ', token);
-      // // console.log('Role: ', role);
+      console.log("Token: ", token);
+      console.log("Role: ", role);
       if (token && role) {
         setSigned(true);
         setRole(role);
@@ -36,6 +40,17 @@ const AppNavigator = () => {
     };
     getid();
   }, [signed]);
+
+  // useEffect(() => {
+  //   const getCheck = async () => {
+  //     console.log(SERVER_URL + "/api/HealthCheck");
+  //     const response = await fetch(SERVER_URL + "/api/HealthCheck");
+  //     // const json = await response.json();
+  //     console.log("getCheck:  ", response.status);
+  //   };
+
+  //   getCheck();
+  // }, []);
 
   if (role == "") {
     return null;
@@ -49,9 +64,6 @@ const AppNavigator = () => {
             ? "ManagerTab"
             : "Welcome"
         }
-        screenOptiorrns={{
-          cardStyle: { backgroundColor: "#FFFFFF" },
-        }}
       >
         <Stack.Screen
           name="ManagerTab"
@@ -81,6 +93,20 @@ const AppNavigator = () => {
         <Stack.Screen
           name="ManagerLoginScreen"
           component={ManagerLoginScreen}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="CreateApplication"
+          component={CreateApplication}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="CurrentApplication"
+          component={CurrentApplication}
           options={{
             header: () => null,
           }}
