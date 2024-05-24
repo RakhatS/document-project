@@ -102,6 +102,7 @@ export class OrganizationPageComponent implements OnInit {
 
     this.loading = true;
     this.memberService.createOrganizationMember(this.newMember).subscribe(res => {
+      this.newMember = new Member();
       this.loading = false;
       this.getMembers();
     }, error => {

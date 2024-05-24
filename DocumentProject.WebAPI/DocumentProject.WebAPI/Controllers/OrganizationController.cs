@@ -43,7 +43,10 @@ namespace DocumentProject.WebAPI.Controllers
             {
                 Name = newOrganizationReq.Name,
                 OwnerManagerId = manager.Id,
-                Type = OrganizationType.Company.ToString()
+                Type = OrganizationType.Company.ToString(),
+                Address = newOrganizationReq.Address,
+                BIN = newOrganizationReq.BIN,
+                ContactNumber = newOrganizationReq.ContactNumber
             };
 
             await _dbContext.Organizations.AddAsync(newOrganization);

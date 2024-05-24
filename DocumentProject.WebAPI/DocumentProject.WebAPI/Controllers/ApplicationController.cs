@@ -58,6 +58,8 @@ namespace DocumentProject.WebAPI.Controllers
 
             var newApplication = new Application
             {
+                Name = newApplicationReq.Name,
+                Number = newApplicationReq.Number,
                 Status = ApplicationStatus.Awaiting.ToString(),
                 MemberId = member.Id,
                 OrganizationId = organization.Id,
