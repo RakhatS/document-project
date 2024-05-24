@@ -15,6 +15,7 @@ import { USER_ROLES } from "../enums";
 import { SERVER_URL } from "../utils/helper";
 import CreateApplication from "../screens/Manager/CreateApplication";
 import CurrentApplication from "../screens/Manager/CurrentApplication";
+import { useNavigation } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -22,17 +23,24 @@ const Stack = createStackNavigator();
 const AppNavigator = () => {
   const [signed, setSigned] = useAtom(IsSigned);
   const [role, setRole] = useState("");
+  const naviagtion = useNavigation();
 
   useEffect(() => {
     console.log(signed);
     const getid = async () => {
       let token = await AsyncStorage.getItem("access_token");
       let role = await AsyncStorage.getItem("role");
-      console.log("Token: ", token);
-      console.log("Role: ", role);
+
       if (token && role) {
         setSigned(true);
         setRole(role);
+        console.log("Token: ", token);
+        console.log("Role: ", role);
+        if (role == USER_ROLES.ROLE_MANAGER) {
+          naviagtion.navigate("ManagerTab");
+        } else {
+          naviagtion.navigate("MemberTab");
+        }
       } else {
         setRole("Login");
         setSigned(false);
