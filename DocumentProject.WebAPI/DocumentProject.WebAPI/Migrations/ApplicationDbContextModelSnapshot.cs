@@ -31,10 +31,25 @@ namespace DocumentProject.WebAPI.Migrations
                     b.Property<Guid>("MemberId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<Guid>("OrganizationId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime?>("SignatureDate")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("text");
 

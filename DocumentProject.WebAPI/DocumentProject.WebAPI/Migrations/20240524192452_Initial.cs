@@ -228,7 +228,11 @@ namespace DocumentProject.WebAPI.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Number = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
                     Status = table.Column<string>(type: "text", nullable: false),
+                    Type = table.Column<string>(type: "text", nullable: false),
+                    SignatureDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
                     MemberId = table.Column<Guid>(type: "uuid", nullable: false),
                     OrganizationId = table.Column<Guid>(type: "uuid", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)

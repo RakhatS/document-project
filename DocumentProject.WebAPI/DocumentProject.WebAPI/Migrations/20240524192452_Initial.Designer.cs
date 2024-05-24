@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DocumentProject.WebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240518103810_Initial")]
+    [Migration("20240524192452_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,10 +33,25 @@ namespace DocumentProject.WebAPI.Migrations
                     b.Property<Guid>("MemberId")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Number")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<Guid>("OrganizationId")
                         .HasColumnType("uuid");
 
+                    b.Property<DateTime?>("SignatureDate")
+                        .HasColumnType("timestamp without time zone");
+
                     b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("text");
 

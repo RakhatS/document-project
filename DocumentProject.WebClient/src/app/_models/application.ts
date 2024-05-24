@@ -1,9 +1,15 @@
 import { BaseModel } from "./abstract/base-model";
 import { Member } from "./member";
+import { Organization } from "./organization";
 
 export class Application extends BaseModel { 
-  status: string | undefined;
+  number: string | undefined;
+  name: string | undefined;
+  status: string | undefined | null = null;
+  type: string | undefined;
+  signatureDate: Date | null = null;
   memberId: string | undefined;
   member: Member | undefined;
   organizationId: string | undefined;
+  organization: Organization | null = null;
 }
