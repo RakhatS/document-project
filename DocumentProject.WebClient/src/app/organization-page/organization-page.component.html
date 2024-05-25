@@ -61,6 +61,16 @@
                     [ngModelOptions]="{standalone: true}" required [disabled]="loading">
                 </div>
                 <div class="mb-3">
+                  <label for="inputNewMemberAddress" class="form-label">Address</label>
+                  <input type="text" class="form-control" id="inputNewMemberAddress" [(ngModel)]="newMember.address"
+                    [ngModelOptions]="{standalone: true}" required [disabled]="loading">
+                </div>
+                <div class="mb-3">
+                  <label for="inputNewMemberAddress" class="form-label">Position</label>
+                  <input type="text" class="form-control" id="inputNewMemberAddress" [(ngModel)]="newMember.position"
+                    [ngModelOptions]="{standalone: true}" required [disabled]="loading">
+                </div>
+                <div class="mb-3">
                   <label for="inputNewMemberPassword" class="form-label">Password</label>
                   <input type="password" class="form-control" id="inputNewMemberPassword"
                     [(ngModel)]="newMember.password" [ngModelOptions]="{standalone: true}" required
