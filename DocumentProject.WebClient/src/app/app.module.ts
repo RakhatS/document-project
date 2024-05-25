@@ -17,6 +17,7 @@ import { CommonModule } from '@angular/common';
 import { ToastrModule } from 'ngx-toastr';
 import { OrganizationPageComponent } from './organization-page/organization-page.component';
 import { MyOrganizationPageComponent } from './my-organization-page/my-organization-page.component';
+import { SafeHtmlPipe } from './_helpers/pipes/pipe.safehtml';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,10 @@ import { MyOrganizationPageComponent } from './my-organization-page/my-organizat
     MyOrganizationsPageComponent,
     SignInPageComponent,
     OrganizationPageComponent,
-    MyOrganizationPageComponent
+    MyOrganizationPageComponent,
+
+
+    SafeHtmlPipe
   ],
   imports: [
     BrowserModule,

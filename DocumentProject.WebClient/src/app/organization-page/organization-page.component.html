@@ -13,6 +13,7 @@
               <th scope="col">№</th>
               <!-- <th scope="col">Type</th> -->
               <th scope="col">Status</th>
+              <th scope="col">Name</th>
               <th scope="col">Member</th>
               <th scope="col">#</th>
             </tr>
@@ -22,6 +23,7 @@
               <th scope="row">{{ i + 1 }}</th>
               <!-- <td>{{ application.type }}</td> -->
               <td>{{ application.status }}</td>
+              <td>{{ application.name }}</td>
               <td>
                 <a *ngIf="application.member">
                   {{ application.member.firstName }} {{ application.member.lastName }}</a>

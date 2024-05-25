@@ -37,4 +37,10 @@ export class ApplicationService {
     let api = this.api + "/ChangeStatus?applicationId=" + applicationId + "&newStatus=" + newStatus;
     return this.http.put<Application>(api, null);
   }
+
+  getApplicationDocument(applicationId: string): Observable<any> {
+    let api = this.api + "/ApplicationDocument?applicationId=" + applicationId;
+    return this.http.get<any>(api);
+  }
+
 }

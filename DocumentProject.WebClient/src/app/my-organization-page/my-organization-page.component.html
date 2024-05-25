@@ -6,15 +6,16 @@
   <div class="row">
     <div class="col">
       <form (ngSubmit)="createApplication()" ngNativeValidate *ngIf="newApplication">
-          <div class="col-md-3">
-            <label for="newApplicationName" class="form-label">
-              Name:</label>
-            <select class="form-select" id="newApplication" [(ngModel)]="newApplication.name" [ngModelOptions]="{standalone: true}" required="">>
-              <option *ngFor="let applicationName of applicationNames" [value]="applicationName.name">
-                {{ applicationName.name }}
-              </option>
-            </select>
-          </div>
+        <div class="col-md-3">
+          <label for="newApplicationName" class="form-label">
+            Name:</label>
+          <select class="form-select" id="newApplication" [(ngModel)]="newApplication.name"
+            [ngModelOptions]="{standalone: true}" required="">>
+            <option *ngFor="let applicationName of applicationNames" [value]="applicationName.name">
+              {{ applicationName.name }}
+            </option>
+          </select>
+        </div>
 
         <button class="btn btn-primary" type="submit" [disabled]="loading">Create</button>
       </form>
@@ -26,6 +27,7 @@
             <th scope="col">№</th>
             <!-- <th scope="col">Type</th> -->
             <th scope="col">Status</th>
+            <th scope="col">Name</th>
             <th scope="col">#</th>
           </tr>
         </thead>
@@ -34,11 +36,57 @@
             <th scope="row">{{ i + 1 }}</th>
             <!-- <td>{{ application.type }}</td> -->
             <td>{{ application.status }}</td>
-
-            <td></td>
+            <td>{{ application.name }}</td>
+            <td>
+              <button class="btn btn-danger" [disabled]="loading"
+                (click)="openApplicationDetailsModal(application)">Details</button>
+            </td>
           </tr>
         </tbody>
       </table>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade show" id="applicationDetailsModal" tabindex="-1" aria-labelledby="applicationDetailsModalLabel"
+  aria-hidden="true" style="display: block;" *ngIf="isApplicationDetailsModalOpened && selectedApplication">
+  <div class="modal-dialog modal-dialog-applicationDetailsModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="applicationDetailsModalLabel">Application</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="closeApplicationDetailsModal()" [disabled]="loading"></button>
+      </div>
+      <div class="modal-body">
+        <!-- <div class="card Application-info-card"> -->
+        <div *ngIf="selectedApplication.status == 'Signed' && selectedApplication.document"
+          [innerHTML]="selectedApplication.document | safeHtml">
+
+        </div>
+        <div *ngIf="selectedApplication.status == 'Unsigned'">
+          <div class="alert alert-danger" role="alert">
+            This application is unsigned!
+          </div>
+        </div>
+        <div *ngIf="selectedApplication.status == 'Awaiting'">
+          <div class="alert alert-info" role="alert">
+            This application is not ready yet!
+          </div>
+        </div>
+        <!-- </div> -->
+      </div>
+      <!-- <div class="modal-footer">
+        </div> -->
     </div>
   </div>
 </div>

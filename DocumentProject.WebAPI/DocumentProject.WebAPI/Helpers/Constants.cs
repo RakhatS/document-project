@@ -7,7 +7,7 @@ namespace DocumentProject.WebAPI.Helpers
         public static readonly List<ApplicationNameDTO> ApplicationNames = new List<ApplicationNameDTO>
         {
             new ApplicationNameDTO { Name = "Employment Verification", Text = "This is to verify that {{Member.FullName}} has been employed with {{Organization.Name}} from {{Member.DateCreated}}, to the present as a {{Member.Position}}." },
-            new ApplicationNameDTO { Name = "Rental Reference", Text = "This letter is to confirm that {{Member.FullName}} has been a tenant at our property located at {{Member.Address}}, Springfield, from {{Member.DateCreated}}, to the present and has maintained a good rental history." },
+            new ApplicationNameDTO { Name = "Rental Reference", Text = "This letter is to confirm that {{Member.FullName}} has been a tenant at our property located at {{Member.Address}}, from {{Member.DateCreated}}, to the present and has maintained a good rental history." },
             new ApplicationNameDTO { Name = "Academic Reference", Text = "This is to certify that {{Member.FullName}} was a student at {{Organization.Name}} from {{Member.DateCreated}}, to {{DateTime.Now}}, and graduated with a Bachelor of Science degree." },
             new ApplicationNameDTO { Name = "Character Reference", Text = "This is to confirm that {{Member.FullName}} has been an active member of our community center for the past five years and has shown exceptional character and leadership qualities." },
             new ApplicationNameDTO { Name = "Financial Reference", Text = "This is to certify that {{Member.FullName}} has maintained a savings account with {{Organization.Name}} since {{Member.DateCreated}}, and has demonstrated responsible financial behavior." },

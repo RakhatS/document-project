@@ -212,5 +212,29 @@ namespace DocumentProject.WebAPI.Controllers
         }
 
 
+
+
+
+        [Authorize]
+        [HttpGet("ApplicationDocument")]
+        public async Task<ApplicationDocumentDTO> GetApplicationDocument([FromQuery] Guid applicationId)
+        {
+
+            var application = await _dbContext.Applications
+                .Include(x => x.Organization).ThenInclude(x => x.OwnerManager)
+                .Include(x => x.Member)
+                .SingleOrDefaultAsync(x => x.Id == applicationId);
+
+            if (application == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Application not found");
+                return new ApplicationDocumentDTO();
+            }
+
+            return new ApplicationDocumentDTO { Content =  await ExtensionMethods.GetApplicationDocument(application) };
+        }
+
+
     }
 }

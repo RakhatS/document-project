@@ -13,4 +13,6 @@ export class Application extends BaseModel {
   member: Member | undefined;
   organizationId: string | undefined;
   organization: Organization | null = null;
+
+  document: string | undefined | null = null;
 }
