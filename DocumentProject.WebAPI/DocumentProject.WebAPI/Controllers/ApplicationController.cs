@@ -63,6 +63,7 @@ namespace DocumentProject.WebAPI.Controllers
                 Status = ApplicationStatus.Awaiting.ToString(),
                 MemberId = member.Id,
                 OrganizationId = organization.Id,
+                Text = newApplicationReq.Text
             };
 
             await _dbContext.Applications.AddAsync(newApplication);

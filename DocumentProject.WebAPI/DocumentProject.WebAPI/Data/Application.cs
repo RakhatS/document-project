@@ -8,6 +8,7 @@ namespace DocumentProject.WebAPI.Data
         public string Name { get; set; }
         public string Status { get; set; }
         public DateTime? SignatureDate { get; set; }
+        public string Text { get; set; }
         public Guid MemberId { get; set; }
         public Member Member { get; set; }
         public Guid OrganizationId { get; set; }

@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Справка</title>
+  <title>Reference</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -104,25 +104,25 @@
 <body>
   <div class="container">
     <div class="header">
-      <h1>Справка</h1>
-      <h2>Официальный документ</h2>
+      <h1>Reference</h1>
+      <h2>Official document</h2>
     </div>
     <div class="doc-name">
-      <p><strong>Имя справки:</strong> [Имя справки]</p>
+      <p><strong>Reference name:</strong> {{Application.Name}}</p>
     </div>
     <div class="content">
-      <p><strong>Название организации:</strong> [Название организации]</p>
-      <p><strong>Адрес:</strong> [Адрес организации]</p>
-      <p><strong>Контактный телефон:</strong> [Телефон организации]</p>
-      <p><strong>Дата:</strong> [Дата]</p>
-      <p><strong>Текст справки:</strong></p>
-      <p>[Здесь указать основной текст справки]</p>
+      <p><strong>Name of the organization:</strong> {{Organization.Name}}</p>
+      <p><strong>Address:</strong> {{Organization.Address}}</p>
+      <p><strong>Contact number:</strong> {{Organization.ContactNumber}}</p>
+      <p><strong>Date:</strong> {{Application.SignatureDate}}</p>
+      <p><strong>Reference text:</strong></p>
+      <p>{{Application.text}}</p>
     </div>
     <div class="footer">
       <div class="signature">
-        <p><strong>Подпись:</strong> __________________________</p>
-        <p><strong>ФИО:</strong> [ФИО ответственного лица]</p>
-        <p><strong>Должность:</strong> [Должность ответственного лица]</p>
+        <p><strong>Signature:</strong> __________________________</p>
+        <p><strong>Full name:</strong> {{OwnerManager.FullName}}</p>
+        <p><strong>Job title:</strong> Director</p>
       </div>
       <div class="stamp">
         <div class="stamp-circle-1">

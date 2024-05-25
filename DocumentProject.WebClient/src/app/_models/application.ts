@@ -8,6 +8,7 @@ export class Application extends BaseModel {
   status: string | undefined | null = null;
   type: string | undefined;
   signatureDate: Date | null = null;
+  text: string | undefined | null = null;
   memberId: string | undefined;
   member: Member | undefined;
   organizationId: string | undefined;
