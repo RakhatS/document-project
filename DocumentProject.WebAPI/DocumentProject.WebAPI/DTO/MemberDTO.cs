@@ -8,7 +8,7 @@ namespace DocumentProject.WebAPI.DTO
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
 
-
+        public string Address { get; set; }
         public Guid OrganizationId { get; set; }
 
         public string? Password { get; set; }
