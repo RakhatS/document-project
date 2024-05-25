@@ -8,6 +8,7 @@ import { Member } from '../_models/member';
 import { ToastrService } from 'ngx-toastr';
 import { ApplicationService } from '../_services/application.service';
 import { Organization } from '../_models/organization';
+import { Constants } from '../_helpers/contants';
 
 @Component({
   selector: 'app-my-organization-page',
@@ -21,6 +22,7 @@ export class MyOrganizationPageComponent implements OnInit {
   member: Member | undefined;
   organization: Organization | undefined;
   newApplication: Application = new Application();
+  applicationNames = Constants.applicationNames;
 
   constructor(private accessTokenService: AccessTokenService,
     private router: Router,

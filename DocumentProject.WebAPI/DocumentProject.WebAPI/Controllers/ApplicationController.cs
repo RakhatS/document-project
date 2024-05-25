@@ -39,6 +39,7 @@ namespace DocumentProject.WebAPI.Controllers
 
             var organization = await _dbContext.Organizations
                   .Include(x => x.Members)
+                  .Include(x => x.OwnerManager)
                   .SingleOrDefaultAsync(x => x.Id == newApplicationReq.OrganizationId);
 
             if (organization == null)
@@ -59,12 +60,18 @@ namespace DocumentProject.WebAPI.Controllers
             var newApplication = new Application
             {
                 Name = newApplicationReq.Name,
-                Number = newApplicationReq.Number,
                 Status = ApplicationStatus.Awaiting.ToString(),
                 MemberId = member.Id,
                 OrganizationId = organization.Id,
-                Text = newApplicationReq.Text
+                Text = await ExtensionMethods.GetApplicationText(newApplicationReq.Name, member, organization)
             };
+
+            Random random = new Random();
+
+            do {
+                newApplication.Number = random.Next(100000, 1000000).ToString();
+            } while (await _dbContext.Applications.AnyAsync(x => x.Number == newApplication.Number));
+
 
             await _dbContext.Applications.AddAsync(newApplication);
             await _dbContext.SaveChangesAsync();

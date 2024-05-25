@@ -6,7 +6,16 @@
   <div class="row">
     <div class="col">
       <form (ngSubmit)="createApplication()" ngNativeValidate *ngIf="newApplication">
-        
+          <div class="col-md-3">
+            <label for="newApplicationName" class="form-label">
+              Name:</label>
+            <select class="form-select" id="newApplication" [(ngModel)]="newApplication.name" [ngModelOptions]="{standalone: true}" required="">>
+              <option *ngFor="let applicationName of applicationNames" [value]="applicationName.name">
+                {{ applicationName.name }}
+              </option>
+            </select>
+          </div>
+
         <button class="btn btn-primary" type="submit" [disabled]="loading">Create</button>
       </form>
     </div>
