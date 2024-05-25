@@ -104,6 +104,7 @@ namespace DocumentProject.WebAPI.Controllers
             newMember.LastName = newMemberReq.LastName;
             newMember.OrganizationId = organization.Id;
             newMember.Address = newMemberReq.Address;
+            newMember.Position = newMemberReq.Position;
 
             await _dbContext.Members.AddAsync(newMember);
             await _dbContext.SaveChangesAsync(default);

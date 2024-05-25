@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using DocumentProject.WebAPI.DTO;
+using DocumentProject.WebAPI.Helpers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DocumentProject.WebAPI.Controllers
@@ -7,5 +9,10 @@ namespace DocumentProject.WebAPI.Controllers
     [ApiController]
     public class ConstDataController : ControllerBase
     {
+        [HttpGet("ApplicationNames")]
+        public async Task<List<ApplicationNameDTO>> GetApplicationNames()
+        {
+            return Constants.ApplicationNames;
+        }
     }
 }
