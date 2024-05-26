@@ -1,1 +1,44 @@
-<p>menu works!</p>
+<div class="sidebar-container">
+  <div class="sidebar-logo">
+    Document project
+  </div>
+  <ul class="sidebar-navigation">
+    <li class="header">{{ 'Navigation' }}</li>
+    <li class="list-item">
+      <a [routerLink]="['/']">
+        <i class="bi bi-house" aria-hidden="true"></i> {{ 'Main page' }}
+      </a>
+    </li>
+    <li class="list-item">
+      <a [routerLink]="['/customers']">
+        <i class="bi bi-person-raised-hand" aria-hidden="true"></i> {{ 'Customers' }}
+      </a>
+    </li>
+    <li class="list-item">
+      <a [routerLink]="['/contracts']">
+        <i class="bi bi-file-earmark-check" aria-hidden="true"></i> {{ 'Contracts' }}
+      </a>
+    </li>
+    <li class="list-item">
+      <a [routerLink]="['/applications']">
+        <i class="bi bi-file-arrow-down" aria-hidden="true"></i> {{ 'Applications' }}
+      </a>
+    </li>
+    <!-- <li class="header">Another Menu</li>
+      <li>
+        <a href="#">
+          <i class="bi bi-users" aria-hidden="true"></i> Friends
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="bi bi-cog" aria-hidden="true"></i> Settings
+        </a>
+      </li>
+      <li>
+        <a href="#">
+          <i class="bi bi-info-circle" aria-hidden="true"></i> Information
+        </a>
+      </li> -->
+  </ul>
+</div>
