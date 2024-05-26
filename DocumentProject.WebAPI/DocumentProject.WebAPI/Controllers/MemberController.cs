@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using DocumentProject.WebAPI.Abstract;
 using DocumentProject.WebAPI.Data;
 using DocumentProject.WebAPI.Data.Enums;
 using DocumentProject.WebAPI.DTO;
 using DocumentProject.WebAPI.Helpers;
+using DocumentProject.WebAPI.Services;
+using DocumentProject.WebAPI.Views;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -20,15 +23,18 @@ namespace DocumentProject.WebAPI.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly ApplicationDbContext _dbContext;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IFilesDestination _filesDestination;
 
 
         public MemberController(ApplicationDbContext dbContext,
                                   UserManager<IdentityUser> userManager,
-                                  RoleManager<IdentityRole> roleManager)
+                                  RoleManager<IdentityRole> roleManager,
+                                  IFilesDestination filesDestination)
         {
             _userManager = userManager;
             _dbContext = dbContext;
             _roleManager = roleManager;
+            _filesDestination = filesDestination;
         }
 
         [Authorize(Roles = "Member")]
@@ -130,6 +136,79 @@ namespace DocumentProject.WebAPI.Controllers
             }
 
             return Mapper.Map<List<Member>, List<MemberDTO>>(organization.Members);
+        }
+
+
+
+
+
+        [Authorize(Roles = "Member")]
+        [HttpPut("Update")]
+        public async Task UpdateMember([FromBody] MemberDTO updatedMember)
+        {
+            var member = await _dbContext.Members
+               .SingleOrDefaultAsync(x => x.IdentityUser.Email == User.ToUserInfo().UserName
+                            || x.IdentityUser.UserName == User.ToUserInfo().UserName);
+
+
+            if (member == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Member not found");
+                return;
+            }
+
+            member.FirstName = updatedMember.FirstName;
+            member.LastName = updatedMember.LastName;
+            member.Address = updatedMember.Address;
+            member.Position = updatedMember.Position;
+
+            await _dbContext.SaveChangesAsync();
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [HttpPost]
+        [Authorize(Roles = "Member")]
+        [Route("UploadProfilePhoto")]
+        public async Task UploadProfilePhoto([FromBody] PhotoModel photoModel)
+        {
+            var member = await _dbContext.Members
+               .SingleOrDefaultAsync(x => x.IdentityUser.Email == User.ToUserInfo().UserName
+                            || x.IdentityUser.UserName == User.ToUserInfo().UserName);
+
+
+            if (member == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Member not found");
+                return;
+            }
+
+
+            var imageDataStream = new MemoryStream(photoModel.PhotoBase64);
+            imageDataStream.Position = 0;
+            var fileName = $"member_avatar_{member.Id}.png";
+            var path = Path.Combine(_filesDestination.UserPhotosDirectory, fileName);
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await imageDataStream.CopyToAsync(stream);
+            }
+            member.PhotoUrl = path;
+
+            await _dbContext.SaveChangesAsync();
+
         }
     }
 }
