@@ -1,22 +1,21 @@
-
 <div style="width: 70%; margin: 20px auto; padding: 20px; background: #fff; border: 1px solid #ddd; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);">
     <div style="text-align: center; margin-bottom: 20px;">
         <h1 style="margin: 0; font-size: 28px;">Reference</h1>
         <h2 style="margin: 0; font-size: 22px; font-weight: normal;">Official document</h2>
     </div>
     <div style="margin-bottom: 20px;">
-        <p><strong>Reference name:</strong> {{Application.Name}}</p>
+        <p style="margin: 10px 0;"><strong>Reference name:</strong> {{Application.Name}}</p>
         <p style="margin: 10px 0;"><strong>Name of the organization:</strong> {{Organization.Name}}</p>
         <p style="margin: 10px 0;"><strong>Member's name:</strong> {{Member.FullName}}</p>
         <p style="margin: 10px 0;"><strong>Address:</strong> {{Organization.Address}}</p>
         <p style="margin: 10px 0;"><strong>Contact number:</strong> {{Organization.ContactNumber}}</p>
-        <p style="margin: 10px 0;"><strong>Date:</strong> {{Application.SignatureDate}}</p>
+        <p style="margin: 10px 0;"><strong>Date of creation:</strong> {{Application.DateCreated}}</p>
         <p style="margin: 10px 0;"><strong>Reference text:</strong></p>
         <p style="margin: 10px 0;">{{Application.Text}}</p>
     </div>
     <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 40px;">
         <div style="text-align: left;">
-            <p style="margin: 5px 0;"><strong>Signature:</strong> __________________________</p>
+            <p style="margin: 5px 0;"><strong>Signature date:</strong> {{Application.SignatureDate}} </p>
             <p style="margin: 5px 0;"><strong>Full name:</strong> {{OwnerManager.FullName}}</p>
             <p style="margin: 5px 0;"><strong>Job title:</strong> Director</p>
         </div>
