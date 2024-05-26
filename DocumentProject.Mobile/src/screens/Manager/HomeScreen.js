@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -7,36 +7,50 @@ import {
   FlatList,
   SafeAreaView,
 } from "react-native";
-import { COLORS } from "../../utils/helper";
+import { COLORS, SERVER_URL } from "../../utils/helper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeScreen = ({ navigation }) => {
-  const data = [
-    {
-      id: "1",
-      documentName: "Document 1",
-      creator: "Creator A",
-      applicationId: "APP001",
-      dateCreated: "2023-05-01",
-      description: "Description of document 1",
-    },
-    {
-      id: "2",
-      documentName: "Document 2",
-      creator: "Creator B",
-      applicationId: "APP002",
-      dateCreated: "2023-06-01",
-      description: "Description of document 2",
-    },
-    // Add more sample data as needed
-  ];
+  const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const getApplications = async () => {
+    setLoading(true);
+    let access_token = await AsyncStorage.getItem("access_token");
+    let organizationId = await AsyncStorage.getItem("organizationId");
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + access_token,
+      },
+    };
+    const response = await fetch(
+      SERVER_URL +
+        "/api/Application/OrganizationApplications?organizationId=" +
+        organizationId,
+      options
+    );
+    const json = await response.json();
+    // console.log(json);
+    if (json) {
+      setApplications(json);
+    } else {
+      // console.log('Server is error 500');
+    }
+    setLoading(false);
+  };
 
   const renderCard = ({ item }) => (
     <View style={styles.card}>
-      <Text style={styles.cardTitle}>{item.documentName}</Text>
-      <Text style={styles.cardText}>Creator: {item.creator}</Text>
-      <Text style={styles.cardText}>Application ID: {item.applicationId}</Text>
+      <Text style={styles.cardTitle}>{item.name}</Text>
+      <Text style={styles.cardText}>Creator: {item.member.firstName}</Text>
+      <Text style={styles.cardText}>Application ID: {item.number}</Text>
       <Text style={styles.cardText}>Date Created: {item.dateCreated}</Text>
-      <Text style={styles.cardDescription}>{item.description}</Text>
+      <Text style={styles.cardText}>
+        Organization: {item.organization.name}
+      </Text>
+      <Text style={styles.cardDescription}>{item.text}</Text>
       <TouchableOpacity
         style={styles.cardButton}
         onPress={() => navigation.navigate("CurrentApplication", item)}
@@ -46,20 +60,49 @@ const HomeScreen = ({ navigation }) => {
     </View>
   );
 
+  useEffect(() => {
+    getApplications();
+  }, []);
+
+  // https://localhost:7161/api/ConstData/ApplicationNames
+  // https://localhost:7161/api/Manager/Current
+  // https://localhost:7161/api/Organization/GetById?organizationid=616f9d24-fbcd-45a7-b52a-cf43373b9879
+  // https://localhost:7161/api/Application/OrganizationApplications?organizationId=616f9d24-fbcd-45a7-b52a-cf43373b9879
+  // https://localhost:7161/api/Member/OrganizationMembers?organizationId=616f9d24-fbcd-45a7-b52a-cf43373b9879
+  // https://localhost:7161/api/Application/ApplicationDocument?applicationId=f56bcee0-01b0-4049-99ff-92185e32f8f9
+
+  // https://localhost:7161/api/Member/CreateOrganizationMember   POST
+  // {
+  // "email": "kbeknur@mail.ru",
+  // "firstName": "Beknur",
+  // "lastName": "Kettesh",
+  // "position": "fsad fsf asf",
+  // "address": "dsafads fdsa fds fsad",
+  // "photoBase64": null,
+  // "organizationId": "616f9d24-fbcd-45a7-b52a-cf43373b9879",
+  // "password": "admin",
+  // "id": "00000000-0000-0000-0000-000000000000",
+  // "dateCreated": "0001-01-01T00:00:00"
+  // }
+
+  // https://localhost:7161/api/Application/ChangeStatus?applicationId=9bfcc359-439d-4c73-9eb8-33ea150e4286&newStatus=Signed
+
+  // https://localhost:7161/api/Application/ApplicationDocument?applicationId=9bfcc359-439d-4c73-9eb8-33ea150e4286
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
-        data={data}
+        data={applications}
         renderItem={renderCard}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.cardList}
       />
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.footerButton}
         onPress={() => navigation.navigate("CreateApplication")}
       >
         <Text style={styles.footerButtonText}>Create Application</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </SafeAreaView>
   );
 };

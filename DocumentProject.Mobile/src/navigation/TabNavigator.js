@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Ionicons";
 import HomeScreen from "../screens/Manager/HomeScreen";
 import ProfileScreen from "../screens/Manager/ProfileScreen";
+import Drivers from "../screens/Manager/Drivers";
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -15,10 +16,12 @@ const TabNavigator = () => {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          if (route.name == "Главная") {
+          if (route.name == "Home") {
             iconName = "home-outline";
           } else if (route.name == "Profile") {
             iconName = "person-outline";
+          } else if (route.name == "Drivers") {
+            iconName = "car-outline";
           }
           return (
             <Icon name={iconName} size={size} color={color} focused={focused} />
@@ -29,7 +32,8 @@ const TabNavigator = () => {
         //  header: () => <Header />,
       })}
     >
-      <Tab.Screen name="Главная" component={HomeScreen} />
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Drivers" component={Drivers} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );

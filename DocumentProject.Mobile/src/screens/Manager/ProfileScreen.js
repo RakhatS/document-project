@@ -1,20 +1,49 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import { COLORS } from "../../utils/helper";
+import { COLORS, SERVER_URL } from "../../utils/helper";
 
 const ProfileScreen = ({ navigation }) => {
+  const [current, setCurrent] = useState();
+  const [loading, setLoading] = useState(false);
+
+  const getCurrent = async () => {
+    setLoading(true);
+    let access_token = await AsyncStorage.getItem("access_token");
+    let organizationId = await AsyncStorage.getItem("organizationId");
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + access_token,
+      },
+    };
+    const response = await fetch(SERVER_URL + "/api/Manager/Current", options);
+    const json = await response.json();
+    console.log("json: ", json);
+    if (json) {
+      setCurrent(json);
+    }
+    setLoading(false);
+  };
+
   const handleExit = async () => {
     await AsyncStorage.clear();
     Alert.alert("Logged out", "You have been logged out successfully.");
     navigation.navigate("Login"); // Change "Login" to your login screen route name
   };
 
+  useEffect(() => {
+    getCurrent();
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile</Text>
       <View style={styles.profileInfo}>
-        <Text style={styles.name}>First Name Last Name</Text>
+        <Text style={styles.name}>
+          {current?.firstName} {current?.lastName}
+        </Text>
         <Text style={styles.statisticsTitle}>Document Statistics</Text>
         <Text style={styles.statistics}>Total Documents: 10</Text>
         <Text style={styles.statistics}>Signed Documents: 5</Text>

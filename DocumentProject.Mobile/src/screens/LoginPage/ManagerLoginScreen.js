@@ -34,10 +34,10 @@ const ManagerLoginScreen = () => {
   };
 
   const handleRegister = async () => {
-    await AsyncStorage.setItem("access_token", "fdfadsf");
-    await AsyncStorage.setItem("role", "ROLE_MANAGER");
-    setSigned(true);
-    return;
+    // await AsyncStorage.setItem("access_token", "fdfadsf");
+    // await AsyncStorage.setItem("role", "ROLE_MANAGER");
+    // setSigned(true);
+    // return;
     const emailValid = validateEmail(email);
     if (emailValid == null) {
       // console.log('email is not valid!');
@@ -56,21 +56,18 @@ const ManagerLoginScreen = () => {
         }),
       };
 
-      const response = await fetch(
-        SERVER_URL + "/api/OwnerAuth/Login",
-        options
-      );
+      const response = await fetch(SERVER_URL + "/api/Auth/SignIn", options);
       console.log("response: ", response.ok);
       console.log(response.status);
       const json = await response.json();
-      // console.log('json: ', json);
-      if (json.isSuccess == true) {
-        await AsyncStorage.setItem("role", USER_ROLES.ROLE_OWNER);
-        await AsyncStorage.setItem("access_token", json.data.access_token);
+      console.log("json: ", json);
+      if (json) {
+        await AsyncStorage.setItem("role", USER_ROLES.ROLE_MANAGER);
+        await AsyncStorage.setItem("access_token", json.access_token);
         setIsLoading(false);
         // console.log(json);
         navigation.navigate("Organizations");
-        setSigned(true);
+        // setSigned(true);
       } else {
         setIsLoading(false);
         console.log("Server is error 500");
