@@ -7,6 +7,6 @@ namespace DocumentProject.WebAPI.DTO
         public string? Email { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-
+        public byte[]? PhotoBase64 { get; set; }
     }
 }

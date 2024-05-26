@@ -8,8 +8,7 @@ namespace DocumentProject.WebAPI.Data
         public IdentityUser IdentityUser { get; set; }
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-
-
+        public string? PhotoUrl { get; set; }
         public List<Organization> Organizations { get; set; }
     }
 }

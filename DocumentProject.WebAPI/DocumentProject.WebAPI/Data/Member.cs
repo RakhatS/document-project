@@ -10,6 +10,7 @@ namespace DocumentProject.WebAPI.Data
         public string? LastName { get; set; }
         public string Address { get; set; }
         public string Position { get; set; }
+        public string? PhotoUrl { get; set; }
         public Guid OrganizationId { get; set; }
         public Organization Organization { get; set; }
         public List<Application> Applications { get; set; }

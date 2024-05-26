@@ -1,4 +1,6 @@
-﻿using DocumentProject.WebAPI.Helpers;
+﻿using DocumentProject.WebAPI.Abstract;
+using DocumentProject.WebAPI.Helpers;
+using DocumentProject.WebAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -77,13 +79,9 @@ namespace DocumentProject.WebAPI
                 };
             });
 
-            //var coursePhotosDirectory = Configuration.GetSection("CoursePhotosDirectory").Value;
-            //var lessonFilesDirectory = Configuration.GetSection("LessonFilesDirectory").Value;
-            //var sectionPhotosDirectory = Configuration.GetSection("SectionPhotosDirectory").Value;
-            //services.AddScoped<IFilesDestination>(s =>
-            //new FilesDestination(coursePhotosDirectory,
-            //                     lessonFilesDirectory,
-            //                     sectionPhotosDirectory));
+            var userPhotosDirectory = Configuration.GetSection("UserPhotosDirectory").Value;
+            services.AddScoped<IFilesDestination>(s =>
+            new FilesDestination(userPhotosDirectory));
 
             //var emailUsername = Configuration.GetSection("EmailUsername").Value;
             //var emailHost = Configuration.GetSection("EmailHost").Value;

@@ -25,10 +25,4 @@
 		<PackageReference Include="MailKit" Version="3.4.2" />
 	</ItemGroup>
 
-
-	<ItemGroup>
-		<Folder Include="Abstract\" />
-		<Folder Include="Services\" />
-	</ItemGroup>
-
 </Project>
