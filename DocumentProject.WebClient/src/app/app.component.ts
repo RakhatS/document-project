@@ -9,7 +9,8 @@ import { Constants } from './_helpers/contants';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  title = 'DocumentProject.WebClient';
+  
+  shouMenuAndHeader: boolean = true;
 
   constructor(private route: Router,
     private constDataService: ConstDataService
@@ -24,6 +25,21 @@ export class AppComponent implements OnInit {
     this.constDataService.getApplicationNames().subscribe(res => {
       Constants.applicationNames = res;
     })
+  }
+
+
+
+  checkPath() {
+    let path = this.route.url.split('/')[1];
+    let routePath = decodeURIComponent(path);
+    if (routePath == 'sign-in') {
+      this.shouMenuAndHeader = false;
+    }
+    else {
+      this.shouMenuAndHeader = true;
+    }
+    // console.log(this.shouMenuAndHeader);
 
   }
+
 }
