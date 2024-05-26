@@ -3,6 +3,7 @@ import { LoginModel } from '../_models/loginmodel';
 import { AuthService } from '../_services/auth.service';
 import { AccessTokenService } from '../_services/accesstoken.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-sign-in-page',
@@ -18,7 +19,8 @@ export class SignInPageComponent implements OnInit {
 
   constructor(private authService: AuthService,
     private accessTokenService: AccessTokenService,
-    private router: Router) { }
+    private router: Router,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void { }
 
@@ -38,6 +40,7 @@ export class SignInPageComponent implements OnInit {
     }, async err => {
       this.isInCorrect = true;
       this.loading = false;
+      this.toastr.error("Invalid username or password");
     });
   }
 
