@@ -5,7 +5,7 @@ namespace DocumentProject.WebAPI.Helpers
 {
     public static class ExtensionMethods
     {
-        public static async Task<string> GetApplicationText(string applicationName, Member member, Organization organization, Application application)
+        public static async Task<string> GetApplicationText(string applicationName, Member member, Organization organization)
         {
             string text = string.Empty;
 
