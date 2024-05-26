@@ -7,6 +7,7 @@ import { Organization } from '../_models/organization';
 import { ApplicationService } from '../_services/application.service';
 import { MemberService } from '../_services/member.service';
 import { Member } from '../_models/member';
+import { Application } from '../_models/application';
 
 @Component({
   selector: 'app-organization-page',
@@ -20,6 +21,9 @@ export class OrganizationPageComponent implements OnInit {
   organization: Organization | undefined;
   newMember: Member = new Member();
   loading: boolean = false;
+
+  isApplicationDetailsModalOpened: boolean = false;
+  selectedApplication: Application | undefined;
 
 
   constructor(private organizationService: OrganizationService,
@@ -105,6 +109,39 @@ export class OrganizationPageComponent implements OnInit {
       this.newMember = new Member();
       this.loading = false;
       this.getMembers();
+    }, error => {
+      this.toastr.error(error.statusText);
+      this.loading = false;
+    })
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+  openApplicationDetailsModal(application: Application) {
+    this.selectedApplication = application;
+    this.getApplicationDocument(application);
+    this.isApplicationDetailsModalOpened = true;
+  }
+  closeApplicationDetailsModal() {
+    this.isApplicationDetailsModalOpened = false;
+    this.selectedApplication = undefined;
+  }
+
+
+  getApplicationDocument(application: Application) {
+    this.applicationService.getApplicationDocument(application.id!).subscribe(res => {
+      application.document = res.content;
+
+      this.loading = false;
     }, error => {
       this.toastr.error(error.statusText);
       this.loading = false;
