@@ -71,8 +71,8 @@
                     [ngModelOptions]="{standalone: true}" required [disabled]="loading">
                 </div>
                 <div class="mb-3">
-                  <label for="inputNewMemberAddress" class="form-label">Position</label>
-                  <input type="text" class="form-control" id="inputNewMemberAddress" [(ngModel)]="newMember.position"
+                  <label for="inputNewMemberPosition" class="form-label">Position</label>
+                  <input type="text" class="form-control" id="inputNewMemberPosition" [(ngModel)]="newMember.position"
                     [ngModelOptions]="{standalone: true}" required [disabled]="loading">
                 </div>
                 <div class="mb-3">
@@ -119,23 +119,25 @@
   <div class="modal-dialog modal-dialog-applicationDetailsModal">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="applicationDetailsModalLabel">Application</h1>
+        <h1 class="modal-title fs-5" id="applicationDetailsModalLabel">Application [{{selectedApplication.status}}]</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
           (click)="closeApplicationDetailsModal()" [disabled]="loading"></button>
       </div>
       <div class="modal-body">
         <!-- <div class="card Application-info-card"> -->
-        <div *ngIf="selectedApplication.document" [innerHTML]="selectedApplication.document | safeHtml">
+        <div *ngIf="selectedApplication.document && loading == false" [innerHTML]="selectedApplication.document | safeHtml">
 
         </div>
         <div style="display: flex;" *ngIf="selectedApplication.status == 'Awaiting'">
-          <button class="btn btn-success">Sign</button>
-          <button class="btn btn-danger">Unsign</button>
+          <button class="btn btn-success" [disabled]="loading"
+            (click)="changeApplicationStatus(selectedApplication, 'Signed')">Sign</button>
+          <button class="btn btn-danger" [disabled]="loading"
+            (click)="changeApplicationStatus(selectedApplication, 'Unsigned')">Unsign</button>
         </div>
         <!-- </div> -->
       </div>
       <div class="modal-footer">
-       
+
       </div>
     </div>
   </div>

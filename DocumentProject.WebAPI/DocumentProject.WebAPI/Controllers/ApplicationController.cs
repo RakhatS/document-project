@@ -68,7 +68,8 @@ namespace DocumentProject.WebAPI.Controllers
 
             Random random = new Random();
 
-            do {
+            do
+            {
                 newApplication.Number = random.Next(100000, 1000000).ToString();
             } while (await _dbContext.Applications.AnyAsync(x => x.Number == newApplication.Number));
 
@@ -151,7 +152,7 @@ namespace DocumentProject.WebAPI.Controllers
                 return;
             }
 
-            if(application.MemberId!= member.Id)
+            if (application.MemberId != member.Id)
             {
                 Response.StatusCode = 400;
                 await Response.WriteAsync("You cannot delete this application");
@@ -170,24 +171,25 @@ namespace DocumentProject.WebAPI.Controllers
         [HttpPut("ChangeStatus")]
         public async Task<ApplicationDTO?> ChangeApplicationStatus([FromQuery] Guid applicationId, [FromQuery] string newStatus)
         {
-            if(newStatus != ApplicationStatus.Signed.ToString() && newStatus != ApplicationStatus.Unsigned.ToString())
+            if (newStatus != ApplicationStatus.Signed.ToString() && newStatus != ApplicationStatus.Unsigned.ToString())
             {
                 Response.StatusCode = 400;
                 await Response.WriteAsync("Invalid status");
                 return null;
             }
 
-            var member = await _dbContext.Members.SingleOrDefaultAsync(x => x.IdentityUser.UserName == User.ToUserInfo().UserName);
+            var manager = await _dbContext.Managers.SingleOrDefaultAsync(x => x.IdentityUser.UserName == User.ToUserInfo().UserName);
 
-            if (member == null)
+            if (manager == null)
             {
                 Response.StatusCode = 400;
-                await Response.WriteAsync("Member not found");
+                await Response.WriteAsync("Manager not found");
                 return null;
             }
 
             var application = await _dbContext.Applications
-             .SingleOrDefaultAsync(x => x.Id == applicationId);
+                .Include(x => x.Organization)
+                .SingleOrDefaultAsync(x => x.Id == applicationId);
 
             if (application == null)
             {
@@ -196,7 +198,14 @@ namespace DocumentProject.WebAPI.Controllers
                 return null;
             }
 
-            if(application.Status != ApplicationStatus.Awaiting.ToString())
+            if (application.Organization.OwnerManagerId != manager.Id)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("You cannot change this application's status");
+                return null;
+            }
+
+            if (application.Status != ApplicationStatus.Awaiting.ToString())
             {
                 Response.StatusCode = 400;
                 await Response.WriteAsync($"This application has already been {application.Status.ToLower()}");
@@ -205,6 +214,11 @@ namespace DocumentProject.WebAPI.Controllers
 
 
             application.Status = newStatus;
+
+            if (application.Status == ApplicationStatus.Signed.ToString())
+            {
+                application.SignatureDate = DateTime.Now;
+            }
 
             await _dbContext.SaveChangesAsync();
 
@@ -232,7 +246,7 @@ namespace DocumentProject.WebAPI.Controllers
                 return new ApplicationDocumentDTO();
             }
 
-            return new ApplicationDocumentDTO { Content =  await ExtensionMethods.GetApplicationDocument(application) };
+            return new ApplicationDocumentDTO { Content = await ExtensionMethods.GetApplicationDocument(application) };
         }
 
 

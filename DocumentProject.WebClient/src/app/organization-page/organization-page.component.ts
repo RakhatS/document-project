@@ -43,7 +43,7 @@ export class OrganizationPageComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.organizationId = params['organizationId'];
-      
+
       this.getOrganization();
     });
   }
@@ -57,7 +57,7 @@ export class OrganizationPageComponent implements OnInit {
     this.organizationService.getOrganizationById(this.organizationId).subscribe(res => {
       this.organization = res;
       console.log(this.organization);
-      
+
       this.loading = false;
       this.getApplications();
       this.getMembers();
@@ -117,15 +117,6 @@ export class OrganizationPageComponent implements OnInit {
 
 
 
-
-
-
-
-
-
-
-
-
   openApplicationDetailsModal(application: Application) {
     this.selectedApplication = application;
     this.getApplicationDocument(application);
@@ -138,10 +129,24 @@ export class OrganizationPageComponent implements OnInit {
 
 
   getApplicationDocument(application: Application) {
+    this.loading = true;
     this.applicationService.getApplicationDocument(application.id!).subscribe(res => {
       application.document = res.content;
 
       this.loading = false;
+    }, error => {
+      this.toastr.error(error.statusText);
+      this.loading = false;
+    })
+  }
+
+  changeApplicationStatus(application: Application, newStatus: string) {
+    this.loading = true;
+    this.applicationService.changeApplicationStatus(application.id!, newStatus).subscribe(res => {
+      application.status = res.status;
+
+      this.loading = false;
+      this.getApplicationDocument(application);
     }, error => {
       this.toastr.error(error.statusText);
       this.loading = false;
