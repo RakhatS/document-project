@@ -14,12 +14,20 @@ namespace DocumentProject.WebAPI.Helpers
                 Mapper.Reset();
                 Mapper.Initialize(cfg =>
                 {
-                    cfg.CreateMap<Manager, ManagerDTO>().ForMember(
+                    cfg.CreateMap<Manager, ManagerDTO>()
+                    .ForMember(
                        dest => dest.Email,
-                       opt => opt.MapFrom(src => src.IdentityUser.Email));
-                    cfg.CreateMap<Member, MemberDTO>().ForMember(
+                       opt => opt.MapFrom(src => src.IdentityUser.Email))
+                    .ForMember(
+                        dest => dest.PhotoBase64,
+                        opt => opt.MapFrom(src => FileToBinary(src.PhotoUrl)));
+                    cfg.CreateMap<Member, MemberDTO>()
+                    .ForMember(
                        dest => dest.Email,
-                       opt => opt.MapFrom(src => src.IdentityUser.Email));
+                       opt => opt.MapFrom(src => src.IdentityUser.Email))
+                    .ForMember(
+                        dest => dest.PhotoBase64,
+                        opt => opt.MapFrom(src => FileToBinary(src.PhotoUrl)));
 
                     cfg.CreateMap<Application, ApplicationDTO>();
                     cfg.CreateMap<Organization, OrganizationDTO>();

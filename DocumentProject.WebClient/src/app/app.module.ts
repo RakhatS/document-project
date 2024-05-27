@@ -18,6 +18,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { OrganizationPageComponent } from './organization-page/organization-page.component';
 import { MyOrganizationPageComponent } from './my-organization-page/my-organization-page.component';
 import { SafeHtmlPipe } from './_helpers/pipes/pipe.safehtml';
+import { ProfilePageComponent } from './profile-page/profile-page.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { SafeHtmlPipe } from './_helpers/pipes/pipe.safehtml';
     MyOrganizationPageComponent,
 
 
-    SafeHtmlPipe
+    SafeHtmlPipe,
+      ProfilePageComponent
   ],
   imports: [
     BrowserModule,
