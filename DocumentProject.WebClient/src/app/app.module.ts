@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { ImageCropperModule } from 'ngx-image-cropper';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './_partials/header/header.component';
@@ -20,6 +20,7 @@ import { MyOrganizationPageComponent } from './my-organization-page/my-organizat
 import { SafeHtmlPipe } from './_helpers/pipes/pipe.safehtml';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { AboutUsPageComponent } from './about-us-page/about-us-page.component';
+import { NgxImageCompressService } from 'ngx-image-compress';
 
 @NgModule({
   declarations: [
@@ -45,10 +46,11 @@ import { AboutUsPageComponent } from './about-us-page/about-us-page.component';
     BrowserAnimationsModule,
     CommonModule,
     ReactiveFormsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    ImageCropperModule
 
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }, NgxImageCompressService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

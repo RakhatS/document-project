@@ -7,6 +7,8 @@ import { LoginModel } from '../_models/loginmodel';
 import { ManagerService } from './manager.service';
 import { MemberService } from './member.service';
 import { Constants } from '../_helpers/contants';
+import { Manager } from '../_models/manager';
+import { Member } from '../_models/member';
 
 @Injectable({
   providedIn: 'root'
@@ -44,7 +46,7 @@ export class AuthService {
   }
 
 
-  currentUser(): Observable<any> {
+  currentUser(): Observable<Manager | Member | null> {
     var role = this.accessTokenService.getUserRole();
 
     if (role == "Manager") {

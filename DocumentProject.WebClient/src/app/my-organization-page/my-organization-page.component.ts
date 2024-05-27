@@ -19,7 +19,7 @@ export class MyOrganizationPageComponent implements OnInit {
 
   loading: boolean = false;
   applications: Application[] = [];
-  member: Member | undefined;
+  member: Member | undefined | null;
   organization: Organization | undefined;
   newApplication: Application = new Application();
   applicationNames = Constants.applicationNames;

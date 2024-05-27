@@ -13,9 +13,9 @@ export class MemberService {
 
   constructor(private http: HttpClient) { }
 
-  currentMember(): Observable<Member> {
+  currentMember(): Observable<Member | null> {
     let api = this.api + "/Current";
-    return this.http.get<Member>(api);
+    return this.http.get<Member | null>(api);
   }
 
   createOrganizationMember(newMember: Member): Observable<Member> {

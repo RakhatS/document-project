@@ -14,8 +14,8 @@ export class ManagerService {
   constructor(private http: HttpClient) { }
 
 
-  currentManager(): Observable<Manager> {
+  currentManager(): Observable<Manager | null> {
     let api = this.api + "/Current";
-    return this.http.get<Manager>(api);
+    return this.http.get<Manager | null>(api);
   }
 }
