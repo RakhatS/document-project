@@ -5,23 +5,24 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Image,
+  ActivityIndicator,
   Alert,
+  Image,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
-import { useAtom } from "jotai";
-import { IsSigned } from "../../constants/atom";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { SERVER_URL } from "../../utils/helper";
 import { USER_ROLES } from "../../enums";
-import { jwtDecode } from "jwt-decode";
+import { useNavigation } from "@react-navigation/native";
+import { SERVER_URL } from "../../utils/helper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const WelcomeScreen = () => {
+const RegistrationScreen = () => {
   const navigation = useNavigation();
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isSigned, setSigned] = useAtom(IsSigned);
+  const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const validateEmail = (email) => {
@@ -31,10 +32,11 @@ const WelcomeScreen = () => {
   };
 
   const handleRegister = async () => {
-    // await AsyncStorage.setItem("access_token", "fdfadsf");
-    // await AsyncStorage.setItem("role", "ROLE_MANAGER");
-    // setSigned(true);
-    // return;
+    if (password !== passwordConfirm) {
+      Alert.alert("Error", "Passwords do not match");
+      return;
+    }
+
     const emailValid = validateEmail(email);
     if (emailValid == null) {
       Alert.alert(
@@ -49,55 +51,37 @@ const WelcomeScreen = () => {
       );
       return;
     }
+
+    const userData = {
+      firstName,
+      lastName,
+      email,
+      password,
+      passwordConfirm,
+    };
+    console.log(userData);
+
     setIsLoading(true);
+
     try {
-      let options = {
+      const response = await fetch(SERVER_URL + "/api/Auth/Manager/SignUp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          email: email,
-          password: password,
-        }),
-      };
+        body: JSON.stringify(userData),
+      });
 
-      const response = await fetch(SERVER_URL + "/api/Auth/SignIn", options);
-      console.log("response: ", response.ok);
-      console.log(response.status);
-      const json = await response.json();
-      console.log("json: ", json.access_token);
-      if (json) {
-        const decoded = jwtDecode(json.access_token);
-        const userRole =
-          decoded[
-            "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-          ];
-        console.log(userRole);
-        if (userRole == "Member") {
-          await AsyncStorage.setItem("role", USER_ROLES.ROLE_MEMBER);
-          await AsyncStorage.setItem("access_token", json.access_token);
-          setIsLoading(false);
-
-          // console.log(json);
-          setSigned(true);
-        } else {
-          await AsyncStorage.setItem("role", USER_ROLES.ROLE_MANAGER);
-          await AsyncStorage.setItem("access_token", json.access_token);
-          setIsLoading(false);
-
-          // console.log(json);
-          navigation.navigate("Organizations");
-          // setSigned(true);
-        }
+      if (response.ok) {
+        navigation.goBack();
+        Alert.alert("Success", "Registration successful");
       } else {
-        setIsLoading(false);
-        console.log("Server is error 500");
-        Alert.alert(json.message);
+        Alert.alert("Error", result.message || "Registration failed");
       }
     } catch (error) {
+      Alert.alert("Error", "An error occurred. Please try again.");
+    } finally {
       setIsLoading(false);
-      console.log(error);
     }
   };
 
@@ -116,6 +100,36 @@ const WelcomeScreen = () => {
       </Text>
       <View style={styles.inputContainer}>
         <Ionicons
+          name="person-outline"
+          size={24}
+          color="#F4A261"
+          style={styles.icon}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="First Name"
+          value={firstName}
+          onChangeText={setFirstName}
+          placeholderTextColor="#ccc"
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <Ionicons
+          name="person-outline"
+          size={24}
+          color="#F4A261"
+          style={styles.icon}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Last Name"
+          value={lastName}
+          onChangeText={setLastName}
+          placeholderTextColor="#ccc"
+        />
+      </View>
+      <View style={styles.inputContainer}>
+        <Ionicons
           name="mail-outline"
           size={24}
           color="#F4A261"
@@ -123,11 +137,11 @@ const WelcomeScreen = () => {
         />
         <TextInput
           style={styles.input}
-          placeholder="username@domain.com"
-          keyboardType="phone-pad"
-          placeholderTextColor="#ccc"
+          placeholder="Email"
           value={email}
-          onChangeText={(text) => setEmail(text)}
+          onChangeText={setEmail}
+          placeholderTextColor="#ccc"
+          keyboardType="email-address"
         />
       </View>
       <View style={styles.inputContainer}>
@@ -140,21 +154,52 @@ const WelcomeScreen = () => {
         <TextInput
           style={styles.input}
           placeholder="Password"
-          placeholderTextColor="#ccc"
           value={password}
-          onChangeText={(text) => setPassword(text)}
+          onChangeText={setPassword}
+          placeholderTextColor="#ccc"
+          secureTextEntry={!showPassword}
         />
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          <Ionicons
+            name={showPassword ? "eye-off-outline" : "eye-outline"}
+            size={24}
+            color="#F4A261"
+          />
+        </TouchableOpacity>
       </View>
-      {/* <TouchableOpacity>
-        <Text style={styles.resendCode}>Send the code again</Text>
-      </TouchableOpacity> */}
-      <TouchableOpacity style={styles.signInButton} onPress={handleRegister}>
-        <Text style={styles.signInButtonText}>Sign In</Text>
-      </TouchableOpacity>
+      <View style={styles.inputContainer}>
+        <Ionicons
+          name="lock-closed-outline"
+          size={24}
+          color="#F4A261"
+          style={styles.icon}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Confirm Password"
+          value={passwordConfirm}
+          onChangeText={setPasswordConfirm}
+          placeholderTextColor="#ccc"
+          secureTextEntry={!showPassword}
+        />
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          <Ionicons
+            name={showPassword ? "eye-off-outline" : "eye-outline"}
+            size={24}
+            color="#F4A261"
+          />
+        </TouchableOpacity>
+      </View>
       <TouchableOpacity
-        onPress={() => navigation.navigate("RegistrationScreen")}
+        style={styles.confirmButton}
+        onPress={handleRegister}
+        disabled={isLoading}
       >
-        <Text style={styles.registration}>Registration</Text>
+        {isLoading ? (
+          <ActivityIndicator color="#fff" />
+        ) : (
+          <Text style={styles.confirmButtonText}>Register</Text>
+        )}
       </TouchableOpacity>
     </View>
   );
@@ -200,26 +245,17 @@ const styles = StyleSheet.create({
     height: 40,
     color: "#000",
   },
-  resendCode: {
-    color: "#6c757d",
-    marginVertical: 20,
-  },
-  signInButton: {
+  confirmButton: {
     backgroundColor: "#007bff",
     paddingVertical: 10,
     paddingHorizontal: 60,
     borderRadius: 5,
-    marginBottom: 20,
     marginTop: 20,
   },
-  signInButtonText: {
+  confirmButtonText: {
     color: "#fff",
     fontSize: 16,
   },
-  registration: {
-    color: "#007bff",
-    textDecorationLine: "underline",
-  },
 });
 
-export default WelcomeScreen;
+export default RegistrationScreen;

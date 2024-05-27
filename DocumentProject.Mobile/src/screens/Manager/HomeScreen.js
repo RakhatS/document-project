@@ -6,6 +6,7 @@ import {
   StyleSheet,
   FlatList,
   SafeAreaView,
+  ImageBackground,
 } from "react-native";
 import { COLORS, SERVER_URL } from "../../utils/helper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -32,7 +33,8 @@ const HomeScreen = ({ navigation }) => {
       options
     );
     const json = await response.json();
-    // console.log(json);
+    console.log(organizationId);
+    console.log(access_token);
     if (json) {
       setApplications(json);
     } else {
@@ -90,27 +92,61 @@ const HomeScreen = ({ navigation }) => {
   // https://localhost:7161/api/Application/ApplicationDocument?applicationId=9bfcc359-439d-4c73-9eb8-33ea150e4286
 
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={applications}
-        renderItem={renderCard}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.cardList}
-      />
-      {/* <TouchableOpacity
+    <ImageBackground
+      source={require("../../../assets/fon.png")}
+      style={{ width: "100%", height: "100%" }}
+      resizeMode="cover"
+    >
+      <SafeAreaView style={styles.container}>
+        <Text
+          style={{
+            paddingHorizontal: 20,
+            paddingVertical: 10,
+            fontSize: 22,
+            fontWeight: "500",
+            color: "#FFFFFF",
+          }}
+        >
+          Signed documents
+        </Text>
+        <FlatList
+          data={applications.filter((el) => el.status == "Signed")}
+          renderItem={renderCard}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.cardList}
+        />
+        {/* <TouchableOpacity
         style={styles.footerButton}
         onPress={() => navigation.navigate("CreateApplication")}
       >
         <Text style={styles.footerButtonText}>Create Application</Text>
       </TouchableOpacity> */}
-    </SafeAreaView>
+        <Text
+          style={{
+            paddingHorizontal: 20,
+            paddingVertical: 20,
+            fontSize: 22,
+            fontWeight: "500",
+            color: "#2D64D1",
+          }}
+        >
+          Created documents
+        </Text>
+        <FlatList
+          data={applications.filter((el) => el.status !== "Signed")}
+          renderItem={renderCard}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.cardList}
+        />
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.LIGHT_BLUE,
+    // backgroundColor: COLORS.LIGHT_BLUE,
     paddingHorizontal: 20,
   },
   cardList: {

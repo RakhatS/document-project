@@ -19,6 +19,8 @@ import { useNavigation } from "@react-navigation/native";
 import Organizations from "../screens/Manager/Organizations";
 import Drivers from "../screens/Manager/Drivers";
 import CreateDriver from "../screens/Manager/CreateDriver";
+import RegistrationScreen from "../screens/LoginPage/Registration";
+import OnlineSigningSystem from "../screens/Manager/OnlineSystem";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -88,6 +90,22 @@ const AppNavigator = () => {
         <Stack.Screen
           name="Welcome"
           component={WelcomeScreen}
+          options={{
+            header: () => null,
+            gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="RegistrationScreen"
+          component={RegistrationScreen}
+          options={{
+            header: () => null,
+            gestureEnabled: false,
+          }}
+        />
+        <Stack.Screen
+          name="OnlineSigningSystem"
+          component={OnlineSigningSystem}
           options={{
             header: () => null,
             gestureEnabled: false,
