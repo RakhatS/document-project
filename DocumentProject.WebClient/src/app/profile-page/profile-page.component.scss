@@ -43,3 +43,17 @@
   border-radius: 0.35rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+
+#btn {
+  cursor: pointer;
+}
+
+#label-file {
+  font-weight: normal !important;
+  margin-bottom: 0 !important;
+}
+
+#label-file {
+  cursor: pointer;
+  width: 100%;
+}

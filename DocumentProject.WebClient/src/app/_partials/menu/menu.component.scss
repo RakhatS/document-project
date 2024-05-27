@@ -14,7 +14,10 @@
 .sidebar-logo {
   padding: 20px 15px 15px 20px;
   font-size: 30px;
-  background-color: #e41b41;
+  // background-color: #e41b41;
+  background: linear-gradient(212.38deg, rgba(242, 57, 127, 0.7) 0%, rgba(175, 70, 189, 0.71) 100%),
+    url(https://static.seattletimes.com/wp-content/uploads/2019/01/web-typing-ergonomics-1020x680.jpg);
+  ;
   text-align: center;
 }
 

@@ -31,10 +31,11 @@
       <!-- <button type="button" [disabled]="loading" class="btn btn-danger" style="margin-right: 20px;"
         (click)="logout()">{{ 'Logout' | translate }}&nbsp;<i class="bi bi-box-arrow-right"></i></button> -->
 
-      <div class="dropdown" style="margin-right: 100px;">
+      <div class="dropdown" style="margin-right: 100px;" *ngIf="currentUser">
         <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
           aria-expanded="false">
-          <img src="assets/images/no-photo.png" alt="mdo" width="35.1" height="35.1" class="rounded-circle">
+          <img src="{{ imagePrefixToDisplay+currentUser.photoBase64 }}" alt="mdo" width="35.1" height="35.1" class="rounded-circle" *ngIf="currentUser.photoBase64">
+          <img src="assets/images/no-photo.png" alt="mdo" width="35.1" height="35.1" class="rounded-circle" *ngIf="!currentUser.photoBase64">
         </a>
         <ul class="dropdown-menu text-small">
           <li>

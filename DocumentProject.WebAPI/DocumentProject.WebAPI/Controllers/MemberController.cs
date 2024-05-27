@@ -179,9 +179,8 @@ namespace DocumentProject.WebAPI.Controllers
 
 
 
-        [HttpPost]
+        [HttpPost("UploadProfilePhoto")]
         [Authorize(Roles = "Member")]
-        [Route("UploadProfilePhoto")]
         public async Task UploadProfilePhoto([FromBody] PhotoModel photoModel)
         {
             var member = await _dbContext.Members

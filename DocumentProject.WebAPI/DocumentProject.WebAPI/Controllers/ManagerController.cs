@@ -77,9 +77,8 @@ namespace DocumentProject.WebAPI.Controllers
 
 
 
-        [HttpPost]
+        [HttpPost("UploadProfilePhoto")]
         [Authorize(Roles = "Manager")]
-        [Route("UploadProfilePhoto")]
         public async Task UploadProfilePhoto([FromBody] PhotoModel photoModel)
         {
             var manager = await _dbContext.Managers

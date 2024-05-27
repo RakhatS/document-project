@@ -6,6 +6,11 @@ import { Manager } from '../_models/manager';
 import { Member } from '../_models/member';
 import { Constants } from '../_helpers/contants';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
+import { AccessTokenService } from '../_services/accesstoken.service';
+import { NgxImageCompressService } from 'ngx-image-compress';
+import { PhotoModel } from '../_models/photo-model';
+import { ManagerService } from '../_services/manager.service';
+import { MemberService } from '../_services/member.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -19,8 +24,16 @@ export class ProfilePageComponent implements OnInit {
   loading: boolean = false;
   currentUser: Manager | Member | undefined | null;
   isUploadPhotoModalOpened: boolean = false;
+  photoModel: PhotoModel = new PhotoModel();
+  role: string | null = "Manager";
+
+  userImageFilename: string | undefined;
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  newImageBase64: any = '';
 
   ngOnInit(): void {
+    this.role = this.accessTokenService.getUserRole();
     this.getCurrentUser();
 
   }
@@ -30,6 +43,10 @@ export class ProfilePageComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private toastr: ToastrService,
+    private accessTokenService: AccessTokenService,
+    private imageCompress: NgxImageCompressService,
+    private managerService: ManagerService,
+    private memberService: MemberService
   ) { }
 
 
@@ -51,21 +68,9 @@ export class ProfilePageComponent implements OnInit {
   }
   closeUploadPhotoModal() {
     this.isUploadPhotoModalOpened = false;
+    this.resetNewPhotoObjects()
   }
 
-
-
-
-
-
-
-
-
-
-  userImageFilename: string | undefined;
-  imageChangedEvent: any = '';
-  croppedImage: any = '';
-  newImageBase64: any = '';
 
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
@@ -96,5 +101,52 @@ export class ProfilePageComponent implements OnInit {
   loadImageFailed() {
     // show message
   }
-  uploadProfilePhoto(){}
+  uploadProfilePhoto() {
+    this.imageCompress
+      .compressFile(this.croppedImage, -1, 50, 50, 450, 450)
+      .then(
+        (compressedImage) => {
+          this.photoModel.photoBase64 = compressedImage.split(',')[1];
+          if (this.role == 'Manager') {
+            this.uploadManagerProfilePhoto();
+          } else if (this.role == 'Member') {
+            this.uploadMemberProfilePhoto();
+           }
+        }
+      );
+  }
+
+  resetNewPhotoObjects(){
+    this.photoModel = new PhotoModel();
+    this.croppedImage = '';
+    this.imageChangedEvent = '';
+    this.userImageFilename = undefined;
+
+  }
+
+  uploadMemberProfilePhoto() {
+    this.loading = true;
+    this.memberService.uploadProfilePhoto(this.photoModel).subscribe(res => {
+      this.toastr.success("Photo has been uploaded succesfully");
+      this.loading = false;
+      this.closeUploadPhotoModal();
+      this.getCurrentUser();
+    }, error => {
+      this.toastr.error(error.statusText);
+      this.loading = false;
+    })
+  
+   }
+  uploadManagerProfilePhoto() { 
+    this.loading = true;
+    this.managerService.uploadProfilePhoto(this.photoModel).subscribe(res => {
+      this.toastr.success("Photo has been uploaded succesfully");
+      this.loading = false;
+      this.closeUploadPhotoModal();
+      this.getCurrentUser();
+    }, error => {
+      this.toastr.error(error.statusText);
+      this.loading = false;
+    })
+}
 }
