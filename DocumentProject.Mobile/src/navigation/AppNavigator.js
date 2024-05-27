@@ -16,6 +16,9 @@ import { SERVER_URL } from "../utils/helper";
 import CreateApplication from "../screens/Manager/CreateApplication";
 import CurrentApplication from "../screens/Manager/CurrentApplication";
 import { useNavigation } from "@react-navigation/native";
+import Organizations from "../screens/Manager/Organizations";
+import Drivers from "../screens/Manager/Drivers";
+import CreateDriver from "../screens/Manager/CreateDriver";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -26,7 +29,6 @@ const AppNavigator = () => {
   const naviagtion = useNavigation();
 
   useEffect(() => {
-    console.log(signed);
     const getid = async () => {
       let token = await AsyncStorage.getItem("access_token");
       let role = await AsyncStorage.getItem("role");
@@ -49,16 +51,16 @@ const AppNavigator = () => {
     getid();
   }, [signed]);
 
-  // useEffect(() => {
-  //   const getCheck = async () => {
-  //     console.log(SERVER_URL + "/api/HealthCheck");
-  //     const response = await fetch(SERVER_URL + "/api/HealthCheck");
-  //     // const json = await response.json();
-  //     console.log("getCheck:  ", response.status);
-  //   };
+  useEffect(() => {
+    const getCheck = async () => {
+      console.log(SERVER_URL + "/api/HealthCheck");
+      const response = await fetch(SERVER_URL + "/api/HealthCheck");
+      // const json = await response.json();
+      console.log("getCheck:  ", response.status);
+    };
 
-  //   getCheck();
-  // }, []);
+    getCheck();
+  }, []);
 
   if (role == "") {
     return null;
@@ -115,6 +117,27 @@ const AppNavigator = () => {
         <Stack.Screen
           name="CurrentApplication"
           component={CurrentApplication}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="Organizations"
+          component={Organizations}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="Drivers"
+          component={Drivers}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="CreateDriver"
+          component={CreateDriver}
           options={{
             header: () => null,
           }}

@@ -34,10 +34,10 @@ const MemberLoginScreen = () => {
   };
 
   const handleLogin = async () => {
-    await AsyncStorage.setItem("access_token", "fdfadsf");
-    await AsyncStorage.setItem("role", "ROLE_MEMBER");
-    setSigned(true);
-    return;
+    // await AsyncStorage.setItem("access_token", "fdfadsf");
+    // await AsyncStorage.setItem("role", "ROLE_MEMBER");
+    // setSigned(true);
+    // return;
     const emailValid = validateEmail(email);
     if (emailValid == null) {
       return;
@@ -54,19 +54,19 @@ const MemberLoginScreen = () => {
           Password: password,
         }),
       };
-      const response = await fetch(
-        SERVER_URL + "/api/DriverAuth/Login",
-        options
-      );
+      const response = await fetch(SERVER_URL + "/api/Auth/SignIn", options);
       const json = await response.json();
-      if (json.isSuccess == true) {
+      console.log(json);
+      if (json) {
+        await AsyncStorage.setItem("role", USER_ROLES.ROLE_MEMBER);
+        await AsyncStorage.setItem("access_token", json.access_token);
         setIsLoading(false);
-        await AsyncStorage.setItem("role", USER_ROLES.ROLE_DRIVER);
-        await AsyncStorage.setItem("access_token", json.data.access_token);
-        navigation.navigate("DriverTab");
+        // console.log(json);
+        // navigation.navigate("Organizations");
         setSigned(true);
       } else {
         setIsLoading(false);
+        console.log("Server is error 500");
         Alert.alert(json.message);
       }
     } catch (error) {

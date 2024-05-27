@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,8 +8,18 @@ import {
   SafeAreaView,
 } from "react-native";
 import { COLORS } from "../../utils/helper";
+import { Button } from "react-native-paper";
+import ReferenceModal from "./ReferenceModal";
 
 const HomeScreen = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedReference, setSelectedReference] = useState("");
+
+  const handleSelect = (reference) => {
+    setSelectedReference(reference);
+    setModalVisible(false);
+  };
+
   const data = [
     {
       id: "1",
@@ -43,6 +53,14 @@ const HomeScreen = ({ navigation }) => {
     </View>
   );
 
+  // https://localhost:7161/api/ConstData/ApplicationNames
+  // https://localhost:7161/api/Organization/GetById?organizationid=616f9d24-fbcd-45a7-b52a-cf43373b9879
+  // https://localhost:7161/api/Member/Current
+  // https://localhost:7161/api/Application/MemberApplications
+  //
+  // https://localhost:7161/api/Application/Create
+  // https://localhost:7161/api/Application/ApplicationDocument?applicationId=9bfcc359-439d-4c73-9eb8-33ea150e4286
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList
@@ -51,9 +69,21 @@ const HomeScreen = ({ navigation }) => {
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.cardList}
       />
-      <TouchableOpacity style={styles.footerButton}>
-        <Text style={styles.footerButtonText}>Create Application</Text>
+      <TouchableOpacity
+        style={styles.footerButton}
+        onPress={() => setModalVisible(true)}
+      >
+        <Text style={styles.footerButtonText}>Create App</Text>
       </TouchableOpacity>
+
+      {selectedReference ? (
+        <Text style={styles.selectedText}>Selected: {selectedReference}</Text>
+      ) : null}
+      <ReferenceModal
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+        onSelect={handleSelect}
+      />
     </SafeAreaView>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,87 +6,131 @@ import {
   StyleSheet,
   Modal,
   Alert,
+  SafeAreaView,
 } from "react-native";
-import { COLORS } from "../../utils/helper";
+import { COLORS, SERVER_URL, getToken } from "../../utils/helper";
+import RenderHtml from "react-native-render-html";
+import HTMLContent from "./HTMLContent";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const CurrentApplication = ({ navigation }) => {
+const CurrentApplication = ({ navigation, route }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [pdfHtml, setPdfHtml] = useState("");
 
   const handleSignDocument = () => {
     setModalVisible(true);
   };
+  console.log(route.params.id);
 
-  const confirmSignDocument = () => {
+  const confirmSignDocument = async () => {
     setModalVisible(false);
-    Alert.alert(
-      "Document Signed",
-      "You have successfully signed the document."
-    );
+    try {
+      let access_token = await AsyncStorage.getItem("access_token");
+
+      const options = {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + access_token,
+          body: {},
+        },
+      };
+
+      const response = await fetch(
+        SERVER_URL +
+          `/api/Application/ChangeStatus?applicationId=${route.params.id}&newStatus=Signed`,
+        options
+      );
+      getDocument();
+      console.log("Signed status: ", response.status);
+      Alert.alert(
+        "Document Signed",
+        "You have successfully signed the document."
+      );
+    } catch (error) {
+      console.log(error);
+    }
   };
 
+  const getDocument = async () => {
+    try {
+      let access_token = await getToken();
+      let options = {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + access_token,
+        },
+      };
+      const response = await fetch(
+        SERVER_URL +
+          "/api/Application/ApplicationDocument?applicationId=" +
+          route.params.id,
+        options
+      );
+      console.log(response.status);
+      const json = await response.json();
+      setPdfHtml(json.content);
+      // console.log(json);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getDocument();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Application Details</Text>
-      <View style={styles.card}>
-        <Text style={styles.label}>Document Name:</Text>
-        <Text style={styles.value}>Sample Document</Text>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Application Details</Text>
+        {pdfHtml && <HTMLContent htmlContent={pdfHtml} />}
 
-        <Text style={styles.label}>Creator:</Text>
-        <Text style={styles.value}>John Doe</Text>
+        <View style={{ height: 100 }} />
 
-        <Text style={styles.label}>Application ID:</Text>
-        <Text style={styles.value}>123456</Text>
+        <TouchableOpacity style={styles.button} onPress={handleSignDocument}>
+          <Text style={styles.buttonText}>Sign In Document</Text>
+        </TouchableOpacity>
 
-        <Text style={styles.label}>Date Created:</Text>
-        <Text style={styles.value}>2024-05-22</Text>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.goBack()}
+        >
+          <Text style={styles.buttonText}>Back</Text>
+        </TouchableOpacity>
 
-        <Text style={styles.label}>Description:</Text>
-        <Text style={styles.value}>
-          This is a sample document used to demonstrate the
-          CurrentApplicationScreen layout.
-        </Text>
-      </View>
-      <TouchableOpacity style={styles.button} onPress={handleSignDocument}>
-        <Text style={styles.buttonText}>Sign In Document</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.goBack()}
-      >
-        <Text style={styles.buttonText}>Back</Text>
-      </TouchableOpacity>
-
-      <Modal
-        transparent={true}
-        visible={modalVisible}
-        animationType="slide"
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={styles.modalOverlay}>
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>Sign Document</Text>
-            <Text style={styles.modalMessage}>
-              Do you really want to sign it?
-            </Text>
-            <View style={styles.modalButtons}>
-              <TouchableOpacity
-                style={[styles.modalButton, styles.modalButtonYes]}
-                onPress={confirmSignDocument}
-              >
-                <Text style={styles.modalButtonText}>Yes</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.modalButton, styles.modalButtonNo]}
-                onPress={() => setModalVisible(false)}
-              >
-                <Text style={styles.modalButtonText}>No</Text>
-              </TouchableOpacity>
+        <Modal
+          transparent={true}
+          visible={modalVisible}
+          animationType="slide"
+          onRequestClose={() => setModalVisible(false)}
+        >
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContainer}>
+              <Text style={styles.modalTitle}>Sign Document</Text>
+              <Text style={styles.modalMessage}>
+                Do you really want to sign it?
+              </Text>
+              <View style={styles.modalButtons}>
+                <TouchableOpacity
+                  style={[styles.modalButton, styles.modalButtonYes]}
+                  onPress={confirmSignDocument}
+                >
+                  <Text style={styles.modalButtonText}>Yes</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.modalButton, styles.modalButtonNo]}
+                  onPress={() => setModalVisible(false)}
+                >
+                  <Text style={styles.modalButtonText}>No</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
-      </Modal>
-    </View>
+        </Modal>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -97,7 +141,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.LIGHT_BLUE,
     padding: 20,
-    justifyContent: "center",
+    // justifyContent: "center",
   },
   title: {
     fontSize: 30,
