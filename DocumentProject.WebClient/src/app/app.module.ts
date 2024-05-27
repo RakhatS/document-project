@@ -19,6 +19,7 @@ import { OrganizationPageComponent } from './organization-page/organization-page
 import { MyOrganizationPageComponent } from './my-organization-page/my-organization-page.component';
 import { SafeHtmlPipe } from './_helpers/pipes/pipe.safehtml';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
+import { AboutUsPageComponent } from './about-us-page/about-us-page.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 
 
     SafeHtmlPipe,
-      ProfilePageComponent
+      ProfilePageComponent,
+      AboutUsPageComponent
   ],
   imports: [
     BrowserModule,
