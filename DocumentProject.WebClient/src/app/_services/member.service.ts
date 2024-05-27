@@ -34,4 +34,9 @@ export class MemberService {
     let api = this.api + "/UploadProfilePhoto";
     return this.http.post<any>(api, photoModel);
   }
+
+  updateMember(updatedMember: Member): Observable<any> {
+    let api = this.api + "/Update";
+    return this.http.put<any>(api, updatedMember);
+  }
 }

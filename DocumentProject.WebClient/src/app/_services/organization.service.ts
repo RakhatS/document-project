@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Organization } from '../_models/organization';
 import { Constants } from '../_helpers/contants';
 import { Observable } from 'rxjs';
+import { Manager } from '../_models/manager';
 
 @Injectable({
   providedIn: 'root'

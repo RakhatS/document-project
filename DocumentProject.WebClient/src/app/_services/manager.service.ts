@@ -23,4 +23,9 @@ export class ManagerService {
     let api = this.api + "/UploadProfilePhoto";
     return this.http.post<any>(api, photoModel);
   }
+
+  updateManager(updatedManager: Manager): Observable<any> {
+    let api = this.api + "/Update";
+    return this.http.put<any>(api, updatedManager);
+  }
 }
