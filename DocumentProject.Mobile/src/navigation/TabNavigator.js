@@ -17,12 +17,12 @@ const TabNavigator = () => {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          if (route.name == "Home") {
-            iconName = "home-outline";
+          if (route.name == "Document Storage") {
+            iconName = "receipt-outline";
           } else if (route.name == "Profile") {
             iconName = "person-outline";
           } else if (route.name == "Members") {
-            iconName = "person-outline";
+            iconName = "accessibility-outline";
           } else if (route.name == "Document Templates") {
             iconName = "document-outline";
           }
@@ -36,7 +36,7 @@ const TabNavigator = () => {
       })}
     >
       <Tab.Screen name="Document Templates" component={DocumentTemplates} />
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Document Storage" component={HomeScreen} />
       <Tab.Screen name="Members" component={Drivers} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>

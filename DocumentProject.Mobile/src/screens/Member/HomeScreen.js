@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -6,52 +6,102 @@ import {
   StyleSheet,
   FlatList,
   SafeAreaView,
+  ImageBackground,
+  ScrollView,
 } from "react-native";
-import { COLORS } from "../../utils/helper";
-import { Button } from "react-native-paper";
-import ReferenceModal from "./ReferenceModal";
+import { COLORS, SERVER_URL } from "../../utils/helper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import Icon from "react-native-vector-icons/Ionicons";
+import PdfContent from "../../components/PdfContent";
+import { format } from "date-fns";
 
 const HomeScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedReference, setSelectedReference] = useState("");
+  const [memberApplications, setMemberApplications] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [current, setCurrent] = useState();
 
   const handleSelect = (reference) => {
     setSelectedReference(reference);
     setModalVisible(false);
   };
 
-  const data = [
-    {
-      id: "1",
-      documentName: "Document 1",
-      creator: "Creator A",
-      applicationId: "APP001",
-      dateCreated: "2023-05-01",
-      description: "Description of document 1",
-    },
-    {
-      id: "2",
-      documentName: "Document 2",
-      creator: "Creator B",
-      applicationId: "APP002",
-      dateCreated: "2023-06-01",
-      description: "Description of document 2",
-    },
-    // Add more sample data as needed
-  ];
-
   const renderCard = ({ item }) => (
-    <View style={styles.card}>
-      <Text style={styles.cardTitle}>{item.documentName}</Text>
-      <Text style={styles.cardText}>Creator: {item.creator}</Text>
-      <Text style={styles.cardText}>Application ID: {item.applicationId}</Text>
-      <Text style={styles.cardText}>Date Created: {item.dateCreated}</Text>
-      <Text style={styles.cardDescription}>{item.description}</Text>
-      <TouchableOpacity style={styles.cardButton}>
-        <Text style={styles.cardButtonText}>Sign in Document</Text>
+    <View style={[styles.card]}>
+      <View style={{ flexDirection: "row" }}>
+        <PdfContent idd={item.id} />
+        <View>
+          <Text style={styles.cardTitle}>{item.name}</Text>
+          <Text style={styles.cardText}>Creator: {item.member.firstName}</Text>
+          <Text style={styles.cardText}>ID-{item.number}</Text>
+          <Text style={styles.cardText}>
+            {format(item.dateCreated, "dd-mm-yyyy, hh:mm")}
+          </Text>
+          <Text
+            style={[
+              styles.cardDescription,
+              item.status == "Signed" ? { color: "green" } : { color: "red" },
+            ]}
+          >
+            {item.status}
+          </Text>
+        </View>
+      </View>
+      <TouchableOpacity
+        style={styles.cardButton}
+        onPress={() => navigation.navigate("CurrentApplication", item)}
+      >
+        <Text style={styles.cardButtonText}>Details</Text>
       </TouchableOpacity>
     </View>
   );
+
+  const getApplications = async () => {
+    setLoading(true);
+    let access_token = await AsyncStorage.getItem("access_token");
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + access_token,
+      },
+    };
+    const response = await fetch(
+      SERVER_URL + "/api/Application/MemberApplications",
+      options
+    );
+    const json = await response.json();
+    if (json) {
+      setMemberApplications(json);
+    } else {
+      // console.log('Server is error 500');
+    }
+    setLoading(false);
+  };
+
+  const getCurrent = async () => {
+    setLoading(true);
+    let access_token = await AsyncStorage.getItem("access_token");
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + access_token,
+      },
+    };
+    const response = await fetch(SERVER_URL + "/api/Member/Current", options);
+    const json = await response.json();
+    if (json) {
+      setCurrent(json);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    getApplications();
+    getCurrent();
+  }, []);
 
   // https://localhost:7161/api/ConstData/ApplicationNames
   // https://localhost:7161/api/Organization/GetById?organizationid=616f9d24-fbcd-45a7-b52a-cf43373b9879
@@ -62,51 +112,97 @@ const HomeScreen = ({ navigation }) => {
   // https://localhost:7161/api/Application/ApplicationDocument?applicationId=9bfcc359-439d-4c73-9eb8-33ea150e4286
 
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={data}
-        renderItem={renderCard}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.cardList}
-      />
-      <TouchableOpacity
-        style={styles.footerButton}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.footerButtonText}>Create App</Text>
-      </TouchableOpacity>
+    <ImageBackground
+      source={require("../../../assets/fon.png")}
+      style={{ width: "100%", height: "100%" }}
+      resizeMode="cover"
+    >
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <Icon name="person-circle" size={50} color="#000" />
+          <Text style={styles.userName}>
+            {current?.firstName} {current?.lastName}
+          </Text>
+          <TouchableOpacity style={styles.notificationIcon}>
+            <Icon name="notifications" size={24} color="#FFFFFF" />
+          </TouchableOpacity>
+        </View>
 
-      {selectedReference ? (
-        <Text style={styles.selectedText}>Selected: {selectedReference}</Text>
-      ) : null}
-      <ReferenceModal
-        visible={modalVisible}
-        onClose={() => setModalVisible(false)}
-        onSelect={handleSelect}
-      />
-    </SafeAreaView>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <Text
+            style={{
+              paddingHorizontal: 20,
+              paddingVertical: 10,
+              fontSize: 22,
+              fontWeight: "500",
+              color: "#FFFFFF",
+            }}
+          >
+            Signed documents
+          </Text>
+          <View
+            style={{
+              marginHorizontal: 10,
+              backgroundColor: "#FFFFFF",
+              borderRadius: 20,
+              padding: 15,
+            }}
+          >
+            {memberApplications
+              .filter((el) => el.status === "Signed")
+              .map((item) => (
+                <View key={item.id}>{renderCard({ item })}</View>
+              ))}
+          </View>
+          <Text
+            style={{
+              paddingHorizontal: 20,
+              paddingVertical: 20,
+              fontSize: 24,
+              fontWeight: "600",
+              color: "#2D64D1",
+            }}
+          >
+            Created documents
+          </Text>
+          <View
+            style={{
+              marginHorizontal: 10,
+              backgroundColor: "#FFFFFF",
+              borderRadius: 20,
+              padding: 15,
+            }}
+          >
+            {memberApplications
+              .filter((el) => el.status !== "Signed")
+              .map((item) => (
+                <View key={item.id}>{renderCard({ item })}</View>
+              ))}
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.LIGHT_BLUE,
     paddingHorizontal: 20,
   },
   cardList: {
     paddingBottom: 80,
   },
   card: {
-    backgroundColor: COLORS.MEDIUM_BLUE,
+    // backgroundColor: COLORS.MEDIUM_BLUE,
     borderRadius: 10,
-    padding: 20,
     marginBottom: 15,
     shadowColor: COLORS.DARK_BLUE,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    marginBottom: 35,
   },
   cardTitle: {
     fontSize: 18,
@@ -120,7 +216,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   cardDescription: {
-    fontSize: 14,
+    fontSize: 22,
+    fontWeight: "600",
     color: COLORS.DARK_BLUE,
     marginBottom: 10,
   },
@@ -140,15 +237,28 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     alignItems: "center",
     justifyContent: "center",
-    position: "absolute",
-    bottom: 20,
-    left: 20,
-    right: 20,
+    marginHorizontal: 20,
   },
   footerButtonText: {
     fontSize: 18,
     color: COLORS.LIGHT_BLUE,
     fontWeight: "bold",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: 20,
+  },
+  userName: {
+    flex: 1,
+    marginLeft: 10,
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+  },
+  notificationIcon: {
+    padding: 5,
   },
 });
 

@@ -71,7 +71,7 @@ const CreateDriver = () => {
       !carMark ||
       !carMark
     ) {
-      Alert.alert("Пожалуйста, заполните все необходимые поля");
+      Alert.alert("Please fill in all required fields");
       return;
     }
 
@@ -130,7 +130,7 @@ const CreateDriver = () => {
         Alert.alert(json.message);
       }
     } catch (error) {
-      Alert.alert("Пожалуйста, заполните все необходимые поля");
+      Alert.alert("Please fill in all required fields");
       console.log("CreateDriver error: ", error);
     }
   };

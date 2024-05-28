@@ -7,12 +7,51 @@ import {
   StyleSheet,
   Alert,
   ImageBackground,
+  Image,
 } from "react-native";
 import { COLORS, SERVER_URL } from "../../utils/helper";
+import * as ImagePicker from "expo-image-picker";
 
 const ProfileScreen = ({ navigation }) => {
   const [current, setCurrent] = useState();
   const [loading, setLoading] = useState(false);
+  const [base64, setBase64] = useState("");
+  const [image, setImage] = useState(null);
+
+  const uploadPhoto = async (photoBase64) => {
+    let access_token = await AsyncStorage.getItem("access_token");
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + access_token,
+      },
+      body: JSON.stringify({ photoBase64: photoBase64 }),
+    };
+    const response = await fetch(
+      SERVER_URL + "/api/Manager/UploadProfilePhoto",
+      options
+    );
+    console.log("photo sttaus: ", response.status);
+  };
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      base64: true,
+    });
+
+    // console.log(result);
+
+    if (!result.canceled) {
+      uploadPhoto(result.assets[0].base64);
+      setImage(result.assets[0].base64);
+    }
+  };
 
   const getCurrent = async () => {
     setLoading(true);
@@ -52,6 +91,24 @@ const ProfileScreen = ({ navigation }) => {
     >
       <View style={styles.container}>
         <Text style={styles.title}>Profile</Text>
+        <TouchableOpacity
+          style={{ justifyContent: "center", alignItems: "center" }}
+          onPress={() => pickImage()}
+        >
+          <Image
+            source={
+              current?.photoBase64 == ""
+                ? require("../../../assets/driver.png")
+                : { uri: `data:image/jpeg;base64,&{current?.photoBase64}` }
+            }
+            style={{
+              height: 200,
+              width: 200,
+              borderRadius: 100,
+              borderWidth: 1,
+            }}
+          />
+        </TouchableOpacity>
         <View style={styles.profileInfo}>
           <Text style={styles.name}>
             {current?.firstName} {current?.lastName}

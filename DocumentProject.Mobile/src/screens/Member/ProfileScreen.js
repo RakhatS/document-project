@@ -1,20 +1,110 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import { COLORS } from "../../utils/helper";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Alert,
+  Image,
+} from "react-native";
+import { COLORS, SERVER_URL } from "../../utils/helper";
+import * as ImagePicker from "expo-image-picker";
 
 const ProfileScreen = ({ navigation }) => {
+  const [current, setCurrent] = useState();
+  const [loading, setLoading] = useState(false);
+  const [base64i, setBase64] = useState("");
+  const [image, setImage] = useState(null);
+
+  const getCurrent = async () => {
+    setLoading(true);
+    let access_token = await AsyncStorage.getItem("access_token");
+    const options = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + access_token,
+      },
+    };
+    const response = await fetch(SERVER_URL + "/api/Member/Current", options);
+    const json = await response.json();
+    if (json) {
+      setCurrent(json);
+    }
+    setLoading(false);
+  };
+
+  const uploadPhoto = async (photoBase64) => {
+    let access_token = await AsyncStorage.getItem("access_token");
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + access_token,
+      },
+      body: JSON.stringify({ photoBase64: photoBase64 }),
+    };
+    const response = await fetch(
+      SERVER_URL + "/api/Member/UploadProfilePhoto",
+      options
+    );
+    console.log("photo sttaus: ", response.status);
+  };
+
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+      base64: true,
+    });
+
+    // console.log(result);
+
+    if (!result.canceled) {
+      uploadPhoto(result.assets[0].base64);
+      setImage(result.assets[0].base64);
+    }
+  };
+
+  useEffect(() => {
+    getCurrent();
+  }, []);
+
   const handleExit = async () => {
     await AsyncStorage.clear();
     Alert.alert("Logged out", "You have been logged out successfully.");
-    navigation.navigate("Login"); // Change "Login" to your login screen route name
+    navigation.navigate("Welcome"); // Change "Login" to your login screen route name
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Profile</Text>
+      <TouchableOpacity
+        style={{ justifyContent: "center", alignItems: "center" }}
+        onPress={() => pickImage()}
+      >
+        <Image
+          source={
+            current?.photoBase64 == ""
+              ? require("../../../assets/driver.png")
+              : { uri: `data:image/jpeg;base64,&{current?.photoBase64}` }
+          }
+          style={{
+            height: 200,
+            width: 200,
+            borderRadius: 100,
+            borderWidth: 1,
+          }}
+        />
+      </TouchableOpacity>
       <View style={styles.profileInfo}>
-        <Text style={styles.name}>First Name Last Name</Text>
+        <Text style={styles.name}>
+          {current?.lastName} {current?.firstName}
+        </Text>
         <Text style={styles.statisticsTitle}>Document Statistics</Text>
         <Text style={styles.statistics}>Total Documents: 10</Text>
         <Text style={styles.statistics}>Signed Documents: 5</Text>
@@ -28,12 +118,6 @@ const ProfileScreen = ({ navigation }) => {
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={handleExit}>
         <Text style={styles.buttonText}>Exit</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("ChangeOrganizations")}
-      >
-        <Text style={styles.buttonText}>Change Organizations</Text>
       </TouchableOpacity>
     </View>
   );

@@ -16,10 +16,12 @@ const MemberTabNavigator = () => {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          if (route.name == "Главная") {
+          if (route.name == "Home") {
             iconName = "home-outline";
           } else if (route.name == "Profile") {
             iconName = "person-outline";
+          } else if (route.name == "Applications") {
+            iconName = "document-text-outline";
           }
           return (
             <Icon name={iconName} size={size} color={color} focused={focused} />
@@ -30,7 +32,8 @@ const MemberTabNavigator = () => {
         //  header: () => <Header />,
       })}
     >
-      <Tab.Screen name="Главная" component={MainScreen} />
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Applications" component={MainScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );

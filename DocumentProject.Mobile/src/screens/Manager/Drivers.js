@@ -77,78 +77,87 @@ const Drivers = ({ navigation }) => {
         >
           <Text style={styles.weightButtonText}>+ Add member</Text>
         </TouchableOpacity>
-        {organizationDrivers.length >= 1 && (
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-            refreshing={refreshing}
-            data={organizationDrivers}
-            renderItem={({ item }) => {
-              return (
-                <>
-                  <View style={styles.container}>
-                    <View style={styles.mainInfo}>
-                      <View
-                        style={{
-                          width: "30%",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Avatar.Image
-                          source={
-                            item.photoBase64
-                              ? {
-                                  uri: `data:image/jpeg;base64,${item.photoBase64}`,
-                                }
-                              : require("../../../assets/driver.png")
-                          }
-                          // source={require('../../../../assets/driver.png')}
-                          size={100}
+        <View
+          style={{
+            backgroundColor: "#FFFFFF",
+            marginHorizontal: 20,
+            borderRadius: 20,
+            height: "90%",
+          }}
+        >
+          {organizationDrivers.length >= 1 && (
+            <FlatList
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+              refreshing={refreshing}
+              data={organizationDrivers}
+              renderItem={({ item }) => {
+                return (
+                  <>
+                    <View style={styles.container}>
+                      <View style={styles.mainInfo}>
+                        <View
                           style={{
-                            backgroundColor: "#ffffff",
-                            borderWidth: 1,
-                            borderColor: "#C2C2C2",
+                            width: "30%",
+                            justifyContent: "center",
+                            alignItems: "center",
                           }}
-                        />
-                      </View>
-                      <View style={{ width: "65%" }}>
-                        <Text style={styles.applicationStatusText}>
-                          {item.firstName} {item.lastName}
-                        </Text>
-                        <Text style={styles.mainInfoText}>
-                          position:{" "}
-                          <Text style={styles.mainInfoTitle}>
-                            {item.position}
-                          </Text>
-                        </Text>
-
-                        <TouchableOpacity
-                          onPress={() =>
-                            navigation.navigate("EditDriver", item)
-                          }
-                          style={styles.applicationStatusContainer}
                         >
+                          <Avatar.Image
+                            source={
+                              item.photoBase64
+                                ? {
+                                    uri: `data:image/jpeg;base64,${item.photoBase64}`,
+                                  }
+                                : require("../../../assets/driver.png")
+                            }
+                            // source={require('../../../../assets/driver.png')}
+                            size={100}
+                            style={{
+                              backgroundColor: "#ffffff",
+                              borderWidth: 1,
+                              borderColor: "#C2C2C2",
+                            }}
+                          />
+                        </View>
+                        <View style={{ width: "65%" }}>
                           <Text style={styles.applicationStatusText}>
-                            Edit member
+                            {item.firstName} {item.lastName}
                           </Text>
-                        </TouchableOpacity>
+                          <Text style={styles.mainInfoText}>
+                            position:{" "}
+                            <Text style={styles.mainInfoTitle}>
+                              {item.position}
+                            </Text>
+                          </Text>
+
+                          <TouchableOpacity
+                            onPress={() =>
+                              navigation.navigate("EditDriver", item)
+                            }
+                            style={styles.applicationStatusContainer}
+                          >
+                            <Text style={styles.applicationStatusText}>
+                              Edit member
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
                       </View>
                     </View>
+                    <Divider />
+                  </>
+                );
+              }}
+              ListFooterComponent={
+                refreshing && (
+                  <View style={styles.indicatorContain}>
+                    <ActivityIndicator size={16} />
                   </View>
-                  <Divider />
-                </>
-              );
-            }}
-            ListFooterComponent={
-              refreshing && (
-                <View style={styles.indicatorContain}>
-                  <ActivityIndicator size={16} />
-                </View>
-              )
-            }
-          />
-        )}
+                )
+              }
+            />
+          )}
+        </View>
       </SafeAreaView>
     </ImageBackground>
   );
