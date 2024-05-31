@@ -48,7 +48,7 @@ export class HeaderComponent implements OnInit {
     },
       error => {
         this.currentUser = undefined;
-        this.toastr.error(error.statusText);
+        // this.toastr.error(error.statusText);
         this.loading = false;
       })
   }
