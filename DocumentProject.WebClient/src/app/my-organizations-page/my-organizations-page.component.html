@@ -4,7 +4,8 @@
       <span class="visually-hidden"></span>
     </div>
     <div class="row">
-      <div class="col-4">
+      <div class="col-5">
+        <h2>Create a new organization</h2>
         <form (ngSubmit)="createOrganization()" ngNativeValidate *ngIf="newOrganization">
           <div class="mb-3">
             <label for="inputTournamentName" class="form-label">Name</label>
@@ -23,19 +24,21 @@
           </div>
           <div class="mb-3">
             <label for="inputTournamentContactNumber" class="form-label">Contact number</label>
-            <input type="text" class="form-control" id="inputTournamentContactNumber" [(ngModel)]="newOrganization.contactNumber"
-              [ngModelOptions]="{standalone: true}" required [disabled]="loading">
+            <input type="text" class="form-control" id="inputTournamentContactNumber"
+              [(ngModel)]="newOrganization.contactNumber" [ngModelOptions]="{standalone: true}" required
+              [disabled]="loading">
           </div>
           <button type="submit" class="btn btn-primary" [disabled]="loading">Create</button>
         </form>
 
       </div>
-      <div class="col-8">
-        <h2>Организации</h2>
+      <div class="col-7">
+        <h2>Organizations</h2>
         <ol class="list-group list-group-numbered">
           <li class="list-group-item d-flex justify-content-between align-items-start organization-list-item"
-            *ngFor="let organization of organizations">
-            <div class="ms-2 me-auto" [routerLink]="'/organization/'+organization.id" style="width: 100%;">
+            *ngFor="let organization of organizations" [routerLink]="'/organization/'+organization.id"
+            style="cursor: pointer;">
+            <div class="ms-2 me-auto" style="width: 100%;">
               <div class="fw-bold" style="width: 100%;">{{ organization.name }}</div>
               <!-- Content for list item -->
             </div>
