@@ -22,6 +22,8 @@ export class OrganizationPageComponent implements OnInit {
   newMember: Member = new Member();
   loading: boolean = false;
 
+  selectedSection: string = "Applications";
+
   isApplicationDetailsModalOpened: boolean = false;
   selectedApplication: Application | undefined;
 

@@ -156,17 +156,20 @@
             <div class="row">
 
               <div class="col-md" style="text-align: center;">
-                <button class="btn btn-primary">Applications</button>
+                <button class="btn btn-primary" (click)="selectedSection = 'Applications'"
+                [disabled]="loading && selectedSection == 'Applications'">Applications</button>
               </div>
               <div class="col-md" style="text-align: center;">
-                <button class="btn btn-primary">Members</button>
+                <button class="btn btn-primary" (click)="selectedSection = 'Members'"
+                [disabled]="loading && selectedSection == 'Members'">Members</button>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-9">
-
+        <app-organization-members-page *ngIf="selectedSection == 'Members'"></app-organization-members-page>
+        <app-organization-applications-page *ngIf="selectedSection == 'Applications'"></app-organization-applications-page>
       </div>
     </div>
 
