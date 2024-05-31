@@ -8,6 +8,8 @@ import { OrganizationPageComponent } from './organization-page/organization-page
 import { MyOrganizationPageComponent } from './my-organization-page/my-organization-page.component';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { AboutUsPageComponent } from './about-us-page/about-us-page.component';
+import { OrganizationMembersPageComponent } from './organization-members-page/organization-members-page.component';
+import { OrganizationApplicationsPageComponent } from './organization-applications-page/organization-applications-page.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent, canActivate: [AuthGuard] },
@@ -16,6 +18,8 @@ const routes: Routes = [
   { path: 'my-organizations', component: MyOrganizationsPageComponent, canActivate: [AuthGuard] },
   { path: 'my-organization', component: MyOrganizationPageComponent, canActivate: [AuthGuard] },
   { path: 'organization/:organizationId', component: OrganizationPageComponent, canActivate: [AuthGuard] },
+  { path: 'organization-applications/:organizationId', component: OrganizationApplicationsPageComponent, canActivate: [AuthGuard] },
+  { path: 'organization-members/:organizationId', component: OrganizationMembersPageComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfilePageComponent, canActivate: [AuthGuard] },
   { path: 'about-us', component: AboutUsPageComponent, canActivate: [AuthGuard] }
 ];

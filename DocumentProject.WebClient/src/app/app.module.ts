@@ -21,6 +21,8 @@ import { SafeHtmlPipe } from './_helpers/pipes/pipe.safehtml';
 import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { AboutUsPageComponent } from './about-us-page/about-us-page.component';
 import { NgxImageCompressService } from 'ngx-image-compress';
+import { OrganizationMembersPageComponent } from './organization-members-page/organization-members-page.component';
+import { OrganizationApplicationsPageComponent } from './organization-applications-page/organization-applications-page.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 
     SafeHtmlPipe,
       ProfilePageComponent,
-      AboutUsPageComponent
+      AboutUsPageComponent,
+      OrganizationMembersPageComponent,
+      OrganizationApplicationsPageComponent,
   ],
   imports: [
     BrowserModule,
