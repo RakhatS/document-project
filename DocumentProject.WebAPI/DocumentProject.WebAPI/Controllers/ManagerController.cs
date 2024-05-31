@@ -32,6 +32,7 @@ namespace DocumentProject.WebAPI.Controllers
         public async Task<ManagerDTO?> CurrentManager()
         {
             var manager = await _dbContext.Managers
+               .Include(x => x.IdentityUser)
                .SingleOrDefaultAsync(x => x.IdentityUser.Email == User.ToUserInfo().UserName
                             || x.IdentityUser.UserName == User.ToUserInfo().UserName);
 
@@ -62,6 +63,7 @@ namespace DocumentProject.WebAPI.Controllers
 
             manager.FirstName = updatedManager.FirstName;
             manager.LastName = updatedManager.LastName;
+            manager.PhoneNumber = updatedManager.PhoneNumber;
 
             await _dbContext.SaveChangesAsync();
 

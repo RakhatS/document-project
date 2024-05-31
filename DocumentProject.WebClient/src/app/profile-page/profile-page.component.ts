@@ -22,7 +22,7 @@ export class ProfilePageComponent implements OnInit {
   imagePrefixToDisplay: string = Constants.ImagePrefixToDisplay;
 
   loading: boolean = false;
-  currentUser: Manager | Member | undefined | null;
+  currentUser: Member | Manager | undefined | null | any;
   isUploadPhotoModalOpened: boolean = false;
   photoModel: PhotoModel = new PhotoModel();
   role: string | null = "Manager";
@@ -111,12 +111,12 @@ export class ProfilePageComponent implements OnInit {
             this.uploadManagerProfilePhoto();
           } else if (this.role == 'Member') {
             this.uploadMemberProfilePhoto();
-           }
+          }
         }
       );
   }
 
-  resetNewPhotoObjects(){
+  resetNewPhotoObjects() {
     this.photoModel = new PhotoModel();
     this.croppedImage = '';
     this.imageChangedEvent = '';
@@ -135,9 +135,9 @@ export class ProfilePageComponent implements OnInit {
       this.toastr.error(error.statusText);
       this.loading = false;
     })
-  
-   }
-  uploadManagerProfilePhoto() { 
+
+  }
+  uploadManagerProfilePhoto() {
     this.loading = true;
     this.managerService.uploadProfilePhoto(this.photoModel).subscribe(res => {
       this.toastr.success("Photo has been uploaded succesfully");
@@ -148,5 +148,35 @@ export class ProfilePageComponent implements OnInit {
       this.toastr.error(error.statusText);
       this.loading = false;
     })
-}
+  }
+
+  updateUser(){
+    if(this.role == 'Member'){
+      this.updateMember();
+    }
+    else if(this.role == 'Manager'){
+      this.updateManager();
+    }
+  }
+
+  updateManager(){
+    this.loading = true;
+    this.managerService.updateManager(this.currentUser).subscribe(res=> {
+      this.toastr.success("Profile has been updated succesfully");
+      this.loading = false;
+    }, error => {
+      this.toastr.error(error.statusText);
+      this.loading = false;
+    })
+  }
+  updateMember(){
+    this.loading = true;
+    this.memberService.updateMember(this.currentUser).subscribe(res=> {
+      this.toastr.success("Profile has been updated succesfully");
+      this.loading = false;
+    }, error => {
+      this.toastr.error(error.statusText);
+      this.loading = false;
+    })
+  }
 }

@@ -9,6 +9,7 @@ namespace DocumentProject.WebAPI.Data
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public string? PhotoUrl { get; set; }
+        public string? PhoneNumber { get; set; }
         public List<Organization> Organizations { get; set; }
     }
 }

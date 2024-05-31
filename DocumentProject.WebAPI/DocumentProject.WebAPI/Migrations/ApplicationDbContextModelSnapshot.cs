@@ -80,6 +80,9 @@ namespace DocumentProject.WebAPI.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("text");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
                     b.Property<string>("PhotoUrl")
                         .HasColumnType("text");
 
@@ -114,6 +117,9 @@ namespace DocumentProject.WebAPI.Migrations
 
                     b.Property<Guid>("OrganizationId")
                         .HasColumnType("uuid");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
 
                     b.Property<string>("PhotoUrl")
                         .HasColumnType("text");

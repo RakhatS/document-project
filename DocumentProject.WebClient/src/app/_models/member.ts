@@ -6,6 +6,7 @@ export class Member extends BaseModel {
   lastName: string | undefined;
   address: string | undefined;
   position: string | undefined;
+  phoneNumber: string | undefined;
   photoBase64: string | undefined;
   organizationId: string | undefined;
   password: string | undefined;

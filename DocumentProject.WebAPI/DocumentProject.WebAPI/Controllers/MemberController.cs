@@ -42,7 +42,8 @@ namespace DocumentProject.WebAPI.Controllers
         public async Task<MemberDTO?> CurrentMember()
         {
             var member = await _dbContext.Members
-               .SingleOrDefaultAsync(x => x.IdentityUser.Email == User.ToUserInfo().UserName
+                .Include(x => x.IdentityUser)
+                .SingleOrDefaultAsync(x => x.IdentityUser.Email == User.ToUserInfo().UserName
                             || x.IdentityUser.UserName == User.ToUserInfo().UserName);
 
 
@@ -162,6 +163,7 @@ namespace DocumentProject.WebAPI.Controllers
             member.LastName = updatedMember.LastName;
             member.Address = updatedMember.Address;
             member.Position = updatedMember.Position;
+            member.PhoneNumber = updatedMember.PhoneNumber;
 
             await _dbContext.SaveChangesAsync();
 

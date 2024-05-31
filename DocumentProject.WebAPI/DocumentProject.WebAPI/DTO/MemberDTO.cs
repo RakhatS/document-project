@@ -10,6 +10,7 @@ namespace DocumentProject.WebAPI.DTO
         public string Position { get; set; }
         public string Address { get; set; }
         public byte[]? PhotoBase64 { get; set; }
+        public string? PhoneNumber { get; set; }
         public Guid OrganizationId { get; set; }
 
         public string? Password { get; set; }
