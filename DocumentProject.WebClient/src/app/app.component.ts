@@ -32,7 +32,7 @@ export class AppComponent implements OnInit {
   checkPath() {
     let path = this.route.url.split('/')[1];
     let routePath = decodeURIComponent(path);
-    if (routePath == 'sign-in') {
+    if (routePath == 'sign-in' || routePath == 'sign-up') {
       this.shouMenuAndHeader = false;
     }
     else {

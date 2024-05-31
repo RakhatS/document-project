@@ -23,6 +23,7 @@ import { AboutUsPageComponent } from './about-us-page/about-us-page.component';
 import { NgxImageCompressService } from 'ngx-image-compress';
 import { OrganizationMembersPageComponent } from './organization-members-page/organization-members-page.component';
 import { OrganizationApplicationsPageComponent } from './organization-applications-page/organization-applications-page.component';
+import { SignUpPageComponent } from './sign-up-page/sign-up-page.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { OrganizationApplicationsPageComponent } from './organization-applicatio
       AboutUsPageComponent,
       OrganizationMembersPageComponent,
       OrganizationApplicationsPageComponent,
+      SignUpPageComponent,
   ],
   imports: [
     BrowserModule,

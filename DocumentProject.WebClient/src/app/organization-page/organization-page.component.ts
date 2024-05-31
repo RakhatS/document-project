@@ -19,13 +19,12 @@ export class OrganizationPageComponent implements OnInit {
 
   organizationId: string | undefined;
   organization: Organization | undefined;
-  newMember: Member = new Member();
+ 
   loading: boolean = false;
 
   selectedSection: string = "Applications";
 
-  isApplicationDetailsModalOpened: boolean = false;
-  selectedApplication: Application | undefined;
+ 
 
 
   constructor(private organizationService: OrganizationService,
@@ -61,97 +60,9 @@ export class OrganizationPageComponent implements OnInit {
       console.log(this.organization);
 
       this.loading = false;
-      this.getApplications();
-      this.getMembers();
     }, error => {
       this.toastr.error(error.statusText);
       this.loading = false;
     });
-  }
-
-
-  getApplications() {
-    if (!this.organizationId || !this.organization)
-      return;
-
-    this.loading = true;
-    this.applicationService.getOrganizationApplications(this.organizationId).subscribe(res => {
-      this.organization!.applications = res;
-      this.loading = false;
-    }, error => {
-      this.toastr.error(error.statusText);
-      this.loading = false;
-    });
-  }
-
-
-  getMembers() {
-    if (!this.organizationId || !this.organization)
-      return;
-
-    this.loading = true;
-
-    this.memberService.getOrganizationMembers(this.organizationId).subscribe(res => {
-      this.organization!.members = res;
-      this.loading = false;
-    }, error => {
-      this.toastr.error(error.statusText);
-      this.loading = false;
-    })
-  }
-
-  createMember() {
-    if (!this.organizationId || !this.organization)
-      return;
-
-    this.newMember.organizationId = this.organizationId;
-
-    this.loading = true;
-    this.memberService.createOrganizationMember(this.newMember).subscribe(res => {
-      this.newMember = new Member();
-      this.loading = false;
-      this.getMembers();
-    }, error => {
-      this.toastr.error(error.statusText);
-      this.loading = false;
-    })
-  }
-
-
-
-  openApplicationDetailsModal(application: Application) {
-    this.selectedApplication = application;
-    this.getApplicationDocument(application);
-    this.isApplicationDetailsModalOpened = true;
-  }
-  closeApplicationDetailsModal() {
-    this.isApplicationDetailsModalOpened = false;
-    this.selectedApplication = undefined;
-  }
-
-
-  getApplicationDocument(application: Application) {
-    this.loading = true;
-    this.applicationService.getApplicationDocument(application.id!).subscribe(res => {
-      application.document = res.content;
-
-      this.loading = false;
-    }, error => {
-      this.toastr.error(error.statusText);
-      this.loading = false;
-    })
-  }
-
-  changeApplicationStatus(application: Application, newStatus: string) {
-    this.loading = true;
-    this.applicationService.changeApplicationStatus(application.id!, newStatus).subscribe(res => {
-      application.status = res.status;
-
-      this.loading = false;
-      this.getApplicationDocument(application);
-    }, error => {
-      this.toastr.error(error.statusText);
-      this.loading = false;
-    })
   }
 }

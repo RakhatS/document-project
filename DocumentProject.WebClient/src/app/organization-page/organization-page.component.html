@@ -1,144 +1,6 @@
 <div class="spinner-border" role="status" *ngIf="loading" style="position: fixed; right: 5%; top: 5%;">
   <span class="visually-hidden"></span>
 </div>
-<!-- 
-<main>
-  <div class="row" *ngIf="organization">
-    <div class="col card">
-      <h3>Applications</h3>
-      <div *ngIf="organization.applications">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">№</th>
-              <th scope="col">Status</th>
-              <th scope="col">Name</th>
-              <th scope="col">Member</th>
-              <th scope="col">#</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let application of organization.applications; let i = index;">
-              <th scope="row">{{ i + 1 }}</th>
-              <td>{{ application.status }}</td>
-              <td>{{ application.name }}</td>
-              <td>
-                <a *ngIf="application.member">
-                  {{ application.member.firstName }} {{ application.member.lastName }}</a>
-              </td>
-              <td>
-                <button class="btn btn-danger" [disabled]="loading"
-                  (click)="openApplicationDetailsModal(application)">Details</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="col card">
-      <h3>Members</h3>
-      <div class="accordion" id="accordionCreateMember">
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapseCreateMember" aria-expanded="false" aria-controls="collapseCreateMember">
-              Create a new member
-            </button>
-          </h2>
-          <div id="collapseCreateMember" class="accordion-collapse collapse" data-bs-parent="#accordionCreateMember">
-            <div class="accordion-body">
-              <form (ngSubmit)="createMember()" ngNativeValidate *ngIf="newMember">
-                <div class="mb-3">
-                  <label for="inputNewMemberEmail" class="form-label">Email</label>
-                  <input type="email" class="form-control" id="inputNewMemberEmail" [(ngModel)]="newMember.email"
-                    [ngModelOptions]="{standalone: true}" required [disabled]="loading">
-                </div>
-                <div class="mb-3">
-                  <label for="inputNewMemberFirstName" class="form-label">First name</label>
-                  <input type="text" class="form-control" id="inputNewMemberFirstName" [(ngModel)]="newMember.firstName"
-                    [ngModelOptions]="{standalone: true}" required [disabled]="loading">
-                </div>
-                <div class="mb-3">
-                  <label for="inputNewMemberLastName" class="form-label">Last name</label>
-                  <input type="text" class="form-control" id="inputNewMemberLastName" [(ngModel)]="newMember.lastName"
-                    [ngModelOptions]="{standalone: true}" required [disabled]="loading">
-                </div>
-                <div class="mb-3">
-                  <label for="inputNewMemberAddress" class="form-label">Address</label>
-                  <input type="text" class="form-control" id="inputNewMemberAddress" [(ngModel)]="newMember.address"
-                    [ngModelOptions]="{standalone: true}" required [disabled]="loading">
-                </div>
-                <div class="mb-3">
-                  <label for="inputNewMemberPosition" class="form-label">Position</label>
-                  <input type="text" class="form-control" id="inputNewMemberPosition" [(ngModel)]="newMember.position"
-                    [ngModelOptions]="{standalone: true}" required [disabled]="loading">
-                </div>
-                <div class="mb-3">
-                  <label for="inputNewMemberPassword" class="form-label">Password</label>
-                  <input type="password" class="form-control" id="inputNewMemberPassword"
-                    [(ngModel)]="newMember.password" [ngModelOptions]="{standalone: true}" required
-                    [disabled]="loading">
-                </div>
-                <button type="submit" class="btn btn-primary" [disabled]="loading">Create</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div *ngIf="organization.members">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">№</th>
-              <th scope="col">Email</th>
-              <th scope="col">First name</th>
-              <th scope="col">Last name</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let member of organization.members; let i = index;">
-              <th scope="row">{{ i + 1 }}</th>
-              <td>{{ member.email }}</td>
-              <td>{{ member.firstName }}</td>
-              <td>{{ member.lastName }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</main>
-
-
-
-<div class="modal fade show" id="applicationDetailsModal" tabindex="-1" aria-labelledby="applicationDetailsModalLabel"
-  aria-hidden="true" style="display: block;" *ngIf="isApplicationDetailsModalOpened && selectedApplication">
-  <div class="modal-dialog modal-dialog-applicationDetailsModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="applicationDetailsModalLabel">Application [{{selectedApplication.status}}]</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-          (click)="closeApplicationDetailsModal()" [disabled]="loading"></button>
-      </div>
-      <div class="modal-body">
-        <div *ngIf="selectedApplication.document && loading == false"
-          [innerHTML]="selectedApplication.document | safeHtml">
-
-        </div>
-        <div style="display: flex;" *ngIf="selectedApplication.status == 'Awaiting'">
-          <button class="btn btn-success" [disabled]="loading"
-            (click)="changeApplicationStatus(selectedApplication, 'Signed')">Sign</button>
-          <button class="btn btn-danger" [disabled]="loading"
-            (click)="changeApplicationStatus(selectedApplication, 'Unsigned')">Unsign</button>
-        </div>
-      </div>
-      <div class="modal-footer">
-
-      </div>
-    </div>
-  </div>
-</div> -->
-
 
 <main>
   <div class="container" *ngIf="organization">
@@ -156,20 +18,21 @@
             <div class="row">
 
               <div class="col-md" style="text-align: center;">
-                <button class="btn btn-primary" (click)="selectedSection = 'Applications'"
-                [disabled]="loading && selectedSection == 'Applications'">Applications</button>
+                <button class="btn" (click)="selectedSection = 'Applications'"
+                [disabled]="loading" [ngClass]="{'btn-primary': selectedSection != 'Applications', 'btn-secondary': selectedSection == 'Applications'}">Applications</button>
               </div>
               <div class="col-md" style="text-align: center;">
                 <button class="btn btn-primary" (click)="selectedSection = 'Members'"
-                [disabled]="loading && selectedSection == 'Members'">Members</button>
+                [ngClass]="{'btn-primary': selectedSection != 'Members', 'btn-secondary': selectedSection == 'Members'}"
+                [disabled]="loading">Members</button>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-9">
-        <app-organization-members-page *ngIf="selectedSection == 'Members'"></app-organization-members-page>
-        <app-organization-applications-page *ngIf="selectedSection == 'Applications'"></app-organization-applications-page>
+        <app-organization-members-page *ngIf="selectedSection == 'Members'" [organization]="organization"></app-organization-members-page>
+        <app-organization-applications-page *ngIf="selectedSection == 'Applications'" [organization]="organization"></app-organization-applications-page>
       </div>
     </div>
 

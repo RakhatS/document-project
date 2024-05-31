@@ -10,11 +10,12 @@ import { ProfilePageComponent } from './profile-page/profile-page.component';
 import { AboutUsPageComponent } from './about-us-page/about-us-page.component';
 import { OrganizationMembersPageComponent } from './organization-members-page/organization-members-page.component';
 import { OrganizationApplicationsPageComponent } from './organization-applications-page/organization-applications-page.component';
+import { SignUpPageComponent } from './sign-up-page/sign-up-page.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent, canActivate: [AuthGuard] },
   { path: 'sign-in', component: SignInPageComponent },
-
+  { path: 'sign-up', component: SignUpPageComponent },
   { path: 'my-organizations', component: MyOrganizationsPageComponent, canActivate: [AuthGuard] },
   { path: 'my-organization', component: MyOrganizationPageComponent, canActivate: [AuthGuard] },
   { path: 'organization/:organizationId', component: OrganizationPageComponent, canActivate: [AuthGuard] },
