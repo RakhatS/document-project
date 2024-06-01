@@ -129,8 +129,9 @@ export class ProfilePageComponent implements OnInit {
     this.memberService.uploadProfilePhoto(this.photoModel).subscribe(res => {
       this.toastr.success("Photo has been uploaded succesfully");
       this.loading = false;
-      this.closeUploadPhotoModal();
-      this.getCurrentUser();
+      window.location.reload();
+      // this.closeUploadPhotoModal();
+      // this.getCurrentUser();
     }, error => {
       this.toastr.error(error.statusText);
       this.loading = false;
@@ -142,8 +143,9 @@ export class ProfilePageComponent implements OnInit {
     this.managerService.uploadProfilePhoto(this.photoModel).subscribe(res => {
       this.toastr.success("Photo has been uploaded succesfully");
       this.loading = false;
-      this.closeUploadPhotoModal();
-      this.getCurrentUser();
+      window.location.reload();
+      // this.closeUploadPhotoModal();
+      // this.getCurrentUser();
     }, error => {
       this.toastr.error(error.statusText);
       this.loading = false;

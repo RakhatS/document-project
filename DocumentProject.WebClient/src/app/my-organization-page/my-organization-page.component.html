@@ -2,51 +2,67 @@
   <span class="visually-hidden"></span>
 </div>
 <main>
-  <div *ngIf="organization" style="text-align: center;">
-    <h2>{{ organization.name }}</h2>
-  </div>
 
-  <div class="row">
-    <div class="col">
-      <form (ngSubmit)="createApplication()" ngNativeValidate *ngIf="newApplication">
-        <div class="col-md-3">
-          <label for="newApplicationName" class="form-label">
-            Name:</label>
-          <select class="form-select" id="newApplication" [(ngModel)]="newApplication.name"
-            [ngModelOptions]="{standalone: true}" required="">>
-            <option *ngFor="let applicationName of applicationNames" [value]="applicationName.name">
-              {{ applicationName.name }}
-            </option>
-          </select>
+  <div class="container">
+    <div *ngIf="organization" style="text-align: center;">
+      <h2>{{ organization.name }}</h2>
+    </div>
+    <hr>
+
+    <div class="row">
+      <div class="col-md-4">
+
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Create a new appication</h5>
+          
+            <form (ngSubmit)="createApplication()" ngNativeValidate *ngIf="newApplication">
+              <div class="col">
+                <label for="newApplicationName" class="form-label">
+                  Choose type of appication :</label>
+                <select class="form-select" id="newApplication" [(ngModel)]="newApplication.name"
+                  [ngModelOptions]="{standalone: true}" required="">>
+                  <option *ngFor="let applicationName of applicationNames" [value]="applicationName.name">
+                    {{ applicationName.name }}
+                  </option>
+                </select>
+              </div>
+              <br>
+              <button class="btn btn-primary" type="submit" [disabled]="loading">Send</button>
+            </form>
+
+          </div>
         </div>
 
-        <button class="btn btn-primary" type="submit" [disabled]="loading">Create</button>
-      </form>
-    </div>
-    <div class="col">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">№</th>
-            <!-- <th scope="col">Type</th> -->
-            <th scope="col">Status</th>
-            <th scope="col">Name</th>
-            <th scope="col">#</th>
-          </tr>
-        </thead>
-        <tbody *ngIf="applications.length > 0">
-          <tr *ngFor="let application of applications; let i = index;">
-            <th scope="row">{{ i + 1 }}</th>
-            <!-- <td>{{ application.type }}</td> -->
-            <td>{{ application.status }}</td>
-            <td>{{ application.name }}</td>
-            <td>
-              <button class="btn btn-danger" [disabled]="loading"
-                (click)="openApplicationDetailsModal(application)">Details</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+
+      
+      </div>
+      <div class="col-md-8">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">№</th>
+              <!-- <th scope="col">Type</th> -->
+              <th scope="col">Status</th>
+              <th scope="col">Name</th>
+              <th scope="col">#</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="applications.length > 0">
+            <tr *ngFor="let application of applications; let i = index;">
+              <th scope="row">{{ i + 1 }}</th>
+              <!-- <td>{{ application.type }}</td> -->
+              <td>{{ application.status }}</td>
+              <td>{{ application.name }}</td>
+              <td>
+                <button class="btn btn-info" [disabled]="loading"
+                  (click)="openApplicationDetailsModal(application)">Details</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </main>
@@ -83,7 +99,7 @@
         </div>
         <div *ngIf="selectedApplication.status == 'Awaiting'">
           <div class="alert alert-info" role="alert">
-            This application is not ready yet!
+            This application is not signed yet!
           </div>
         </div>
         <!-- </div> -->
