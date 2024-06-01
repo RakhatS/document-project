@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Dimensions } from "react-native";
 
-export const SERVER_URL = "https://a8ae-85-117-116-128.ngrok-free.app";
+export const SERVER_URL = "http://178.253.40.215";
 
 export enum COLORS {
   LIGHT_BLUE = "#CADCFC",

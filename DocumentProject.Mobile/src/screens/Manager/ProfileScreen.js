@@ -66,7 +66,7 @@ const ProfileScreen = ({ navigation }) => {
     };
     const response = await fetch(SERVER_URL + "/api/Manager/Current", options);
     const json = await response.json();
-    console.log("json: ", json);
+    // console.log("json: ", json);
     if (json) {
       setCurrent(json);
     }
@@ -99,7 +99,7 @@ const ProfileScreen = ({ navigation }) => {
             source={
               current?.photoBase64 == ""
                 ? require("../../../assets/driver.png")
-                : { uri: `data:image/jpeg;base64,&{current?.photoBase64}` }
+                : { uri: `data:image/jpeg;base64,${current?.photoBase64}` }
             }
             style={{
               height: 200,

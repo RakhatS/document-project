@@ -51,26 +51,11 @@ const CreateDriver = () => {
   };
 
   const isAnyRadioButtonSelected = () => {
-    return (
-      !!lastName &&
-      !!firstName &&
-      !!number &&
-      !!email &&
-      !!password &&
-      !!carMark
-    );
+    return !!lastName && !!firstName && !!number && !!email && !!password;
   };
 
   const onPressContinue = async () => {
-    if (
-      !lastName ||
-      !firstName ||
-      !number ||
-      !email ||
-      !password ||
-      !carMark ||
-      !carMark
-    ) {
+    if (!lastName || !firstName || !number || !email || !password) {
       Alert.alert("Please fill in all required fields");
       return;
     }
@@ -94,7 +79,7 @@ const CreateDriver = () => {
     }
 
     let access_token = await AsyncStorage.getItem("access_token");
-    // let organizationId = await getOrganizationId("organizationId");
+    let organizationId = await getOrganizationId("organizationId");
     const newDriver = {
       lastName: lastName,
       firstName: firstName,
@@ -102,7 +87,10 @@ const CreateDriver = () => {
       email: email,
       password: password,
       address: carMark,
+      photoBase64: null,
+      organizationId: organizationId,
     };
+    console.log(newDriver);
 
     const options = {
       method: "POST",
@@ -116,12 +104,12 @@ const CreateDriver = () => {
 
     try {
       const response = await fetch(
-        SERVER_URL + "/api/Organization/CreateDriver",
+        SERVER_URL + "/api/Member/CreateOrganizationMember",
         options
       );
       console.log("CreateDriver: ", response.status);
       const json = await response.json();
-      if (json.isSuccess == true) {
+      if (json) {
         console.log(json);
         setLoading(false);
         navigation.goBack();
