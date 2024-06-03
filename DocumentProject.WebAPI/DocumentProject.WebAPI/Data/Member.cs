@@ -15,5 +15,6 @@ namespace DocumentProject.WebAPI.Data
         public Guid OrganizationId { get; set; }
         public Organization Organization { get; set; }
         public List<Application> Applications { get; set; }
+        public List<Notification> Notifications { get; set; }
     }
 }

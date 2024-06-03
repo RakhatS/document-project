@@ -2,6 +2,6 @@
 {
     public enum UserRole
     {
-        Member, Manager
+        Member, Manager, Admin
     }
 }

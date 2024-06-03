@@ -1,61 +1,65 @@
-<div *ngIf="organization">
-    <h3>Applications</h3>
-    <div *ngIf="organization.applications">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">№</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Member</th>
-                    <th scope="col">#</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let application of organization.applications; let i = index;">
-                    <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ application.status }}</td>
-                    <td>{{ application.name }}</td>
-                    <td>
-                        <a *ngIf="application.member">
-                            {{ application.member.firstName }} {{ application.member.lastName }}</a>
-                    </td>
-                    <td>
-                        <button class="btn btn-primary" [disabled]="loading"
-                            (click)="openApplicationDetailsModal(application)">Details</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+<div *ngIf="organization" id="organization-applications">
+  <h3>Applications</h3>
+  <div *ngIf="organization.applications">
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">№</th>
+          <th scope="col">Status</th>
+          <th scope="col">Name</th>
+          <th scope="col">Member</th>
+          <th scope="col">#</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let application of organization.applications; let i = index;">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ application.status }}</td>
+          <td>{{ application.name }}</td>
+          <td>
+            <a *ngIf="application.member">
+              {{ application.member.firstName }} {{ application.member.lastName }}</a>
+          </td>
+          <td>
+            <button class="btn btn-primary" [disabled]="loading"
+              (click)="openApplicationDetailsModal(application)">Details</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 
 <div class="modal fade show" id="applicationDetailsModal" tabindex="-1" aria-labelledby="applicationDetailsModalLabel"
-    aria-hidden="true" style="display: block;" *ngIf="isApplicationDetailsModalOpened && selectedApplication">
-    <div class="modal-dialog modal-dialog-applicationDetailsModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="applicationDetailsModalLabel">Application
-                    [{{selectedApplication.status}}]</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-                    (click)="closeApplicationDetailsModal()" [disabled]="loading"></button>
-            </div>
-            <div class="modal-body">
-                <div *ngIf="selectedApplication.document && loading == false"
-                    [innerHTML]="selectedApplication.document | safeHtml">
+  aria-hidden="true" style="display: block;" *ngIf="isApplicationDetailsModalOpened && selectedApplication">
+  <div class="modal-dialog modal-dialog-applicationDetailsModal">
+    <div class="modal-content">
+      <div class="modal-header">
+            <h1 class="modal-title fs-5" id="applicationDetailsModalLabel">Application
+              [{{selectedApplication.status}}]</h1>
+          
+            <button *ngIf="selectedApplication.document" class="btn btn-success" [disabled]="loading" (click)="downloadApplicationDocumentPdf(selectedApplication)"
+              style="float: right;"><i class="bi bi-download"></i></button>
+     
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="closeApplicationDetailsModal()" [disabled]="loading"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="selectedApplication.document && loading == false"
+          [innerHTML]="selectedApplication.document | safeHtml" id="application-document">
 
-                </div>
-                <div style="display: flex;" *ngIf="selectedApplication.status == 'Awaiting'">
-                    <button class="btn btn-success" [disabled]="loading"
-                        (click)="changeApplicationStatus(selectedApplication, 'Signed')">Sign</button>
-                    <button class="btn btn-danger" [disabled]="loading"
-                        (click)="changeApplicationStatus(selectedApplication, 'Unsigned')">Unsign</button>
-                </div>
-            </div>
-            <div class="modal-footer">
-
-            </div>
         </div>
+        <div style="display: flex;" *ngIf="selectedApplication.status == 'Awaiting'">
+          <button class="btn btn-success" [disabled]="loading"
+            (click)="changeApplicationStatus(selectedApplication, 'Signed')">Sign</button>
+          <button class="btn btn-danger" [disabled]="loading"
+            (click)="changeApplicationStatus(selectedApplication, 'Unsigned')">Unsign</button>
+        </div>
+      </div>
+      <div class="modal-footer">
+
+      </div>
     </div>
+  </div>
 </div>

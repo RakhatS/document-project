@@ -102,6 +102,11 @@ namespace DocumentProject.WebAPI.Controllers
             {
                 return await TokenGenerator.GenerateToken(model.Email, UserRole.Member.ToString());
             }
+            else if (await _dbContext.Admins.AnyAsync(x => x.IdentityUser.UserName == model.Email))
+            {
+                return await TokenGenerator.GenerateToken(model.Email, UserRole.Admin.ToString());
+            }
+
 
             return null;
         }
@@ -165,6 +170,59 @@ namespace DocumentProject.WebAPI.Controllers
 
 
             return await TokenGenerator.GenerateToken(model.Email, UserRole.Member.ToString());
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [HttpPost]
+        [Route("Admin/SignUp")]
+        public async Task AdminSignUp([FromBody] RegisterViewModel model)
+        {
+            model.Email = model.Email.ToLower().Trim();
+
+            var role = UserRole.Admin.ToString();
+
+            await _roleManager.CreateAsync(new IdentityRole(role));
+
+            var existingEmail = await _userManager.FindByEmailAsync(model.Email);
+            if (existingEmail != null)
+            {
+
+                Response.ContentType = "application/json";
+                Response.StatusCode = 409;
+                await Response.WriteAsync("Email exists");
+                return;
+            }
+
+
+            var user = new IdentityUser();
+            user.Email = model.Email;
+            user.UserName = model.Email;
+            await _userManager.CreateAsync(user, model.Password);
+
+
+            await _userManager.AddToRoleAsync(user, role);
+            var person = new Admin();
+            person.IdentityUser = user;
+            person.FirstName = model.FirstName;
+            person.LastName = model.LastName;
+            await _dbContext.Admins.AddAsync(person);
+            await _dbContext.SaveChangesAsync(default);
+
+            //await Token(model.Email);
         }
 
     }

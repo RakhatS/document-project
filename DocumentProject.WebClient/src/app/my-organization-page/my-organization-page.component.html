@@ -82,15 +82,18 @@
   <div class="modal-dialog modal-dialog-applicationDetailsModal">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="applicationDetailsModalLabel">Application</h1>
+        <h1 class="modal-title fs-5" id="applicationDetailsModalLabel">Application
+          <button *ngIf="selectedApplication.document" class="btn btn-success" [disabled]="loading"
+            (click)="downloadApplicationDocumentPdf(selectedApplication)" style="float: right;"><i
+              class="bi bi-download"></i></button>
+        </h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
           (click)="closeApplicationDetailsModal()" [disabled]="loading"></button>
       </div>
       <div class="modal-body">
         <!-- <div class="card Application-info-card"> -->
-        <div *ngIf="selectedApplication.status == 'Signed' && selectedApplication.document"
+        <div *ngIf="selectedApplication.document"
           [innerHTML]="selectedApplication.document | safeHtml">
-
         </div>
         <div *ngIf="selectedApplication.status == 'Unsigned'">
           <div class="alert alert-danger" role="alert">

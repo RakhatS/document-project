@@ -6,8 +6,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Organization } from '../_models/organization';
 import { ApplicationService } from '../_services/application.service';
 import { MemberService } from '../_services/member.service';
-import { Member } from '../_models/member';
-import { Application } from '../_models/application';
 
 @Component({
   selector: 'app-organization-page',
@@ -65,4 +63,5 @@ export class OrganizationPageComponent implements OnInit {
       this.loading = false;
     });
   }
+
 }

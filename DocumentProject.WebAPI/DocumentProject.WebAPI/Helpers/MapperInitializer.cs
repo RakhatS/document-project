@@ -31,6 +31,12 @@ namespace DocumentProject.WebAPI.Helpers
 
                     cfg.CreateMap<Application, ApplicationDTO>();
                     cfg.CreateMap<Organization, OrganizationDTO>();
+
+                    cfg.CreateMap<Admin, AdminDTO>().ForMember(
+                       dest => dest.Email,
+                       opt => opt.MapFrom(src => src.IdentityUser.Email));
+
+                    cfg.CreateMap<Notification, NotificationDTO>();
                 });
             }
 
