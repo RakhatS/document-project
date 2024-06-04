@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { AccessTokenService } from '../_services/accesstoken.service';
+import { AccessTokenService } from '../../_services/accesstoken.service';
 import { Router } from '@angular/router';
-import { MemberService } from '../_services/member.service';
-import { Application } from '../_models/application';
-import { OrganizationService } from '../_services/organization.service';
-import { Member } from '../_models/member';
+import { MemberService } from '../../_services/member.service';
+import { Application } from '../../_models/application';
+import { OrganizationService } from '../../_services/organization.service';
+import { Member } from '../../_models/member';
 import { ToastrService } from 'ngx-toastr';
-import { ApplicationService } from '../_services/application.service';
-import { Organization } from '../_models/organization';
-import { Constants } from '../_helpers/contants';
+import { ApplicationService } from '../../_services/application.service';
+import { Organization } from '../../_models/organization';
+import { Constants } from '../../_helpers/contants';
 import * as jspdf from 'jspdf';
 import html2canvas from 'html2canvas'; 
 

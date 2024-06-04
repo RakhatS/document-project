@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AccessTokenService } from '../_services/accesstoken.service';
+import { AccessTokenService } from '../../_services/accesstoken.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -16,10 +16,10 @@ export class MainPageComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.accessTokenService.getUserRole() == "Manager") {
-      this.router.navigate(['my-organizations']);
+      this.router.navigate(['manager/my-organizations']);
     }
     else if (this.accessTokenService.getUserRole() == "Member") { 
-      this.router.navigate(['my-organization']);
+      this.router.navigate(['member/my-organization']);
     }
     else if (this.accessTokenService.getUserRole() == "Admin") {
       this.router.navigate(['admin/organizations']);

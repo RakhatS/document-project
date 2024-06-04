@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { OrganizationService } from '../_services/organization.service';
-import { AccessTokenService } from '../_services/accesstoken.service';
+import { OrganizationService } from '../../_services/organization.service';
+import { AccessTokenService } from '../../_services/accesstoken.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ApplicationService } from '../_services/application.service';
-import { MemberService } from '../_services/member.service';
-import { Organization } from '../_models/organization';
-import { Member } from '../_models/member';
+import { ApplicationService } from '../../_services/application.service';
+import { MemberService } from '../../_services/member.service';
+import { Organization } from '../../_models/organization';
+import { Member } from '../../_models/member';
 
 @Component({
   selector: 'app-organization-members-page',

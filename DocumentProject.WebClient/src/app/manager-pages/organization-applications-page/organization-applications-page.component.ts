@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { OrganizationService } from '../_services/organization.service';
-import { AccessTokenService } from '../_services/accesstoken.service';
+import { OrganizationService } from '../../_services/organization.service';
+import { AccessTokenService } from '../../_services/accesstoken.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { ApplicationService } from '../_services/application.service';
-import { MemberService } from '../_services/member.service';
-import { Application } from '../_models/application';
-import { Organization } from '../_models/organization';
+import { ApplicationService } from '../../_services/application.service';
+import { MemberService } from '../../_services/member.service';
+import { Application } from '../../_models/application';
+import { Organization } from '../../_models/organization';
 
 // import * as htmlToImage from 'html-to-image';
 import * as jspdf from 'jspdf';

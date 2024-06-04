@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { OrganizationService } from '../_services/organization.service';
-import { Organization } from '../_models/organization';
-import { AccessTokenService } from '../_services/accesstoken.service';
+import { OrganizationService } from '../../_services/organization.service';
+import { Organization } from '../../_models/organization';
+import { AccessTokenService } from '../../_services/accesstoken.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 

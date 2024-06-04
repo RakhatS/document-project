@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../_services/auth.service';
+import { AuthService } from '../../_services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
-import { Manager } from '../_models/manager';
-import { Member } from '../_models/member';
-import { Constants } from '../_helpers/contants';
+import { Manager } from '../../_models/manager';
+import { Member } from '../../_models/member';
+import { Constants } from '../../_helpers/contants';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { AccessTokenService } from '../_services/accesstoken.service';
+import { AccessTokenService } from '../../_services/accesstoken.service';
 import { NgxImageCompressService } from 'ngx-image-compress';
-import { PhotoModel } from '../_models/photo-model';
-import { ManagerService } from '../_services/manager.service';
-import { MemberService } from '../_services/member.service';
+import { PhotoModel } from '../../_models/photo-model';
+import { ManagerService } from '../../_services/manager.service';
+import { MemberService } from '../../_services/member.service';
 
 @Component({
   selector: 'app-profile-page',
