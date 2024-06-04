@@ -39,7 +39,7 @@ export class MyOrganizationsPageComponent implements OnInit {
       this.organizations = x;
       this.loading = false; 
     }, error => {
-      this.toastr.error(error.statusText);
+      this.toastr.error(error.message);
       this.loading = false;
     })
   }
@@ -54,7 +54,7 @@ export class MyOrganizationsPageComponent implements OnInit {
       this.loading = false;
       this.getOrganizations();
     }, error =>{
-      this.toastr.error(error.statusText);
+      this.toastr.error(error.message);
       this.loading = false;
     })
   }

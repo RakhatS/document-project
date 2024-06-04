@@ -47,7 +47,7 @@ export class OrganizationApplicationsPageComponent implements OnInit {
       this.organization!.applications = res;
       this.loading = false;
     }, error => {
-      this.toastr.error(error.statusText);
+      this.toastr.error(error.message);
       this.loading = false;
     });
   }
@@ -70,7 +70,7 @@ export class OrganizationApplicationsPageComponent implements OnInit {
 
       this.loading = false;
     }, error => {
-      this.toastr.error(error.statusText);
+      this.toastr.error(error.message);
       this.loading = false;
     })
   }
@@ -83,7 +83,7 @@ export class OrganizationApplicationsPageComponent implements OnInit {
       this.loading = false;
       this.getApplicationDocument(application);
     }, error => {
-      this.toastr.error(error.statusText);
+      this.toastr.error(error.message);
       this.loading = false;
     })
   }

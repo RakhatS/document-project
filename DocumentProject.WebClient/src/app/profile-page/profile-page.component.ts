@@ -58,7 +58,7 @@ export class ProfilePageComponent implements OnInit {
     },
       error => {
         this.loading = false;
-        this.toastr.error(error.statusText)
+        this.toastr.error(error.message)
       })
   }
 
@@ -133,7 +133,7 @@ export class ProfilePageComponent implements OnInit {
       // this.closeUploadPhotoModal();
       // this.getCurrentUser();
     }, error => {
-      this.toastr.error(error.statusText);
+      this.toastr.error(error.message);
       this.loading = false;
     })
 
@@ -147,7 +147,7 @@ export class ProfilePageComponent implements OnInit {
       // this.closeUploadPhotoModal();
       // this.getCurrentUser();
     }, error => {
-      this.toastr.error(error.statusText);
+      this.toastr.error(error.message);
       this.loading = false;
     })
   }
@@ -167,7 +167,7 @@ export class ProfilePageComponent implements OnInit {
       this.toastr.success("Profile has been updated succesfully");
       this.loading = false;
     }, error => {
-      this.toastr.error(error.statusText);
+      this.toastr.error(error.message);
       this.loading = false;
     })
   }
@@ -177,7 +177,7 @@ export class ProfilePageComponent implements OnInit {
       this.toastr.success("Profile has been updated succesfully");
       this.loading = false;
     }, error => {
-      this.toastr.error(error.statusText);
+      this.toastr.error(error.message);
       this.loading = false;
     })
   }

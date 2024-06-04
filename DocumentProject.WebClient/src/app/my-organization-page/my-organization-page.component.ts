@@ -56,7 +56,7 @@ export class MyOrganizationPageComponent implements OnInit {
       this.loading = false;
       this.getOrganization();
     }, error => {
-      this.toastr.error(error.statusText);
+      this.toastr.error(error.message);
       this.loading = false;
     });
   }
@@ -71,7 +71,7 @@ export class MyOrganizationPageComponent implements OnInit {
       this.organization = res;
       this.loading = false;
     }, error => {
-      this.toastr.error(error.statusText);
+      this.toastr.error(error.message);
       this.loading = false;
     });
   }
@@ -83,7 +83,7 @@ export class MyOrganizationPageComponent implements OnInit {
       this.applications = res;
       this.loading = false;
     }, error => {
-      this.toastr.error(error.statusText);
+      this.toastr.error(error.message);
       this.loading = false;
     })
   }
@@ -101,7 +101,7 @@ export class MyOrganizationPageComponent implements OnInit {
       this.newApplication = new Application();
       this.getApplications();
     }, error => {
-      this.toastr.error(error.statusText);
+      this.toastr.error(error.message);
       this.loading = false;
     })
   }
@@ -123,7 +123,7 @@ export class MyOrganizationPageComponent implements OnInit {
       
       this.loading = false;
     },error => {
-      this.toastr.error(error.statusText);
+      this.toastr.error(error.message);
       this.loading = false;
     })
   }

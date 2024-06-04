@@ -43,7 +43,7 @@ export class OrganizationMembersPageComponent implements OnInit {
       this.organization!.members = res;
       this.loading = false;
     }, error => {
-      this.toastr.error(error.statusText);
+      this.toastr.error(error.message);
       this.loading = false;
     })
   }
@@ -61,7 +61,7 @@ export class OrganizationMembersPageComponent implements OnInit {
       this.loading = false;
       this.getMembers();
     }, error => {
-      this.toastr.error(error.statusText);
+      this.toastr.error(error.message);
       this.loading = false;
     })
   }

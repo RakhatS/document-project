@@ -59,7 +59,7 @@ export class OrganizationPageComponent implements OnInit {
 
       this.loading = false;
     }, error => {
-      this.toastr.error(error.statusText);
+      this.toastr.error(error.message);
       this.loading = false;
     });
   }
