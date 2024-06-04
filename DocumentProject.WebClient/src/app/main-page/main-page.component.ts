@@ -21,6 +21,9 @@ export class MainPageComponent implements OnInit {
     else if (this.accessTokenService.getUserRole() == "Member") { 
       this.router.navigate(['my-organization']);
     }
+    else if (this.accessTokenService.getUserRole() == "Admin") {
+      this.router.navigate(['admin/organizations']);
+    }
   }
 
 }

@@ -11,6 +11,8 @@ import { AboutUsPageComponent } from './about-us-page/about-us-page.component';
 import { OrganizationMembersPageComponent } from './organization-members-page/organization-members-page.component';
 import { OrganizationApplicationsPageComponent } from './organization-applications-page/organization-applications-page.component';
 import { SignUpPageComponent } from './sign-up-page/sign-up-page.component';
+import { OrganizationsAdminPageComponent } from './organizations-admin-page/organizations-admin-page.component';
+import { MembersAdminPageComponent } from './members-admin-page/members-admin-page.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent, canActivate: [AuthGuard] },
@@ -22,7 +24,11 @@ const routes: Routes = [
   { path: 'organization-applications/:organizationId', component: OrganizationApplicationsPageComponent, canActivate: [AuthGuard] },
   { path: 'organization-members/:organizationId', component: OrganizationMembersPageComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfilePageComponent, canActivate: [AuthGuard] },
-  { path: 'about-us', component: AboutUsPageComponent, canActivate: [AuthGuard] }
+  { path: 'about-us', component: AboutUsPageComponent, canActivate: [AuthGuard] },
+
+
+  { path: 'admin/organizations', component: OrganizationsAdminPageComponent, canActivate: [AuthGuard] },
+  { path: 'admin/members', component: MembersAdminPageComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

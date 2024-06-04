@@ -32,9 +32,13 @@ namespace DocumentProject.WebAPI.Helpers
                     cfg.CreateMap<Application, ApplicationDTO>();
                     cfg.CreateMap<Organization, OrganizationDTO>();
 
-                    cfg.CreateMap<Admin, AdminDTO>().ForMember(
+                    cfg.CreateMap<Admin, AdminDTO>()
+                    .ForMember(
                        dest => dest.Email,
-                       opt => opt.MapFrom(src => src.IdentityUser.Email));
+                       opt => opt.MapFrom(src => src.IdentityUser.Email))
+                    .ForMember(
+                        dest => dest.PhotoBase64,
+                        opt => opt.MapFrom(src => FileToBinary(src.PhotoUrl)));
 
                     cfg.CreateMap<Notification, NotificationDTO>();
                 });
@@ -42,7 +46,7 @@ namespace DocumentProject.WebAPI.Helpers
 
         }
 
-        static byte[] FileToBinary(string imagePath)
+        static byte[]? FileToBinary(string? imagePath)
         {
             if (string.IsNullOrEmpty(imagePath)) return null;
             FileStream fS = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
