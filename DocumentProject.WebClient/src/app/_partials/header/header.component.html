@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg  bg-dark" style="padding-bottom: 28px; padding-top: 31px;">
+<nav class="navbar navbar-expand-lg  bg-dark" style="padding-bottom: 20px; padding-top: 31px;">
   <div class="container-fluid">
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -31,7 +31,9 @@
       <!-- <button type="button" [disabled]="loading" class="btn btn-danger" style="margin-right: 20px;"
         (click)="logout()">{{ 'Logout' | translate }}&nbsp;<i class="bi bi-box-arrow-right"></i></button> -->
 
-      <div class="dropdown" style="margin-right: 100px;" *ngIf="currentUser">
+      <div class="dropdown" style="margin-right: 100px; display: flex; flex-direction: row;" *ngIf="currentUser">
+        <a class="btn" style="color: red; font-size: 20px;" (click)="isShowNotifications = !isShowNotifications"><i class="bi bi-bell"></i></a>
+        
         <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
           aria-expanded="false">
           <img src="{{ imagePrefixToDisplay+currentUser.photoBase64 }}" alt="mdo" width="35.1" height="35.1" class="rounded-circle" *ngIf="currentUser.photoBase64">
@@ -51,3 +53,9 @@
 
   </div>
 </nav>
+
+
+<div class="card" *ngIf="isShowNotifications" style="position: absolute; z-index: 9999; float: left; right: 10rem; top: 75px; padding: 10px 5px;">
+
+dssfdfds
+  </div>

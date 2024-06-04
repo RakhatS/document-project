@@ -14,6 +14,9 @@ import { AuthService } from 'src/app/_services/auth.service';
 })
 export class HeaderComponent implements OnInit {
 
+
+  isShowNotifications: boolean = false;
+
   imagePrefixToDisplay: string = Constants.ImagePrefixToDisplay;
 
   loading: boolean = true;
