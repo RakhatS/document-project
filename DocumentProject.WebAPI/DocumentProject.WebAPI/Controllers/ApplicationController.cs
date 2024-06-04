@@ -75,6 +75,16 @@ namespace DocumentProject.WebAPI.Controllers
 
 
             await _dbContext.Applications.AddAsync(newApplication);
+
+
+            await _dbContext.Notifications.AddAsync(new Notification
+            {
+                Message = $"New application by {member.FirstName + member.LastName}[{newApplication.Number}].",
+                ForMemberId = organization.OwnerManagerId,
+                IsMarkedAsRead = false
+            });
+
+
             await _dbContext.SaveChangesAsync();
 
             newApplicationReq.Id = newApplication.Id;
@@ -219,6 +229,14 @@ namespace DocumentProject.WebAPI.Controllers
             {
                 application.SignatureDate = DateTime.Now;
             }
+
+            await _dbContext.Notifications.AddAsync(new Notification
+            {
+                Message = $"Apllication[{application.Number}] has been {application.Status}",
+                ForMemberId = application.MemberId,
+                IsMarkedAsRead = false
+            });
+
 
             await _dbContext.SaveChangesAsync();
 

@@ -68,5 +68,76 @@ namespace DocumentProject.WebAPI.Controllers
 
             return Mapper.Map<List<Notification>, List<NotificationDTO>>(manager.Notifications);
         }
+
+
+
+
+
+        [Authorize(Roles = "Member")]
+        [HttpGet("MarkMemberNotificationAsRead")]
+        public async Task MarkMemberNotificationAsRead([FromQuery] Guid notificationId)
+        {
+            var member = await _dbContext.Members
+                .Include(x => x.Notifications)
+                .SingleOrDefaultAsync(x => x.IdentityUser.UserName == User.ToUserInfo().UserName);
+
+            if (member == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Member not found");
+                return;
+            }
+
+            var notification = member.Notifications.SingleOrDefault(x => x.Id == notificationId);
+
+            if (notification == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Notification not found");
+                return;
+            }
+
+            notification.IsMarkedAsRead = true;
+
+            await _dbContext.SaveChangesAsync();
+        }
+
+
+
+
+
+
+
+
+
+
+        [Authorize(Roles = "Manager")]
+        [HttpGet("MarkManagerNotificationAsRead")]
+        public async Task MarkManagerNotificationAsRead([FromQuery] Guid notificationId)
+        {
+            var manager = await _dbContext.Managers
+                .Include(x => x.Notifications)
+                .SingleOrDefaultAsync(x => x.IdentityUser.UserName == User.ToUserInfo().UserName);
+
+            if (manager == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Manager not found");
+                return;
+            }
+
+            var notification = manager.Notifications.SingleOrDefault(x => x.Id == notificationId);
+
+            if (notification == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Notification not found");
+                return;
+            }
+
+            notification.IsMarkedAsRead = true;
+
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

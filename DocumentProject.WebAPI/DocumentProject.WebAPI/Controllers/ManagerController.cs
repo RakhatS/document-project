@@ -111,5 +111,19 @@ namespace DocumentProject.WebAPI.Controllers
         }
 
 
+
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("ManagersList")]
+        public async Task<List<ManagerDTO>> GetManagersList()
+        {
+            var managers = await _dbContext.Managers
+                .Include(x => x.IdentityUser)
+                .ToListAsync();
+
+
+            return Mapper.Map<List<ManagerDTO>>(managers);
+        }
     }
 }

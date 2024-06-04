@@ -103,5 +103,200 @@ namespace DocumentProject.WebAPI.Controllers
 
             return Mapper.Map<List<Organization>, List<OrganizationDTO>>(manager.Organizations);
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("DeleteById")]
+        public async Task DeleteOrganizationById([FromQuery] Guid organizationid)
+        {
+            var organization = await _dbContext.Organizations
+                  .Include(x => x.Members)
+                  .SingleOrDefaultAsync(x => x.Id == organizationid);
+
+            if (organization == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Organization not found");
+                return;
+            }
+
+            _dbContext.Organizations.Remove(organization);
+            await _dbContext.SaveChangesAsync();
+            return;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpPut("OrganizationsList")]
+        public async Task<List<OrganizationDTO>> GetOrganizationsList()
+        {
+            var organizations = await _dbContext.Organizations
+                .Include(x => x.OwnerManager)
+                .ToListAsync();
+
+
+            return Mapper.Map<List<OrganizationDTO>>(organizations);
+        }
+
+
+
+
+
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("CreateForMember")]
+        public async Task<OrganizationDTO?> CreateOrganizationForMember([FromBody] OrganizationDTO newOrganizationReq)
+        {
+            var manager = await _dbContext.Managers.SingleOrDefaultAsync(x => x.Id == newOrganizationReq.OwnerManagerId);
+
+            if (manager == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Manager not found");
+                return null;
+            }
+
+            var newOrganization = new Organization
+            {
+                Name = newOrganizationReq.Name,
+                OwnerManagerId = manager.Id,
+                Type = OrganizationType.Company.ToString(),
+                Address = newOrganizationReq.Address,
+                BIN = newOrganizationReq.BIN,
+                ContactNumber = newOrganizationReq.ContactNumber
+            };
+
+            await _dbContext.Organizations.AddAsync(newOrganization);
+            await _dbContext.SaveChangesAsync();
+
+            newOrganizationReq.Id = newOrganization.Id;
+            newOrganizationReq.DateCreated = newOrganization.DateCreated;
+
+            return newOrganizationReq;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [Authorize(Roles = "Manager")]
+        [HttpPost("Update")]
+        public async Task<OrganizationDTO?> UpdateOrganization([FromBody] OrganizationDTO updatedOrganizationReq)
+        {
+            var manager = await _dbContext.Managers
+                .Include(x => x.Organizations)
+                .SingleOrDefaultAsync(x => x.IdentityUser.UserName == User.ToUserInfo().UserName);
+
+            if (manager == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Manager not found");
+                return null;
+            }
+
+            var organization = manager.Organizations.SingleOrDefault(x => x.Id == updatedOrganizationReq.Id);
+
+            if (organization == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Organization not found");
+                return null;
+            }
+
+
+            organization.BIN = updatedOrganizationReq.BIN;
+            organization.Address = updatedOrganizationReq.Address;
+            organization.ContactNumber = updatedOrganizationReq.ContactNumber;
+            organization.Name = updatedOrganizationReq.Name;
+           
+            await _dbContext.SaveChangesAsync();
+
+            updatedOrganizationReq.DateCreated = updatedOrganizationReq.DateCreated;
+
+            return updatedOrganizationReq;
+        }
+
+
+
+
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost("UpdateByAdmin")]
+        public async Task<OrganizationDTO?> UpdateOrganizationByAdmin([FromBody] OrganizationDTO updatedOrganizationReq)
+        {
+
+
+            var organization = await _dbContext.Organizations.SingleOrDefaultAsync(x => x.Id == updatedOrganizationReq.Id);
+
+            if (organization == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Organization not found");
+                return null;
+            }
+
+
+            organization.BIN = updatedOrganizationReq.BIN;
+            organization.Address = updatedOrganizationReq.Address;
+            organization.ContactNumber = updatedOrganizationReq.ContactNumber;
+            organization.Name = updatedOrganizationReq.Name;
+
+            await _dbContext.SaveChangesAsync();
+
+            updatedOrganizationReq.DateCreated = updatedOrganizationReq.DateCreated;
+
+            return updatedOrganizationReq;
+        }
+
     }
 }
