@@ -24,6 +24,8 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 import { OrganizationMembersPageComponent } from './organization-members-page/organization-members-page.component';
 import { OrganizationApplicationsPageComponent } from './organization-applications-page/organization-applications-page.component';
 import { SignUpPageComponent } from './sign-up-page/sign-up-page.component';
+import { OrganizationsAdminPageComponent } from './organizations-admin-page/organizations-admin-page.component';
+import { MembersAdminPageComponent } from './members-admin-page/members-admin-page.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { SignUpPageComponent } from './sign-up-page/sign-up-page.component';
       OrganizationMembersPageComponent,
       OrganizationApplicationsPageComponent,
       SignUpPageComponent,
+      OrganizationsAdminPageComponent,
+      MembersAdminPageComponent,
   ],
   imports: [
     BrowserModule,
