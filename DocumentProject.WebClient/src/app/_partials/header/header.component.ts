@@ -85,7 +85,7 @@ export class HeaderComponent implements OnInit {
       this.notifications = x;
       this.loading = false;
     }, error => {
-      this.toastr.error(error.message);
+      // this.toastr.error(error.message);
       this.loading = false;
     })
   }
@@ -96,7 +96,7 @@ export class HeaderComponent implements OnInit {
       this.notifications = x;
       this.loading = false;
     }, error => {
-      this.toastr.error(error.message);
+      // this.toastr.error(error.message);
       this.loading = false;
     })
   }
