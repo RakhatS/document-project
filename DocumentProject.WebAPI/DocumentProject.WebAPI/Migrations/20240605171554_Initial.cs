@@ -48,6 +48,22 @@ namespace DocumentProject.WebAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Notifications",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Message = table.Column<string>(type: "text", nullable: false),
+                    IsMarkedAsRead = table.Column<bool>(type: "boolean", nullable: false),
+                    ForManagerId = table.Column<Guid>(type: "uuid", nullable: true),
+                    ForMemberId = table.Column<Guid>(type: "uuid", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Notifications", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoleClaims",
                 columns: table => new
                 {
@@ -285,34 +301,6 @@ namespace DocumentProject.WebAPI.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Notifications",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Message = table.Column<string>(type: "text", nullable: false),
-                    IsMarkedAsRead = table.Column<bool>(type: "boolean", nullable: false),
-                    ForManagerId = table.Column<Guid>(type: "uuid", nullable: true),
-                    ForMemberId = table.Column<Guid>(type: "uuid", nullable: true),
-                    DateCreated = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Notifications", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Notifications_Managers_ForManagerId",
-                        column: x => x.ForManagerId,
-                        principalTable: "Managers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Notifications_Members_ForMemberId",
-                        column: x => x.ForMemberId,
-                        principalTable: "Members",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_Admins_IdentityUserId",
                 table: "Admins",
@@ -381,16 +369,6 @@ namespace DocumentProject.WebAPI.Migrations
                 column: "OrganizationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Notifications_ForManagerId",
-                table: "Notifications",
-                column: "ForManagerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Notifications_ForMemberId",
-                table: "Notifications",
-                column: "ForMemberId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Organizations_OwnerManagerId",
                 table: "Organizations",
                 column: "OwnerManagerId");
@@ -423,10 +401,10 @@ namespace DocumentProject.WebAPI.Migrations
                 name: "Notifications");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
+                name: "Members");
 
             migrationBuilder.DropTable(
-                name: "Members");
+                name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Organizations");

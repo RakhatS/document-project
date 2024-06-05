@@ -32,12 +32,15 @@
         (click)="logout()">{{ 'Logout' | translate }}&nbsp;<i class="bi bi-box-arrow-right"></i></button> -->
 
       <div class="dropdown" style="margin-right: 100px; display: flex; flex-direction: row;" *ngIf="currentUser">
-        <a class="btn" style="color: red; font-size: 20px;" (click)="isShowNotifications = !isShowNotifications"><i class="bi bi-bell"></i></a>
-        
+        <a class="btn" style="color: red; font-size: 20px;" (click)="isShowNotifications = !isShowNotifications"
+          *ngIf="notifications.length > 0"><i class="bi bi-bell"></i></a>
+
         <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown"
           aria-expanded="false">
-          <img src="{{ imagePrefixToDisplay+currentUser.photoBase64 }}" alt="mdo" width="35.1" height="35.1" class="rounded-circle" *ngIf="currentUser.photoBase64">
-          <img src="assets/images/no-photo.png" alt="mdo" width="35.1" height="35.1" class="rounded-circle" *ngIf="!currentUser.photoBase64">
+          <img src="{{ imagePrefixToDisplay+currentUser.photoBase64 }}" alt="mdo" width="35.1" height="35.1"
+            class="rounded-circle" *ngIf="currentUser.photoBase64">
+          <img src="assets/images/no-photo.png" alt="mdo" width="35.1" height="35.1" class="rounded-circle"
+            *ngIf="!currentUser.photoBase64">
         </a>
         <ul class="dropdown-menu text-small">
           <li>
@@ -55,7 +58,23 @@
 </nav>
 
 
-<div class="card" *ngIf="isShowNotifications" style="position: absolute; z-index: 9999; float: left; right: 10rem; top: 75px; padding: 10px 5px;">
-
-dssfdfds
-  </div>
+<div class="card" *ngIf="isShowNotifications"
+  style="position: absolute; z-index: 9999; float: left; right: 10rem; top: 75px; padding: 10px 5px;">
+  <div style="display: flex;">
+    <h5 class="col-11">Notifications</h5>
+    <button class="btn btn-danger col-1" style="float: right;" (click)="isShowNotifications = false"><i class="bi bi-x-lg"></i></button>
+  </div><hr>
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor="let notification of notifications">
+      <div class="row">
+        <div class="col-10">
+          {{ notification.message }}
+        </div>
+        <div class="col-2">
+          <button class="btn" [disabled]="loading" (click)="markAsReadNotification(notification.id!)"><i
+              class="bi bi-bookmark-check"></i></button>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>

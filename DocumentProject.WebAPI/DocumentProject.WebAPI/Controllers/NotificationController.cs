@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Metrics;
 
 namespace DocumentProject.WebAPI.Controllers
 {
@@ -31,7 +32,6 @@ namespace DocumentProject.WebAPI.Controllers
         public async Task<List<NotificationDTO>?> GetMemberNotifications()
         {
             var member = await _dbContext.Members
-                .Include(x => x.Notifications)
                 .SingleOrDefaultAsync(x => x.IdentityUser.UserName == User.ToUserInfo().UserName);
 
             if (member == null)
@@ -41,7 +41,10 @@ namespace DocumentProject.WebAPI.Controllers
                 return null;
             }
 
-            return Mapper.Map<List<Notification>, List<NotificationDTO>>(member.Notifications);
+
+            var notifications = await _dbContext.Notifications.Where(x => x.ForMemberId == member.Id && x.IsMarkedAsRead == false).ToListAsync();
+
+            return Mapper.Map<List<Notification>, List<NotificationDTO>>(notifications);
         }
 
 
@@ -56,7 +59,6 @@ namespace DocumentProject.WebAPI.Controllers
         public async Task<List<NotificationDTO>?> GetManagerNotifications()
         {
             var manager = await _dbContext.Managers
-                .Include(x => x.Notifications)
                 .SingleOrDefaultAsync(x => x.IdentityUser.UserName == User.ToUserInfo().UserName);
 
             if (manager == null)
@@ -66,7 +68,9 @@ namespace DocumentProject.WebAPI.Controllers
                 return null;
             }
 
-            return Mapper.Map<List<Notification>, List<NotificationDTO>>(manager.Notifications);
+            var notifications = await _dbContext.Notifications.Where(x => x.ForManagerId == manager.Id && x.IsMarkedAsRead == false).ToListAsync();
+
+            return Mapper.Map<List<Notification>, List<NotificationDTO>>(notifications);
         }
 
 
@@ -74,11 +78,10 @@ namespace DocumentProject.WebAPI.Controllers
 
 
         [Authorize(Roles = "Member")]
-        [HttpGet("MarkMemberNotificationAsRead")]
+        [HttpPut("MarkMemberNotificationAsRead")]
         public async Task MarkMemberNotificationAsRead([FromQuery] Guid notificationId)
         {
             var member = await _dbContext.Members
-                .Include(x => x.Notifications)
                 .SingleOrDefaultAsync(x => x.IdentityUser.UserName == User.ToUserInfo().UserName);
 
             if (member == null)
@@ -88,7 +91,7 @@ namespace DocumentProject.WebAPI.Controllers
                 return;
             }
 
-            var notification = member.Notifications.SingleOrDefault(x => x.Id == notificationId);
+            var notification = await _dbContext.Notifications.SingleOrDefaultAsync(x => x.Id == notificationId && x.ForMemberId == member.Id);
 
             if (notification == null)
             {
@@ -112,11 +115,10 @@ namespace DocumentProject.WebAPI.Controllers
 
 
         [Authorize(Roles = "Manager")]
-        [HttpGet("MarkManagerNotificationAsRead")]
+        [HttpPut("MarkManagerNotificationAsRead")]
         public async Task MarkManagerNotificationAsRead([FromQuery] Guid notificationId)
         {
             var manager = await _dbContext.Managers
-                .Include(x => x.Notifications)
                 .SingleOrDefaultAsync(x => x.IdentityUser.UserName == User.ToUserInfo().UserName);
 
             if (manager == null)
@@ -126,7 +128,7 @@ namespace DocumentProject.WebAPI.Controllers
                 return;
             }
 
-            var notification = manager.Notifications.SingleOrDefault(x => x.Id == notificationId);
+            var notification = await _dbContext.Notifications.SingleOrDefaultAsync(x => x.Id == notificationId && x.ForManagerId == manager.Id);
 
             if (notification == null)
             {

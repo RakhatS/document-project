@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DocumentProject.WebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240604184732_Initial")]
+    [Migration("20240605171554_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -190,10 +190,6 @@ namespace DocumentProject.WebAPI.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ForManagerId");
-
-                    b.HasIndex("ForMemberId");
 
                     b.ToTable("Notifications");
                 });
@@ -485,21 +481,6 @@ namespace DocumentProject.WebAPI.Migrations
                     b.Navigation("Organization");
                 });
 
-            modelBuilder.Entity("DocumentProject.WebAPI.Data.Notification", b =>
-                {
-                    b.HasOne("DocumentProject.WebAPI.Data.Manager", "ForManager")
-                        .WithMany("Notifications")
-                        .HasForeignKey("ForManagerId");
-
-                    b.HasOne("DocumentProject.WebAPI.Data.Member", "ForMember")
-                        .WithMany("Notifications")
-                        .HasForeignKey("ForMemberId");
-
-                    b.Navigation("ForManager");
-
-                    b.Navigation("ForMember");
-                });
-
             modelBuilder.Entity("DocumentProject.WebAPI.Data.Organization", b =>
                 {
                     b.HasOne("DocumentProject.WebAPI.Data.Manager", "OwnerManager")
@@ -562,16 +543,12 @@ namespace DocumentProject.WebAPI.Migrations
 
             modelBuilder.Entity("DocumentProject.WebAPI.Data.Manager", b =>
                 {
-                    b.Navigation("Notifications");
-
                     b.Navigation("Organizations");
                 });
 
             modelBuilder.Entity("DocumentProject.WebAPI.Data.Member", b =>
                 {
                     b.Navigation("Applications");
-
-                    b.Navigation("Notifications");
                 });
 
             modelBuilder.Entity("DocumentProject.WebAPI.Data.Organization", b =>

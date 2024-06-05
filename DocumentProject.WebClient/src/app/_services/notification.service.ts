@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Constants } from '../_helpers/contants';
 import { Observable } from 'rxjs';
+import { NotificationModel } from '../_models/notification';
 
 @Injectable({
   providedIn: 'root'
@@ -14,14 +15,26 @@ export class NotificationService {
 
 
 
-  getMemberNotifications(): Observable<Notification[]> {
+  getMemberNotifications(): Observable<NotificationModel[]> {
     let api = this.api + "/MemberNotifications";
-    return this.http.get<Notification[]>(api);
+    return this.http.get<NotificationModel[]>(api);
   }
 
 
-  getManagerNotifications(): Observable<Notification[]> {
+  getManagerNotifications(): Observable<NotificationModel[]> {
     let api = this.api + "/ManagerNotifications";
-    return this.http.get<Notification[]>(api);
+    return this.http.get<NotificationModel[]>(api);
+  }
+
+
+  markMemberNotificationAsRead(notificationId: string): Observable<any> {
+    let api = this.api + "/MarkMemberNotificationAsRead?notificationId=" + notificationId;
+    return this.http.put<any>(api, null);
+  }
+
+
+  markManagerNotificationAsRead(notificationId: string): Observable<any> {
+    let api = this.api + "/MarkManagerNotificationAsRead?notificationId=" + notificationId;
+    return this.http.put<any>(api, null);
   }
 }

@@ -24,14 +24,10 @@ namespace DocumentProject.WebAPI.Helpers
             modelBuilder.Entity<Manager>()
               .HasMany(s => s.Organizations).WithOne(a => a.OwnerManager).HasForeignKey(a => a.OwnerManagerId);
 
-            modelBuilder.Entity<Manager>()
-            .HasMany(s => s.Notifications).WithOne(a => a.ForManager).HasForeignKey(a => a.ForManagerId);
 
             modelBuilder.Entity<Member>()
               .HasMany(s => s.Applications).WithOne(a => a.Member).HasForeignKey(a => a.MemberId);
 
-            modelBuilder.Entity<Member>()
-                .HasMany(s => s.Notifications).WithOne(a => a.ForMember).HasForeignKey(a => a.ForMemberId);
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }

@@ -80,7 +80,7 @@ namespace DocumentProject.WebAPI.Controllers
             await _dbContext.Notifications.AddAsync(new Notification
             {
                 Message = $"New application by {member.FirstName + member.LastName}[{newApplication.Number}].",
-                ForMemberId = organization.OwnerManagerId,
+                ForManagerId = organization.OwnerManagerId,
                 IsMarkedAsRead = false
             });
 
@@ -232,7 +232,7 @@ namespace DocumentProject.WebAPI.Controllers
 
             await _dbContext.Notifications.AddAsync(new Notification
             {
-                Message = $"Apllication[{application.Number}] has been {application.Status}",
+                Message = $"Apllication[{application.Number}] has been {application.Status.ToLower()}",
                 ForMemberId = application.MemberId,
                 IsMarkedAsRead = false
             });
