@@ -172,15 +172,6 @@ namespace DocumentProject.WebAPI.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
         [HttpPost("UploadProfilePhoto")]
         [Authorize(Roles = "Member")]
         public async Task UploadProfilePhoto([FromBody] PhotoModel photoModel)
@@ -211,5 +202,20 @@ namespace DocumentProject.WebAPI.Controllers
             await _dbContext.SaveChangesAsync();
 
         }
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("MembersList")]
+        public async Task<List<MemberDTO>> GetMembersList()
+        {
+
+            var members = await _dbContext.Members
+                .Include(x => x.IdentityUser)
+                .Include(x => x.Organization)
+                .ToListAsync();
+
+            return Mapper.Map<List<Member>, List<MemberDTO>>(members);
+        }
+
     }
 }

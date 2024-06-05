@@ -4,9 +4,14 @@
   </div>
   <ul class="sidebar-navigation">
     <li class="header">{{role}} portal Navigation</li>
-    <li class="list-item" *ngIf="role == 'Manager' || role == 'Member'">
+    <li class="list-item" *ngIf="role == 'Manager'">
       <a [routerLink]="['/']">
         <i class="bi bi-house" aria-hidden="true"></i> My organizations
+      </a>
+    </li>
+    <li class="list-item" *ngIf="role == 'Member'">
+      <a [routerLink]="['/']">
+        <i class="bi bi-house" aria-hidden="true"></i> My organization
       </a>
     </li>
     <li class="list-item" *ngIf="role == 'Admin'">
@@ -24,6 +29,12 @@
         <i class="bi bi-file-earmark-medical"></i> Applications
       </a>
     </li>
+    <li class="list-item" *ngIf="role == 'Admin'">
+      <a [routerLink]="['/admin/managers']">
+        <i class="bi bi-person-check"></i> Managers
+      </a>
+    </li>
+    <li class="header">Info</li>
     <li class="list-item">
       <a [routerLink]="['/profile']">
         <i class="bi bi-person-lines-fill"></i> Profile
@@ -35,21 +46,5 @@
         <i class="bi bi-info-circle"></i> About us
       </a>
     </li>
-    <!-- <li class="header">Another Menu</li>
-      <li>
-        <a href="#">
-          <i class="bi bi-users" aria-hidden="true"></i> Friends
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="bi bi-cog" aria-hidden="true"></i> Settings
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <i class="bi bi-info-circle" aria-hidden="true"></i> Information
-        </a>
-      </li> -->
   </ul>
 </div>

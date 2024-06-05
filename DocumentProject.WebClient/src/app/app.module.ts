@@ -27,6 +27,7 @@ import { SignUpPageComponent } from './common-pages/sign-up-page/sign-up-page.co
 import { OrganizationsAdminPageComponent } from './admin-pages/organizations-admin-page/organizations-admin-page.component';
 import { MembersAdminPageComponent } from './admin-pages/members-admin-page/members-admin-page.component';
 import { ApplicationsAdminPageComponent } from './admin-pages/applications-admin-page/applications-admin-page.component';
+import { ManagersAdminPageComponent } from './admin-pages/managers-admin-page/managers-admin-page.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { ApplicationsAdminPageComponent } from './admin-pages/applications-admin
       OrganizationsAdminPageComponent,
       MembersAdminPageComponent,
       ApplicationsAdminPageComponent,
+      ManagersAdminPageComponent,
   ],
   imports: [
     BrowserModule,

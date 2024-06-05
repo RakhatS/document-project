@@ -268,5 +268,21 @@ namespace DocumentProject.WebAPI.Controllers
         }
 
 
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("ApplicationsList")]
+        public async Task<List<ApplicationDTO>> GetApplicationsList()
+        {
+
+            var applications = await _dbContext.Applications
+                .Include(x => x.Organization)
+                .Include(x => x.Member)
+                .ToListAsync();
+
+
+            return Mapper.Map<List<Application>, List<ApplicationDTO>>(applications);
+        }
+
     }
 }

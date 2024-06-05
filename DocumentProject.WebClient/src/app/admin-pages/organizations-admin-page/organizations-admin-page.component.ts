@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Organization } from 'src/app/_models/organization';
 import { AccessTokenService } from 'src/app/_services/accesstoken.service';
 import { OrganizationService } from 'src/app/_services/organization.service';
 
@@ -10,6 +11,8 @@ import { OrganizationService } from 'src/app/_services/organization.service';
   styleUrls: ['./organizations-admin-page.component.scss']
 })
 export class OrganizationsAdminPageComponent implements OnInit {
+
+  organizations: Organization[] = [];
 
   constructor(private organizationService: OrganizationService,
     private accessTokenService: AccessTokenService,

@@ -14,6 +14,7 @@ import { SignUpPageComponent } from './common-pages/sign-up-page/sign-up-page.co
 import { OrganizationsAdminPageComponent } from './admin-pages/organizations-admin-page/organizations-admin-page.component';
 import { MembersAdminPageComponent } from './admin-pages/members-admin-page/members-admin-page.component';
 import { ApplicationsAdminPageComponent } from './admin-pages/applications-admin-page/applications-admin-page.component';
+import { ManagersAdminPageComponent } from './admin-pages/managers-admin-page/managers-admin-page.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent, canActivate: [AuthGuard] },
@@ -35,6 +36,7 @@ const routes: Routes = [
   { path: 'admin/organizations', component: OrganizationsAdminPageComponent, canActivate: [AuthGuard] },
   { path: 'admin/members', component: MembersAdminPageComponent, canActivate: [AuthGuard] },
   { path: 'admin/applications', component: ApplicationsAdminPageComponent, canActivate: [AuthGuard] },
+  { path: 'admin/managers', component: ManagersAdminPageComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
