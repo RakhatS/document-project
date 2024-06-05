@@ -11,6 +11,8 @@ import { NgxImageCompressService } from 'ngx-image-compress';
 import { PhotoModel } from '../../_models/photo-model';
 import { ManagerService } from '../../_services/manager.service';
 import { MemberService } from '../../_services/member.service';
+import { Admin } from 'src/app/_models/admin';
+import { AdminService } from 'src/app/_services/admin.service';
 
 @Component({
   selector: 'app-profile-page',
@@ -22,7 +24,7 @@ export class ProfilePageComponent implements OnInit {
   imagePrefixToDisplay: string = Constants.ImagePrefixToDisplay;
 
   loading: boolean = false;
-  currentUser: Member | Manager | undefined | null | any;
+  currentUser: Member | Manager | Admin | undefined | null | any;
   isUploadPhotoModalOpened: boolean = false;
   photoModel: PhotoModel = new PhotoModel();
   role: string | null = "Manager";
@@ -46,7 +48,8 @@ export class ProfilePageComponent implements OnInit {
     private accessTokenService: AccessTokenService,
     private imageCompress: NgxImageCompressService,
     private managerService: ManagerService,
-    private memberService: MemberService
+    private memberService: MemberService,
+    private adminService: AdminService
   ) { }
 
 
@@ -111,6 +114,8 @@ export class ProfilePageComponent implements OnInit {
             this.uploadManagerProfilePhoto();
           } else if (this.role == 'Member') {
             this.uploadMemberProfilePhoto();
+          } else{
+            this.uploadAdminProfilePhoto();
           }
         }
       );
@@ -152,12 +157,29 @@ export class ProfilePageComponent implements OnInit {
     })
   }
 
+  uploadAdminProfilePhoto() {
+    this.loading = true;
+    this.adminService.uploadProfilePhoto(this.photoModel).subscribe(res => {
+      this.toastr.success("Photo has been uploaded succesfully");
+      this.loading = false;
+      window.location.reload();
+      // this.closeUploadPhotoModal();
+      // this.getCurrentUser();
+    }, error => {
+      this.toastr.error(error.message);
+      this.loading = false;
+    })
+  }
+
   updateUser(){
     if(this.role == 'Member'){
       this.updateMember();
     }
     else if(this.role == 'Manager'){
       this.updateManager();
+    }
+    else {
+      this.updateAdmin();
     }
   }
 
@@ -174,6 +196,17 @@ export class ProfilePageComponent implements OnInit {
   updateMember(){
     this.loading = true;
     this.memberService.updateMember(this.currentUser).subscribe(res=> {
+      this.toastr.success("Profile has been updated succesfully");
+      this.loading = false;
+    }, error => {
+      this.toastr.error(error.message);
+      this.loading = false;
+    })
+  }
+
+  updateAdmin() {
+    this.loading = true;
+    this.adminService.updateAdmin(this.currentUser).subscribe(res => {
       this.toastr.success("Profile has been updated succesfully");
       this.loading = false;
     }, error => {

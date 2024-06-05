@@ -4,9 +4,24 @@
   </div>
   <ul class="sidebar-navigation">
     <li class="header">{{role}} portal Navigation</li>
-     <li class="list-item">
+    <li class="list-item" *ngIf="role == 'Manager' || role == 'Member'">
       <a [routerLink]="['/']">
         <i class="bi bi-house" aria-hidden="true"></i> My organizations
+      </a>
+    </li>
+    <li class="list-item" *ngIf="role == 'Admin'">
+      <a [routerLink]="['/admin/organizations']">
+        <i class="bi bi-building"></i> Organizations
+      </a>
+    </li>
+    <li class="list-item" *ngIf="role == 'Admin'">
+      <a [routerLink]="['/admin/members']">
+        <i class="bi bi-people-fill"></i> Members
+      </a>
+    </li>
+    <li class="list-item" *ngIf="role == 'Admin'">
+      <a [routerLink]="['/admin/applications']">
+        <i class="bi bi-file-earmark-medical"></i> Applications
       </a>
     </li>
     <li class="list-item">
@@ -14,16 +29,12 @@
         <i class="bi bi-person-lines-fill"></i> Profile
       </a>
     </li>
-    <!-- <li class="list-item">
-      <a [routerLink]="['/contracts']">
-        <i class="bi bi-file-earmark-check" aria-hidden="true"></i> {{ 'Contracts' }}
-      </a>
-    </li>-->
+
     <li class="list-item">
       <a [routerLink]="['/about-us']">
         <i class="bi bi-info-circle"></i> About us
       </a>
-    </li> 
+    </li>
     <!-- <li class="header">Another Menu</li>
       <li>
         <a href="#">
