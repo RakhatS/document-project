@@ -5,19 +5,18 @@ import { AccessTokenService } from 'src/app/_services/accesstoken.service';
 import { OrganizationService } from 'src/app/_services/organization.service';
 
 @Component({
-  selector: 'app-members-admin-page',
-  templateUrl: './members-admin-page.component.html',
-  styleUrls: ['./members-admin-page.component.scss']
+  selector: 'app-applications-admin-page',
+  templateUrl: './applications-admin-page.component.html',
+  styleUrls: ['./applications-admin-page.component.scss']
 })
-export class MembersAdminPageComponent implements OnInit {
-
+export class ApplicationsAdminPageComponent implements OnInit {
 
   constructor(private organizationService: OrganizationService,
     private accessTokenService: AccessTokenService,
     private router: Router,
     private toastr: ToastrService
   ) { }
-  
+
   ngOnInit(): void {
     if (this.accessTokenService.getUserRole() != "Admin") {
       this.router.navigate(['/']);

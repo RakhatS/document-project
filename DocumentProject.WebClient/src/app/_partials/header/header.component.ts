@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Constants } from 'src/app/_helpers/contants';
+import { Admin } from 'src/app/_models/admin';
 import { Manager } from 'src/app/_models/manager';
 import { Member } from 'src/app/_models/member';
 import { NotificationModel } from 'src/app/_models/notification';
@@ -22,7 +23,7 @@ export class HeaderComponent implements OnInit {
   imagePrefixToDisplay: string = Constants.ImagePrefixToDisplay;
 
   loading: boolean = true;
-  currentUser: Manager | Member | undefined | null;
+  currentUser: Manager | Member | Admin | undefined | null;
   notifications: NotificationModel[] = [];
 
   ngOnInit(): void {

@@ -9,6 +9,8 @@ import { MemberService } from './member.service';
 import { Constants } from '../_helpers/contants';
 import { Manager } from '../_models/manager';
 import { Member } from '../_models/member';
+import { AdminService } from './admin.service';
+import { Admin } from '../_models/admin';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +24,8 @@ export class AuthService {
     private http: HttpClient,
     private accessTokenService: AccessTokenService,
     private memberService: MemberService,
-    private managerService: ManagerService
+    private managerService: ManagerService,
+    private adminService: AdminService
   ) { }
 
 
@@ -46,13 +49,16 @@ export class AuthService {
   }
 
 
-  currentUser(): Observable<Manager | Member | null> {
+  currentUser(): Observable<Manager | Member | Admin | null> {
     var role = this.accessTokenService.getUserRole();
 
     if (role == "Manager") {
       return this.managerService.currentManager();
     }
-    else {
+    else if(role == 'Admin') {
+      return this.adminService.currentAdmin();
+    }
+    else{
       return this.memberService.currentMember();
     }
   }

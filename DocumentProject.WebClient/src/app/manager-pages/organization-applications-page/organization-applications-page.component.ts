@@ -24,7 +24,7 @@ export class OrganizationApplicationsPageComponent implements OnInit {
   selectedApplication: Application | undefined;
   loading:boolean=false;
 
-  ngOnInit(): void {
+  ngOnInit(): void {   
     this.getApplications();
   }
 
