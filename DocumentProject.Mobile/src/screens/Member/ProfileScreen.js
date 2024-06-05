@@ -30,6 +30,7 @@ const ProfileScreen = ({ navigation }) => {
     const response = await fetch(SERVER_URL + "/api/Member/Current", options);
     const json = await response.json();
     if (json) {
+      console.log(json);
       setCurrent(json);
     }
     setLoading(false);
@@ -91,13 +92,15 @@ const ProfileScreen = ({ navigation }) => {
           source={
             current?.photoBase64 == ""
               ? require("../../../assets/driver.png")
-              : { uri: `data:image/jpeg;base64,&{current?.photoBase64}` }
+              : { uri: `data:image/jpeg;base64,${current?.photoBase64}` }
           }
           style={{
             height: 200,
             width: 200,
             borderRadius: 100,
             borderWidth: 1,
+            borderColor: COLORS.MEDIUM_BLUE,
+            marginBottom: 10,
           }}
         />
       </TouchableOpacity>
@@ -110,6 +113,12 @@ const ProfileScreen = ({ navigation }) => {
         <Text style={styles.statistics}>Signed Documents: 5</Text>
         <Text style={styles.statistics}>Pending Documents: 5</Text>
       </View>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate("AboutUs")}
+      >
+        <Text style={styles.buttonText}>About Us</Text>
+      </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("EditProfile")}

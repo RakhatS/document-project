@@ -12,10 +12,12 @@ import { COLORS, SERVER_URL, getToken } from "../../utils/helper";
 import RenderHtml from "react-native-render-html";
 import HTMLContent from "./HTMLContent";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { USER_ROLES } from "../../enums";
 
 const CurrentApplication = ({ navigation, route }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [pdfHtml, setPdfHtml] = useState("");
+  const [role, setrole] = useState("");
 
   const handleSignDocument = () => {
     setModalVisible(true);
@@ -55,6 +57,8 @@ const CurrentApplication = ({ navigation, route }) => {
   const getDocument = async () => {
     try {
       let access_token = await getToken();
+      let _role = await AsyncStorage.getItem("role");
+      setrole(_role);
       let options = {
         method: "GET",
         headers: {
@@ -89,9 +93,11 @@ const CurrentApplication = ({ navigation, route }) => {
 
         <View style={{ height: 100 }} />
 
-        <TouchableOpacity style={styles.button} onPress={handleSignDocument}>
-          <Text style={styles.buttonText}>Sign In Document</Text>
-        </TouchableOpacity>
+        {role == USER_ROLES.ROLE_MANAGER && (
+          <TouchableOpacity style={styles.button} onPress={handleSignDocument}>
+            <Text style={styles.buttonText}>Sign In Document</Text>
+          </TouchableOpacity>
+        )}
 
         <TouchableOpacity
           style={styles.button}
