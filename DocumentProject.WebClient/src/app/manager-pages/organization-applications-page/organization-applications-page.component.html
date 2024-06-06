@@ -17,7 +17,7 @@
           <td>{{ application.status }}</td>
           <td>{{ application.name }}</td>
           <td>
-            <a *ngIf="application.member">
+            <a *ngIf="application.member" style="color: black; text-decoration: none;">
               {{ application.member.firstName }} {{ application.member.lastName }}</a>
           </td>
           <td>
@@ -39,7 +39,7 @@
             <h1 class="modal-title fs-5" id="applicationDetailsModalLabel">Application
               [{{selectedApplication.status}}]</h1>
           
-            <button *ngIf="selectedApplication.document" class="btn btn-success" [disabled]="loading" (click)="downloadApplicationDocumentPdf(selectedApplication)"
+            <button *ngIf="selectedApplication.document && selectedApplication.status == 'Signed'" class="btn btn-success" [disabled]="loading" (click)="downloadApplicationDocumentPdf(selectedApplication)"
               style="float: right;"><i class="bi bi-download"></i></button>
      
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"

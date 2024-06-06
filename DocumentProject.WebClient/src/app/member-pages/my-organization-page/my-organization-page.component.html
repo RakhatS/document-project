@@ -83,7 +83,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h1 class="modal-title fs-5" id="applicationDetailsModalLabel">Application
-          <button *ngIf="selectedApplication.document" class="btn btn-success" [disabled]="loading"
+          <button *ngIf="selectedApplication.document && selectedApplication.status == 'Signed'" class="btn btn-success" [disabled]="loading"
             (click)="downloadApplicationDocumentPdf(selectedApplication)" style="float: right;"><i
               class="bi bi-download"></i></button>
         </h1>
@@ -93,7 +93,7 @@
       <div class="modal-body">
         <!-- <div class="card Application-info-card"> -->
         <div *ngIf="selectedApplication.document"
-          [innerHTML]="selectedApplication.document | safeHtml">
+          [innerHTML]="selectedApplication.document | safeHtml" id="application-document">
         </div>
         <div *ngIf="selectedApplication.status == 'Unsigned'">
           <div class="alert alert-danger" role="alert">
@@ -102,7 +102,7 @@
         </div>
         <div *ngIf="selectedApplication.status == 'Awaiting'">
           <div class="alert alert-info" role="alert">
-            This application is not signed yet!
+            This application is not ready yet!
           </div>
         </div>
         <!-- </div> -->

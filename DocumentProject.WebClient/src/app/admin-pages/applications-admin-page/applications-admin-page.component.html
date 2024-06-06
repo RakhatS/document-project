@@ -50,6 +50,7 @@
           <td>{{ application.organization?.name }}</td>
           <td>{{ application.member?.firstName }} {{ application.member?.lastName }}</td>
           <td>
+            <button class="btn btn-info" [disabled]="loading" (click)="openApplicationDetailsModal(application)">Details</button><br>
             <button class="btn btn-danger" [disabled]="loading" (click)="forceDelete(application.id!)"><i class="bi bi-trash"></i></button>
           </td>
         </tr>
@@ -57,3 +58,45 @@
     </table>
   </div>
 </main>
+
+
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade show" id="applicationDetailsModal" tabindex="-1" aria-labelledby="applicationDetailsModalLabel"
+  aria-hidden="true" style="display: block;" *ngIf="isApplicationDetailsModalOpened && selectedApplication">
+  <div class="modal-dialog modal-dialog-applicationDetailsModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="applicationDetailsModalLabel">Application
+          <button *ngIf="selectedApplication.document && selectedApplication.status == 'Signed'" class="btn btn-success" [disabled]="loading"
+            (click)="downloadApplicationDocumentPdf(selectedApplication)" style="float: right;"><i
+              class="bi bi-download"></i></button>
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="closeApplicationDetailsModal()" [disabled]="loading"></button>
+      </div>
+      <div class="modal-body">
+        <!-- <div class="card Application-info-card"> -->
+        <div *ngIf="selectedApplication.document" [innerHTML]="selectedApplication.document | safeHtml" id="application-document">
+        </div>
+        <div *ngIf="selectedApplication.status == 'Unsigned'">
+          <div class="alert alert-danger" role="alert">
+            This application is unsigned!
+          </div>
+        </div>
+        <div *ngIf="selectedApplication.status == 'Awaiting'">
+          <div class="alert alert-info" role="alert">
+            This application is not ready yet!
+          </div>
+        </div>
+        <!-- </div> -->
+      </div>
+      <!-- <div class="modal-footer">
+        </div> -->
+    </div>
+  </div>
+</div>
