@@ -10,8 +10,10 @@ import {
 } from "react-native-paper";
 import { COLORS, SERVER_URL } from "../../utils/helper";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useNavigation } from "@react-navigation/native";
 
 const AdminApplications = () => {
+  const navigation = useNavigation();
   const [applications, setApplications] = useState([]);
   const [filteredApplications, setFilteredApplications] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -21,7 +23,8 @@ const AdminApplications = () => {
     setApplications(applications.filter((app) => app.id !== id));
   };
 
-  const handleDetails = (id) => {
+  const handleDetails = (item) => {
+    navigation.navigate("CurrentApplication", item);
     // Implement navigation to details screen or action
   };
 
@@ -128,7 +131,7 @@ const AdminApplications = () => {
               <Button
                 mode="contained"
                 color="#1e90ff"
-                onPress={() => handleDetails(app.id)}
+                onPress={() => handleDetails(app)}
                 style={styles.detailsButton}
               >
                 Details

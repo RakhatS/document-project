@@ -49,7 +49,8 @@ const AppNavigator = () => {
         } else if (role == USER_ROLES.ROLE_MEMBER) {
           naviagtion.navigate("MemberTab");
         } else if (role == "Admin") {
-          console.log("Fsfsfdsfs");
+          console.log("FSDfsd");
+          naviagtion.navigate("AdminTab");
         }
       } else {
         setRole("Login");
@@ -58,17 +59,6 @@ const AppNavigator = () => {
     };
     getid();
   }, [signed]);
-
-  useEffect(() => {
-    const getCheck = async () => {
-      console.log(SERVER_URL + "/api/HealthCheck");
-      const response = await fetch(SERVER_URL + "/api/HealthCheck");
-      // const json = await response.json();
-      console.log("getCheck:  ", response.status);
-    };
-
-    getCheck();
-  }, []);
 
   if (role == "") {
     return null;

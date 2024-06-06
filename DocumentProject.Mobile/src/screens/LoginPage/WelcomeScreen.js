@@ -92,10 +92,10 @@ const WelcomeScreen = () => {
         } else if (userRole == "Admin") {
           await AsyncStorage.setItem("role", "Admin");
           await AsyncStorage.setItem("access_token", json.access_token);
-          setIsLoading(false);
-
-          // console.log(json);
           setSigned(true);
+          setIsLoading(false);
+          navigation.navigate("AdminTab");
+          // console.log(json);
         }
       } else {
         setIsLoading(false);

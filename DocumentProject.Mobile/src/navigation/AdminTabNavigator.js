@@ -19,11 +19,11 @@ const AdminTabNavigator = () => {
           if (route.name == "Organizations") {
             iconName = "home-outline";
           } else if (route.name == "Members") {
-            iconName = "person-outline";
+            iconName = "accessibility-outline";
           } else if (route.name == "Applications") {
             iconName = "document-text-outline";
           } else if (route.name == "Managers") {
-            iconName = "document-text-outline";
+            iconName = "bag-outline";
           } else if (route.name == "Profile") {
             iconName = "person-outline";
           }

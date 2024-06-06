@@ -149,13 +149,6 @@ const Organizations = () => {
         </View>
       </ScrollView>
 
-      <TouchableOpacity
-        style={styles.createButton}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.createButtonText}>Create Organization</Text>
-      </TouchableOpacity>
-
       <Modal
         animationType="slide"
         transparent={true}
