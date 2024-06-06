@@ -48,7 +48,12 @@
           <td>{{ application.name }}</td>
           <td>{{ application.status }}</td>
           <td>{{ application.organization?.name }}</td>
-          <td>{{ application.member?.firstName }} {{ application.member?.lastName }}</td>
+          <td>
+            <img src="{{ imagePrefixToDisplay+application.member?.photoBase64 }}" alt="mdo" width="30" height="30"
+              style="margin-right: 5px;" class="rounded-circle" *ngIf="application.member?.photoBase64">
+            <img src="assets/images/no-photo.png" alt="mdo" width="30" height="30" class="rounded-circle" style="margin-right: 5px;"
+              *ngIf="!application.member?.photoBase64">
+            {{ application.member?.firstName }} {{ application.member?.lastName }}</td>
           <td>
             <button class="btn btn-info" [disabled]="loading" (click)="openApplicationDetailsModal(application)">Details</button><br>
             <button class="btn btn-danger" [disabled]="loading" (click)="forceDelete(application.id!)"><i class="bi bi-trash"></i></button>

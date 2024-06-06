@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Constants } from 'src/app/_helpers/contants';
 import { Member } from 'src/app/_models/member';
 import { AccessTokenService } from 'src/app/_services/accesstoken.service';
 import { MemberService } from 'src/app/_services/member.service';
@@ -12,6 +13,8 @@ import { OrganizationService } from 'src/app/_services/organization.service';
   styleUrls: ['./members-admin-page.component.scss']
 })
 export class MembersAdminPageComponent implements OnInit {
+
+  imagePrefixToDisplay: string = Constants.ImagePrefixToDisplay;
 
   loading: boolean = false;
   members: Member[] = [];

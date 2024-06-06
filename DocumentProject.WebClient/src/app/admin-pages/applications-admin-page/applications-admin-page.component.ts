@@ -6,6 +6,7 @@ import { AccessTokenService } from 'src/app/_services/accesstoken.service';
 import { ApplicationService } from 'src/app/_services/application.service';
 import * as jspdf from 'jspdf';
 import html2canvas from 'html2canvas'; 
+import { Constants } from 'src/app/_helpers/contants';
 
 @Component({
   selector: 'app-applications-admin-page',
@@ -13,6 +14,8 @@ import html2canvas from 'html2canvas';
   styleUrls: ['./applications-admin-page.component.scss']
 })
 export class ApplicationsAdminPageComponent implements OnInit {
+
+  imagePrefixToDisplay: string = Constants.ImagePrefixToDisplay;
 
   loading: boolean = false;
   applications: Application[] = [];

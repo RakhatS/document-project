@@ -21,7 +21,12 @@
       <tbody>
         <tr *ngFor="let manager of managers; let i = index;">
           <th scope="row">{{ i + 1 }}</th>
-          <td>{{ manager.firstName }} {{ manager.lastName }}</td>
+          <td>
+                <img src="{{ imagePrefixToDisplay+manager.photoBase64 }}" alt="mdo" width="30" height="30" style="margin-right: 5px;"
+                  class="rounded-circle" *ngIf="manager.photoBase64">
+                <img src="assets/images/no-photo.png" alt="mdo" width="30" height="30" class="rounded-circle" style="margin-right: 5px;"
+                  *ngIf="!manager.photoBase64">
+            {{ manager.firstName }} {{ manager.lastName }}</td>
           <td>{{ manager.email }}</td>
           <td>{{ manager.phoneNumber }}</td>
           <td>

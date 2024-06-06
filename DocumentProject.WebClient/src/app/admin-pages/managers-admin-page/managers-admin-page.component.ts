@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { Constants } from 'src/app/_helpers/contants';
 import { Manager } from 'src/app/_models/manager';
 import { AccessTokenService } from 'src/app/_services/accesstoken.service';
 import { ManagerService } from 'src/app/_services/manager.service';
@@ -11,6 +12,9 @@ import { ManagerService } from 'src/app/_services/manager.service';
   styleUrls: ['./managers-admin-page.component.scss']
 })
 export class ManagersAdminPageComponent implements OnInit {
+
+  imagePrefixToDisplay: string = Constants.ImagePrefixToDisplay;
+  
   loading: boolean = false;
   managers: Manager[] = [];
 
