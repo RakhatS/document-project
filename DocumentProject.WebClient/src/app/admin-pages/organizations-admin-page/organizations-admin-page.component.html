@@ -39,6 +39,8 @@
             {{ organization.ownerManager?.firstName }} {{ organization.ownerManager?.lastName }}
           </td>
           <td>
+            <button class="btn btn-primary" [disabled]="loading" (click)="openUpdateNewOrganizationModal(organization)">Edit</button>
+                <br><br>
             <button class="btn btn-danger" [disabled]="loading" (click)="forceDelete(organization.id!)"><i
                 class="bi bi-trash"></i></button>
           </td>
@@ -50,13 +52,13 @@
 
 
 <!-- Modal -->
-<div class="modal fade show" id="сreateNewOrganizationModal" tabindex="-1"
-  aria-labelledby="сreateNewOrganizationModalLabel" aria-hidden="true" style="display: block;"
+<div class="modal fade show" id="createNewOrganizationModal" tabindex="-1"
+  aria-labelledby="createNewOrganizationModalLabel" aria-hidden="true" style="display: block;"
   *ngIf="isCreateNewOrganizationModalOpened && newOrganization">
-  <div class="modal-dialog modal-dialog-сreateNewOrganizationModal">
+  <div class="modal-dialog modal-dialog-createNewOrganizationModal">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="сreateNewOrganizationModalLabel">Create a new organization</h1>
+        <h1 class="modal-title fs-5" id="createNewOrganizationModalLabel">Create a new organization</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
           (click)="closeCreateNewOrganizationModal()" [disabled]="loading"></button>
       </div>
@@ -87,6 +89,59 @@
             <label for="inputOrganizationOwnerManager" class="form-label">Owner manager:</label>
             <select id="inputOrganizationOwnerManager" class="form-select" required [(ngModel)]="newOrganization.ownerManagerId" [ngModelOptions]="{standalone: true}">
               <option *ngFor="let manager of managers" [value]="manager.id">{{ manager.firstName }} {{ manager.lastName }}</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary" [disabled]="loading">Create</button>
+        </form>
+      </div>
+      <!-- <div class="modal-footer">
+        </div> -->
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade show" id="updateNewOrganizationModal" tabindex="-1"
+  aria-labelledby="updateNewOrganizationModalLabel" aria-hidden="true" style="display: block;"
+  *ngIf="isUpdateNewOrganizationModalOpened && selectedOrganization">
+  <div class="modal-dialog modal-dialog-updateNewOrganizationModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="updateNewOrganizationModalLabel">Update organization</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="closeUpdateNewOrganizationModal()" [disabled]="loading"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="updateOrganization()" ngNativeValidate>
+          <div class="mb-3">
+            <label for="inputOrganizationName" class="form-label">Name:</label>
+            <input type="text" class="form-control" id="inputOrganizationName" [(ngModel)]="selectedOrganization.name"
+              [ngModelOptions]="{standalone: true}" required [disabled]="loading">
+          </div>
+          <div class="mb-3">
+            <label for="inputOrganizationBIN" class="form-label">BIN:</label>
+            <input type="text" class="form-control" id="inputOrganizationBIN" [(ngModel)]="selectedOrganization.bin"
+              [ngModelOptions]="{standalone: true}" required [disabled]="loading">
+          </div>
+          <div class="mb-3">
+            <label for="inputOrganizationAddress" class="form-label">Address:</label>
+            <input type="text" class="form-control" id="inputOrganizationAddress" [(ngModel)]="selectedOrganization.address"
+              [ngModelOptions]="{standalone: true}" required [disabled]="loading">
+          </div>
+          <div class="mb-3">
+            <label for="inputOrganizationContactNumber" class="form-label">Contact number:</label>
+            <input type="text" class="form-control" id="inputOrganizationContactNumber"
+              [(ngModel)]="selectedOrganization.contactNumber" [ngModelOptions]="{standalone: true}" required
+              [disabled]="loading">
+          </div>
+          <div class="mb-3">
+            <label for="inputOrganizationOwnerManager" class="form-label">Owner manager:</label>
+            <select id="inputOrganizationOwnerManager" class="form-select" required
+              [(ngModel)]="selectedOrganization.ownerManagerId" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let manager of managers" [value]="manager.id">{{ manager.firstName }} {{ manager.lastName
+                }}</option>
             </select>
           </div>
           <button type="submit" class="btn btn-primary" [disabled]="loading">Create</button>

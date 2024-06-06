@@ -199,7 +199,7 @@ namespace DocumentProject.WebAPI.Controllers
 
 
         [Authorize(Roles = "Manager")]
-        [HttpPost("Update")]
+        [HttpPut("Update")]
         public async Task<OrganizationDTO?> UpdateOrganization([FromBody] OrganizationDTO updatedOrganizationReq)
         {
             var manager = await _dbContext.Managers
@@ -241,7 +241,7 @@ namespace DocumentProject.WebAPI.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        [HttpPost("UpdateByAdmin")]
+        [HttpPut("UpdateByAdmin")]
         public async Task<OrganizationDTO?> UpdateOrganizationByAdmin([FromBody] OrganizationDTO updatedOrganizationReq)
         {
 

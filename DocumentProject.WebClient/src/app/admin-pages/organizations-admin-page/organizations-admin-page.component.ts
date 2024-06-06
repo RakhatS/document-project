@@ -24,7 +24,10 @@ export class OrganizationsAdminPageComponent implements OnInit {
   newOrganization: Organization = new Organization();
   managers: Manager[] = [];
 
+  selectedOrganization: Organization | undefined;
+
   isCreateNewOrganizationModalOpened: boolean = false;
+  isUpdateNewOrganizationModalOpened: boolean = false;
 
   constructor(private organizationService: OrganizationService,
     private accessTokenService: AccessTokenService,
@@ -71,6 +74,15 @@ export class OrganizationsAdminPageComponent implements OnInit {
     this.isCreateNewOrganizationModalOpened = false;
   }
 
+  openUpdateNewOrganizationModal(organization: Organization) {
+    this.selectedOrganization = organization;
+    this.isUpdateNewOrganizationModalOpened = true;  
+  }
+  closeUpdateNewOrganizationModal(){
+    this.isUpdateNewOrganizationModalOpened = false;
+    this.selectedOrganization = undefined;
+  }
+
 
   createOrganization() {
     this.loading = true;
@@ -86,6 +98,25 @@ export class OrganizationsAdminPageComponent implements OnInit {
       this.loading = false;
     })
   }
+
+  updateOrganization() {
+    if (!this.selectedOrganization){
+      return;
+    }
+
+    this.loading = true;
+
+    this.organizationService.updateOrganizationByAdmin(this.selectedOrganization).subscribe(res => {
+      this.loading = false;
+      this.selectedOrganization!.ownerManager = this.managers.find(x => x.id == this.selectedOrganization?.ownerManagerId);
+      this.closeUpdateNewOrganizationModal();
+
+    }, error => {
+      this.toastr.error(error.message);
+      this.loading = false;
+    })
+  }
+
 
   getManagers() {
     this.loading = true;

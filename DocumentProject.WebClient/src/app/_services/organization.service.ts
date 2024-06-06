@@ -48,4 +48,9 @@ export class OrganizationService {
     let api = this.api + "/ForceDelete?organizationId=" + organizationId;
     return this.http.delete<any>(api);
   }
+
+  updateOrganizationByAdmin(updatedOrganization: Organization): Observable<Organization[]> {
+    let api = this.api + "/UpdateByAdmin";
+    return this.http.put<Organization[]>(api, updatedOrganization);
+  }
 }
