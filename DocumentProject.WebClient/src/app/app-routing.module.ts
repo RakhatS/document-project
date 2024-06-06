@@ -15,6 +15,7 @@ import { OrganizationsAdminPageComponent } from './admin-pages/organizations-adm
 import { MembersAdminPageComponent } from './admin-pages/members-admin-page/members-admin-page.component';
 import { ApplicationsAdminPageComponent } from './admin-pages/applications-admin-page/applications-admin-page.component';
 import { ManagersAdminPageComponent } from './admin-pages/managers-admin-page/managers-admin-page.component';
+import { MyAppicationsMemberPageComponent } from './member-pages/my-appications-member-page/my-appications-member-page.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent, canActivate: [AuthGuard] },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'sign-up', component: SignUpPageComponent },
 
   { path: 'member/my-organization', component: MyOrganizationPageComponent, canActivate: [AuthGuard] },
+  { path: 'member/my-applications', component: MyAppicationsMemberPageComponent, canActivate: [AuthGuard] },
 
   { path: 'manager/my-organizations', component: MyOrganizationsPageComponent, canActivate: [AuthGuard] },
   { path: 'manager/organization/:organizationId', component: OrganizationPageComponent, canActivate: [AuthGuard] },

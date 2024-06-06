@@ -11,6 +11,7 @@ import { Organization } from '../../_models/organization';
 // import * as htmlToImage from 'html-to-image';
 import * as jspdf from 'jspdf';
 import html2canvas from 'html2canvas'; 
+import { Constants } from 'src/app/_helpers/contants';
 
 @Component({
   selector: 'app-organization-applications-page',
@@ -19,6 +20,7 @@ import html2canvas from 'html2canvas';
 })
 export class OrganizationApplicationsPageComponent implements OnInit {
 
+  imagePrefixToDisplay: string = Constants.ImagePrefixToDisplay;
   @Input() organization: Organization | undefined;
   isApplicationDetailsModalOpened: boolean = false;
   selectedApplication: Application | undefined;

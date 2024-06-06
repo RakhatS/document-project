@@ -14,6 +14,11 @@
         <i class="bi bi-house" aria-hidden="true"></i> My organization
       </a>
     </li>
+    <li class="list-item" *ngIf="role == 'Member'" [routerLink]="['/member/my-applications']">
+      <a>
+        <i class="bi bi-file-earmark-medical" aria-hidden="true"></i> My applications
+      </a>
+    </li>
     <li class="list-item" *ngIf="role == 'Admin'" [routerLink]="['/admin/organizations']">
       <a>
         <i class="bi bi-building"></i> Organizations

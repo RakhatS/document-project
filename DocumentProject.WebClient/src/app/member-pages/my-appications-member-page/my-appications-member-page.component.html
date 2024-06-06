@@ -1,0 +1,127 @@
+<div class="spinner-border" role="status" *ngIf="loading" style="position: fixed; right: 5%; top: 5%;">
+  <span class="visually-hidden"></span>
+</div>
+<main>
+
+  <div class="container">
+    <div style="text-align: center;">
+      <h2>My applications</h2>
+    </div>
+    <hr>
+    <div class="row">
+      <div class="col-md-4">
+
+
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Create a new appication</h5>
+
+            <form (ngSubmit)="createApplication()" ngNativeValidate *ngIf="newApplication">
+              <div class="col">
+                <label for="newApplicationName" class="form-label">
+                  Choose type of appication :</label>
+                <select class="form-select" id="newApplication" [(ngModel)]="newApplication.name"
+                  [ngModelOptions]="{standalone: true}" required="">>
+                  <option *ngFor="let applicationName of applicationNames" [value]="applicationName.name">
+                    {{ applicationName.name }}
+                  </option>
+                </select>
+              </div>
+              <br>
+              <button class="btn btn-primary" type="submit" [disabled]="loading">Send</button>
+            </form>
+
+          </div>
+        </div>
+
+
+
+      </div>
+      <div class="col-md-8">
+          <div class="filter">
+            <h5>Filter</h5>
+            <div class="row">
+              <button class="btn btn-primary col filter-btn" (click)="selectedStatus = null"
+                [disabled]="selectedStatus === null || selectedStatus === 'All' || loading">
+                All
+              </button>
+              <button class="btn btn-primary col filter-btn" (click)="selectedStatus = 'Awaiting'"
+                [disabled]="selectedStatus === 'Awaiting' || loading">
+                Awaiting
+              </button>
+              <button class="btn btn-success col filter-btn" (click)="selectedStatus = 'Signed'"
+                [disabled]="selectedStatus === 'Signed' || loading">
+                Signed
+              </button>
+              <button class="btn btn-danger col filter-btn" (click)="selectedStatus = 'Unsigned'"
+                [disabled]="selectedStatus === 'Unsigned' || loading">
+                Unsigned
+              </button>
+            </div>
+          </div>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">№</th>
+              <!-- <th scope="col">Type</th> -->
+              <th scope="col">Status</th>
+              <th scope="col">Name</th>
+              <th scope="col">#</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="applications.length > 0">
+            <tr *ngFor="let application of getFilteredApplications(); let i = index;">
+              <th scope="row">{{ i + 1 }}</th>
+              <!-- <td>{{ application.type }}</td> -->
+              <td>{{ application.status }}</td>
+              <td>{{ application.name }}</td>
+              <td>
+                <button class="btn btn-info" [disabled]="loading"
+                  (click)="openApplicationDetailsModal(application)">Details</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+
+<!-- Modal -->
+<div class="modal fade show" id="applicationDetailsModal" tabindex="-1" aria-labelledby="applicationDetailsModalLabel"
+  aria-hidden="true" style="display: block;" *ngIf="isApplicationDetailsModalOpened && selectedApplication">
+  <div class="modal-dialog modal-dialog-applicationDetailsModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="applicationDetailsModalLabel">Application
+          <button *ngIf="selectedApplication.document && selectedApplication.status == 'Signed'" class="btn btn-success"
+            [disabled]="loading" (click)="downloadApplicationDocumentPdf(selectedApplication)" style="float: right;"><i
+              class="bi bi-download"></i></button>
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="closeApplicationDetailsModal()" [disabled]="loading"></button>
+      </div>
+      <div class="modal-body">
+        <!-- <div class="card Application-info-card"> -->
+        <div *ngIf="selectedApplication.document" [innerHTML]="selectedApplication.document | safeHtml"
+          id="application-document">
+        </div>
+        <div *ngIf="selectedApplication.status == 'Unsigned'">
+          <div class="alert alert-danger" role="alert">
+            This application is unsigned!
+          </div>
+        </div>
+        <div *ngIf="selectedApplication.status == 'Awaiting'">
+          <div class="alert alert-info" role="alert">
+            This application is not ready yet!
+          </div>
+        </div>
+        <!-- </div> -->
+      </div>
+      <!-- <div class="modal-footer">
+        </div> -->
+    </div>
+  </div>
+</div>

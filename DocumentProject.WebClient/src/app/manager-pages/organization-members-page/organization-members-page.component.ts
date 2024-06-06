@@ -7,6 +7,7 @@ import { ApplicationService } from '../../_services/application.service';
 import { MemberService } from '../../_services/member.service';
 import { Organization } from '../../_models/organization';
 import { Member } from '../../_models/member';
+import { Constants } from 'src/app/_helpers/contants';
 
 @Component({
   selector: 'app-organization-members-page',
@@ -14,6 +15,8 @@ import { Member } from '../../_models/member';
   styleUrls: ['./organization-members-page.component.scss']
 })
 export class OrganizationMembersPageComponent implements OnInit {
+
+  imagePrefixToDisplay: string = Constants.ImagePrefixToDisplay;
 
   @Input() organization: Organization | undefined;
   newMember: Member = new Member();
