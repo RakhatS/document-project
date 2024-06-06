@@ -28,4 +28,9 @@ export class ManagerService {
     let api = this.api + "/Update";
     return this.http.put<any>(api, updatedManager);
   }
+
+  getManagersList(): Observable<Manager[]> {
+    let api = this.api + "/ManagersList";
+    return this.http.get<Manager[]>(api);
+  }
 }

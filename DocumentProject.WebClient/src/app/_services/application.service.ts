@@ -43,4 +43,8 @@ export class ApplicationService {
     return this.http.get<any>(api);
   }
 
+  getApplicationsList(): Observable<Application[]> {
+    let api = this.api + "/ApplicationsList";
+    return this.http.get<Application[]>(api);
+  }
 }

@@ -1,5 +1,29 @@
 <main>
   <div class="container">
-    <p>applications-admin-page works!</p>
+    <h2 style="text-align: center;">Applications</h2>
+    <hr>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Number</th>
+          <th scope="col">Name</th>
+          <th scope="col">Phone number</th>
+          <th scope="col">Organization</th>
+          <th scope="col">Member</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let application of applications; let i = index;">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ application.number }}</td>
+          <td>{{ application.name }}</td>
+          <td>{{ application.status }}</td>
+          <td>{{ application.organization?.name }}</td>
+          <td>{{ application.member?.firstName }} {{ application.member?.lastName }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </main>

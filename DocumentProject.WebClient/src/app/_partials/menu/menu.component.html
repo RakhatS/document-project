@@ -4,45 +4,45 @@
   </div>
   <ul class="sidebar-navigation">
     <li class="header">{{role}} portal Navigation</li>
-    <li class="list-item" *ngIf="role == 'Manager'">
-      <a [routerLink]="['/']">
+    <li class="list-item" *ngIf="role == 'Manager'" [routerLink]="['/']">
+      <a>
         <i class="bi bi-house" aria-hidden="true"></i> My organizations
       </a>
     </li>
-    <li class="list-item" *ngIf="role == 'Member'">
-      <a [routerLink]="['/']">
+    <li class="list-item" *ngIf="role == 'Member'" [routerLink]="['/']">
+      <a>
         <i class="bi bi-house" aria-hidden="true"></i> My organization
       </a>
     </li>
-    <li class="list-item" *ngIf="role == 'Admin'">
-      <a [routerLink]="['/admin/organizations']">
+    <li class="list-item" *ngIf="role == 'Admin'" [routerLink]="['/admin/organizations']">
+      <a>
         <i class="bi bi-building"></i> Organizations
       </a>
     </li>
-    <li class="list-item" *ngIf="role == 'Admin'">
-      <a [routerLink]="['/admin/members']">
+    <li class="list-item" *ngIf="role == 'Admin'" [routerLink]="['/admin/members']">
+      <a>
         <i class="bi bi-people-fill"></i> Members
       </a>
     </li>
-    <li class="list-item" *ngIf="role == 'Admin'">
-      <a [routerLink]="['/admin/applications']">
+    <li class="list-item" *ngIf="role == 'Admin'" [routerLink]="['/admin/applications']">
+      <a>
         <i class="bi bi-file-earmark-medical"></i> Applications
       </a>
     </li>
-    <li class="list-item" *ngIf="role == 'Admin'">
-      <a [routerLink]="['/admin/managers']">
+    <li class="list-item" *ngIf="role == 'Admin'" [routerLink]="['/admin/managers']">
+      <a>
         <i class="bi bi-person-check"></i> Managers
       </a>
     </li>
     <li class="header">Info</li>
-    <li class="list-item">
-      <a [routerLink]="['/profile']">
+    <li class="list-item" [routerLink]="['/profile']">
+      <a>
         <i class="bi bi-person-lines-fill"></i> Profile
       </a>
     </li>
 
-    <li class="list-item">
-      <a [routerLink]="['/about-us']">
+    <li class="list-item" [routerLink]="['/about-us']">
+      <a>
         <i class="bi bi-info-circle"></i> About us
       </a>
     </li>

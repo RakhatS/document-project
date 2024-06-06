@@ -25,6 +25,18 @@ export class ManagersAdminPageComponent implements OnInit {
       this.router.navigate(['/']);
       return;
     }
+    this.getManagers();
   }
 
+
+  getManagers() {
+    this.loading = true;
+    this.managerService.getManagersList().subscribe(res => {
+      this.managers = res;
+      this.loading = false;
+    }, error => {
+      this.toastr.error(error.message);
+      this.loading = false;
+    })
+  }
 }

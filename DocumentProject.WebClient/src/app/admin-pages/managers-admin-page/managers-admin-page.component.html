@@ -1,5 +1,26 @@
 <main>
   <div class="container">
-    <p>managers-admin-page works!</p>
+    <h2 style="text-align: center;">Managers</h2>
+    <hr>
+    
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Full name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Phone number</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let manager of managers; let i = index;">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ manager.firstName }} {{ manager.lastName }}</td>
+          <td>{{ manager.email }}</td>
+          <td>{{ manager.phoneNumber }}</td>
+    
+        </tr>
+      </tbody>
+    </table>
   </div>
 </main>

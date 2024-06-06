@@ -92,3 +92,11 @@ a {
 .list-item a {
   font-size: 18px;
 }
+
+.list-item{
+  cursor: pointer;
+}
+
+.list-item :hover{
+  background-color: darkblue;
+}
