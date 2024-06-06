@@ -26,37 +26,37 @@ namespace DocumentProject.WebAPI.Controllers
 
 
 
-        [Authorize(Roles = "Manager")]
-        [HttpPost("Create")]
-        public async Task<OrganizationDTO?> CreateOrganization([FromBody] OrganizationDTO newOrganizationReq)
-        {
-            var manager = await _dbContext.Managers.SingleOrDefaultAsync(x => x.IdentityUser.UserName == User.ToUserInfo().UserName);
+        //[Authorize(Roles = "Manager")]
+        //[HttpPost("Create")]
+        //public async Task<OrganizationDTO?> CreateOrganization([FromBody] OrganizationDTO newOrganizationReq)
+        //{
+        //    var manager = await _dbContext.Managers.SingleOrDefaultAsync(x => x.IdentityUser.UserName == User.ToUserInfo().UserName);
 
-            if(manager == null)
-            {
-                Response.StatusCode = 400;
-                await Response.WriteAsync("Manager not found");
-                return null;
-            }
+        //    if(manager == null)
+        //    {
+        //        Response.StatusCode = 400;
+        //        await Response.WriteAsync("Manager not found");
+        //        return null;
+        //    }
 
-            var newOrganization = new Organization
-            {
-                Name = newOrganizationReq.Name,
-                OwnerManagerId = manager.Id,
-                Type = OrganizationType.Company.ToString(),
-                Address = newOrganizationReq.Address,
-                BIN = newOrganizationReq.BIN,
-                ContactNumber = newOrganizationReq.ContactNumber
-            };
+        //    var newOrganization = new Organization
+        //    {
+        //        Name = newOrganizationReq.Name,
+        //        OwnerManagerId = manager.Id,
+        //        Type = OrganizationType.Company.ToString(),
+        //        Address = newOrganizationReq.Address,
+        //        BIN = newOrganizationReq.BIN,
+        //        ContactNumber = newOrganizationReq.ContactNumber
+        //    };
 
-            await _dbContext.Organizations.AddAsync(newOrganization);
-            await _dbContext.SaveChangesAsync();
+        //    await _dbContext.Organizations.AddAsync(newOrganization);
+        //    await _dbContext.SaveChangesAsync();
 
-            newOrganizationReq.Id = newOrganization.Id;
-            newOrganizationReq.DateCreated = newOrganization.DateCreated;
+        //    newOrganizationReq.Id = newOrganization.Id;
+        //    newOrganizationReq.DateCreated = newOrganization.DateCreated;
 
-            return newOrganizationReq;
-        }
+        //    return newOrganizationReq;
+        //}
 
 
 
@@ -106,17 +106,6 @@ namespace DocumentProject.WebAPI.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
-
         [Authorize(Roles = "Admin")]
         [HttpDelete("DeleteById")]
         public async Task DeleteOrganizationById([FromQuery] Guid organizationid)
@@ -154,8 +143,8 @@ namespace DocumentProject.WebAPI.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        [HttpPost("CreateForMember")]
-        public async Task<OrganizationDTO?> CreateOrganizationForMember([FromBody] OrganizationDTO newOrganizationReq)
+        [HttpPost("CreateForManager")]
+        public async Task<OrganizationDTO?> CreateOrganizationForManager([FromBody] OrganizationDTO newOrganizationReq)
         {
             var manager = await _dbContext.Managers.SingleOrDefaultAsync(x => x.Id == newOrganizationReq.OwnerManagerId);
 

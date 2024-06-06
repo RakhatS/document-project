@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Constants } from 'src/app/_helpers/contants';
+import { Manager } from 'src/app/_models/manager';
 import { Organization } from 'src/app/_models/organization';
 import { AccessTokenService } from 'src/app/_services/accesstoken.service';
+import { ManagerService } from 'src/app/_services/manager.service';
+import { MemberService } from 'src/app/_services/member.service';
 import { OrganizationService } from 'src/app/_services/organization.service';
 
 @Component({
@@ -18,10 +21,15 @@ export class OrganizationsAdminPageComponent implements OnInit {
   organizations: Organization[] = [];
   loading: boolean = false;
 
+  newOrganization: Organization = new Organization();
+  managers: Manager[] = [];
+
+  isCreateNewOrganizationModalOpened: boolean = false;
+
   constructor(private organizationService: OrganizationService,
     private accessTokenService: AccessTokenService,
     private router: Router,
-    private toastr: ToastrService
+    private toastr: ToastrService, private managerService: ManagerService
   ) { }
   ngOnInit(): void {
     if (this.accessTokenService.getUserRole() != "Admin") {
@@ -30,6 +38,7 @@ export class OrganizationsAdminPageComponent implements OnInit {
     }
 
     this.getOrganizations();
+    this.getManagers();
   }
 
   getOrganizations() {
@@ -47,6 +56,42 @@ export class OrganizationsAdminPageComponent implements OnInit {
     this.organizationService.forceDeleteOrganization(organizationId).subscribe(res => {
       this.loading = false;
       this.getOrganizations();
+    }, error => {
+      this.toastr.error(error.message);
+      this.loading = false;
+    })
+  }
+
+  openCreateNewOrganizationModal(){
+    this.newOrganization = new Organization();
+    this.isCreateNewOrganizationModalOpened = true;
+
+  }
+  closeCreateNewOrganizationModal(){
+    this.isCreateNewOrganizationModalOpened = false;
+  }
+
+
+  createOrganization() {
+    this.loading = true;
+
+    this.organizationService.createOrganizationForManager(this.newOrganization).subscribe(res => {
+
+      this.newOrganization = new Organization();
+      this.loading = false;
+      this.closeCreateNewOrganizationModal();
+      this.getOrganizations();
+    }, error => {
+      this.toastr.error(error.message);
+      this.loading = false;
+    })
+  }
+
+  getManagers() {
+    this.loading = true;
+    this.managerService.getManagersList().subscribe(res => {
+      this.managers = res;
+      this.loading = false;
     }, error => {
       this.toastr.error(error.message);
       this.loading = false;

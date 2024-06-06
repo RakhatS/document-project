@@ -7,6 +7,9 @@
   <div class="container">
     <h2 style="text-align: center;">Organizations</h2>
     <hr>
+    <button class="btn btn-success" [disabled]="loading" (click)="openCreateNewOrganizationModal()">Create a new
+      organization</button>
+    <hr>
 
     <table class="table">
       <thead>
@@ -28,16 +31,69 @@
           <td>{{ organization.address }}</td>
           <td>{{ organization.contactNumber }}</td>
           <td>
-              <img src="{{ imagePrefixToDisplay+organization.ownerManager?.photoBase64 }}" alt="mdo" width="30" height="30" style="margin-right: 5px;"
-                class="rounded-circle" *ngIf="organization.ownerManager?.photoBase64">
-              <img src="assets/images/no-photo.png" alt="mdo" width="30" height="30" class="rounded-circle" style="margin-right: 5px;"
-                *ngIf="!organization.ownerManager?.photoBase64">
-            {{ organization.ownerManager?.firstName }} {{ organization.ownerManager?.lastName }}</td>
+            <img src="{{ imagePrefixToDisplay+organization.ownerManager?.photoBase64 }}" alt="mdo" width="30"
+              height="30" style="margin-right: 5px;" class="rounded-circle"
+              *ngIf="organization.ownerManager?.photoBase64">
+            <img src="assets/images/no-photo.png" alt="mdo" width="30" height="30" class="rounded-circle"
+              style="margin-right: 5px;" *ngIf="!organization.ownerManager?.photoBase64">
+            {{ organization.ownerManager?.firstName }} {{ organization.ownerManager?.lastName }}
+          </td>
           <td>
-            <button class="btn btn-danger" [disabled]="loading" (click)="forceDelete(organization.id!)"><i class="bi bi-trash"></i></button>
+            <button class="btn btn-danger" [disabled]="loading" (click)="forceDelete(organization.id!)"><i
+                class="bi bi-trash"></i></button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
 </main>
+
+
+<!-- Modal -->
+<div class="modal fade show" id="сreateNewOrganizationModal" tabindex="-1"
+  aria-labelledby="сreateNewOrganizationModalLabel" aria-hidden="true" style="display: block;"
+  *ngIf="isCreateNewOrganizationModalOpened && newOrganization">
+  <div class="modal-dialog modal-dialog-сreateNewOrganizationModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="сreateNewOrganizationModalLabel">Create a new organization</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="closeCreateNewOrganizationModal()" [disabled]="loading"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="createOrganization()" ngNativeValidate>
+          <div class="mb-3">
+            <label for="inputOrganizationName" class="form-label">Name:</label>
+            <input type="text" class="form-control" id="inputOrganizationName" [(ngModel)]="newOrganization.name"
+              [ngModelOptions]="{standalone: true}" required [disabled]="loading">
+          </div>
+          <div class="mb-3">
+            <label for="inputOrganizationBIN" class="form-label">BIN:</label>
+            <input type="text" class="form-control" id="inputOrganizationBIN" [(ngModel)]="newOrganization.bin"
+              [ngModelOptions]="{standalone: true}" required [disabled]="loading">
+          </div>
+          <div class="mb-3">
+            <label for="inputOrganizationAddress" class="form-label">Address:</label>
+            <input type="text" class="form-control" id="inputOrganizationAddress" [(ngModel)]="newOrganization.address"
+              [ngModelOptions]="{standalone: true}" required [disabled]="loading">
+          </div>
+          <div class="mb-3">
+            <label for="inputOrganizationContactNumber" class="form-label">Contact number:</label>
+            <input type="text" class="form-control" id="inputOrganizationContactNumber"
+              [(ngModel)]="newOrganization.contactNumber" [ngModelOptions]="{standalone: true}" required
+              [disabled]="loading">
+          </div>
+          <div class="mb-3">
+            <label for="inputOrganizationOwnerManager" class="form-label">Owner manager:</label>
+            <select id="inputOrganizationOwnerManager" class="form-select" required [(ngModel)]="newOrganization.ownerManagerId" [ngModelOptions]="{standalone: true}">
+              <option *ngFor="let manager of managers" [value]="manager.id">{{ manager.firstName }} {{ manager.lastName }}</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary" [disabled]="loading">Create</button>
+        </form>
+      </div>
+      <!-- <div class="modal-footer">
+        </div> -->
+    </div>
+  </div>
+</div>

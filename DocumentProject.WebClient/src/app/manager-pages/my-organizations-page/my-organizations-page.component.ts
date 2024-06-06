@@ -14,9 +14,7 @@ export class MyOrganizationsPageComponent implements OnInit {
 
   loading: boolean = false;
 
-  organizations: Organization[] = []
-
-  newOrganization: Organization = new Organization();
+  organizations: Organization[] = [];
 
   constructor(private organizationService: OrganizationService,
     private accessTokenService: AccessTokenService,
@@ -45,17 +43,4 @@ export class MyOrganizationsPageComponent implements OnInit {
   }
 
 
-  createOrganization() {
-    this.loading = true;
-
-    this.organizationService.createOrganization(this.newOrganization).subscribe(res => {
-      
-      this.newOrganization = new Organization();
-      this.loading = false;
-      this.getOrganizations();
-    }, error =>{
-      this.toastr.error(error.message);
-      this.loading = false;
-    })
-  }
 }

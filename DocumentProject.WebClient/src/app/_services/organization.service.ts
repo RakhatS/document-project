@@ -20,6 +20,13 @@ export class OrganizationService {
     return this.http.post<Organization>(api, newOrganization);
   }
 
+
+
+  createOrganizationForManager(newOrganization: Organization): Observable<Organization> {
+    let api = this.api + "/CreateForManager";
+    return this.http.post<Organization>(api, newOrganization);
+  }
+
   getOrganizationById(organizationid: string): Observable<Organization> {
     let api = this.api + "/GetById?organizationid=" + organizationid;
     return this.http.get<Organization>(api);

@@ -4,34 +4,6 @@
       <span class="visually-hidden"></span>
     </div>
     <div class="row">
-      <div class="col-5">
-        <h2>Create a new organization</h2>
-        <form (ngSubmit)="createOrganization()" ngNativeValidate *ngIf="newOrganization">
-          <div class="mb-3">
-            <label for="inputTournamentName" class="form-label">Name</label>
-            <input type="text" class="form-control" id="inputTournamentName" [(ngModel)]="newOrganization.name"
-              [ngModelOptions]="{standalone: true}" required [disabled]="loading">
-          </div>
-          <div class="mb-3">
-            <label for="inputTournamentBIN" class="form-label">BIN</label>
-            <input type="text" class="form-control" id="inputTournamentBIN" [(ngModel)]="newOrganization.bin"
-              [ngModelOptions]="{standalone: true}" required [disabled]="loading">
-          </div>
-          <div class="mb-3">
-            <label for="inputTournamentAddress" class="form-label">Address</label>
-            <input type="text" class="form-control" id="inputTournamentAddress" [(ngModel)]="newOrganization.address"
-              [ngModelOptions]="{standalone: true}" required [disabled]="loading">
-          </div>
-          <div class="mb-3">
-            <label for="inputTournamentContactNumber" class="form-label">Contact number</label>
-            <input type="text" class="form-control" id="inputTournamentContactNumber"
-              [(ngModel)]="newOrganization.contactNumber" [ngModelOptions]="{standalone: true}" required
-              [disabled]="loading">
-          </div>
-          <button type="submit" class="btn btn-primary" [disabled]="loading">Create</button>
-        </form>
-
-      </div>
       <div class="col-7">
         <h2>Organizations</h2>
         <ol class="list-group list-group-numbered">
