@@ -1,5 +1,32 @@
 <main>
   <div class="container">
-    <p>members-admin-page works!</p>
+        <h2 style="text-align: center;">Members</h2>
+        <hr>
+        
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Full name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Position</th>
+              <th scope="col">Address</th>
+              <th scope="col">Phone number</th>
+              <th scope="col">Organization</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let member of members; let i = index;">
+              <th scope="row">{{ i + 1 }}</th>
+              <td>{{ member.firstName }} {{ member.lastName }}</td>
+              <td>{{ member.email }}</td>
+              <td>{{ member.position }}</td>
+              <td>{{ member.address }}</td>
+              <td>{{ member.phoneNumber }}</td>
+              <td>{{ member.organization?.name }}</td>
+        
+            </tr>
+          </tbody>
+        </table>
   </div>
 </main>

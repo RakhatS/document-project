@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Manager } from 'src/app/_models/manager';
 import { AccessTokenService } from 'src/app/_services/accesstoken.service';
-import { OrganizationService } from 'src/app/_services/organization.service';
+import { ManagerService } from 'src/app/_services/manager.service';
 
 @Component({
   selector: 'app-managers-admin-page',
@@ -14,7 +14,7 @@ export class ManagersAdminPageComponent implements OnInit {
   loading: boolean = false;
   managers: Manager[] = [];
 
-  constructor(private organizationService: OrganizationService,
+  constructor(private managerService: ManagerService,
     private accessTokenService: AccessTokenService,
     private router: Router,
     private toastr: ToastrService
@@ -26,4 +26,5 @@ export class ManagersAdminPageComponent implements OnInit {
       return;
     }
   }
+
 }

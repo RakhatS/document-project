@@ -1,4 +1,5 @@
 import { BaseModel } from "./abstract/base-model";
+import { Organization } from "./organization";
 
 export class Member extends BaseModel {
   email: string | undefined;
@@ -9,5 +10,6 @@ export class Member extends BaseModel {
   phoneNumber: string | undefined;
   photoBase64: string | undefined;
   organizationId: string | undefined;
+  organization: Organization | undefined;
   password: string | undefined;
 }

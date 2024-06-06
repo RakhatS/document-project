@@ -11,5 +11,6 @@ namespace DocumentProject.WebAPI.DTO
         public string Address { get; set; }
         public string ContactNumber { get; set; }
         public Guid OwnerManagerId { get; set; }
+        public ManagerDTO? OwnerManager { get; set; }
     }
 }

@@ -29,4 +29,10 @@ export class OrganizationService {
     let api = this.api + "/ManagerOrganizations";
     return this.http.get<Organization[]>(api);
   }
+
+
+  getOrganizationsList(): Observable<Organization[]> {
+    let api = this.api + "/OrganizationsList";
+    return this.http.get<Organization[]>(api);
+  }
 }

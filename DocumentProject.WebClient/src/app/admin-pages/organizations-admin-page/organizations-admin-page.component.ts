@@ -13,6 +13,7 @@ import { OrganizationService } from 'src/app/_services/organization.service';
 export class OrganizationsAdminPageComponent implements OnInit {
 
   organizations: Organization[] = [];
+  loading: boolean = false;
 
   constructor(private organizationService: OrganizationService,
     private accessTokenService: AccessTokenService,
@@ -24,6 +25,20 @@ export class OrganizationsAdminPageComponent implements OnInit {
       this.router.navigate(['/']);
       return;
     }
+
+    this.getOrganizations();
   }
+
+  getOrganizations() {
+    this.loading = true;
+    this.organizationService.getOrganizationsList().subscribe(x => {
+      this.organizations = x;
+      this.loading = false;
+    }, error => {
+      this.toastr.error(error.message);
+      this.loading = false;
+    })
+  }
+
 
 }

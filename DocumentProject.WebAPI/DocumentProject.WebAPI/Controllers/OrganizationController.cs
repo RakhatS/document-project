@@ -139,23 +139,8 @@ namespace DocumentProject.WebAPI.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         [Authorize(Roles = "Admin")]
-        [HttpPut("OrganizationsList")]
+        [HttpGet("OrganizationsList")]
         public async Task<List<OrganizationDTO>> GetOrganizationsList()
         {
             var organizations = await _dbContext.Organizations
@@ -165,10 +150,6 @@ namespace DocumentProject.WebAPI.Controllers
 
             return Mapper.Map<List<OrganizationDTO>>(organizations);
         }
-
-
-
-
 
 
 

@@ -115,7 +115,7 @@ namespace DocumentProject.WebAPI.Controllers
 
 
         [Authorize(Roles = "Admin")]
-        [HttpPut("ManagersList")]
+        [HttpGet("ManagersList")]
         public async Task<List<ManagerDTO>> GetManagersList()
         {
             var managers = await _dbContext.Managers

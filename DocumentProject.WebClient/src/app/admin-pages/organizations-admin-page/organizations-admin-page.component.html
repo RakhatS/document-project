@@ -1,5 +1,30 @@
 <main>
   <div class="container">
-    <p>organizations-admin-page works!</p>
+    <h2 style="text-align: center;">Organizations</h2>
+    <hr>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">BIN</th>
+          <th scope="col">Address</th>
+          <th scope="col">Contact number</th>
+          <th scope="col">Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let organization of organizations; let i = index;">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ organization.name }}</td>
+          <td>{{ organization.bin }}</td>
+          <td>{{ organization.address }}</td>
+          <td>{{ organization.contactNumber }}</td>
+          <td>{{ organization.ownerManager?.firstName }} {{ organization.ownerManager?.lastName }}</td>
+
+        </tr>
+      </tbody>
+    </table>
   </div>
 </main>

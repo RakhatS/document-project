@@ -39,4 +39,11 @@ export class MemberService {
     let api = this.api + "/Update";
     return this.http.put<any>(api, updatedMember);
   }
+
+
+
+  getMembersList(): Observable<Member[]> {
+    let api = this.api + "/MembersList";
+    return this.http.get<Member[]>(api);
+  }
 }

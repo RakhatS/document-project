@@ -1,4 +1,5 @@
-﻿using DocumentProject.WebAPI.DTO.Abstract;
+﻿using DocumentProject.WebAPI.Data;
+using DocumentProject.WebAPI.DTO.Abstract;
 
 namespace DocumentProject.WebAPI.DTO
 {
@@ -12,7 +13,7 @@ namespace DocumentProject.WebAPI.DTO
         public byte[]? PhotoBase64 { get; set; }
         public string? PhoneNumber { get; set; }
         public Guid OrganizationId { get; set; }
-
+        public OrganizationDTO? Organization { get; set; }
         public string? Password { get; set; }
     }
 }
