@@ -81,7 +81,7 @@ const WelcomeScreen = () => {
 
           // console.log(json);
           setSigned(true);
-        } else {
+        } else if (userRole == "Manager") {
           await AsyncStorage.setItem("role", USER_ROLES.ROLE_MANAGER);
           await AsyncStorage.setItem("access_token", json.access_token);
           setIsLoading(false);
@@ -89,6 +89,13 @@ const WelcomeScreen = () => {
           // console.log(json);
           navigation.navigate("Organizations");
           // setSigned(true);
+        } else if (userRole == "Admin") {
+          await AsyncStorage.setItem("role", "Admin");
+          await AsyncStorage.setItem("access_token", json.access_token);
+          setIsLoading(false);
+
+          // console.log(json);
+          setSigned(true);
         }
       } else {
         setIsLoading(false);

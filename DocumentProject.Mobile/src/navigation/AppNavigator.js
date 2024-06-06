@@ -24,6 +24,7 @@ import OnlineSigningSystem from "../screens/Manager/OnlineSystem";
 import AboutUs from "../screens/Member/AboutUs";
 import MemberNotifications from "../screens/Member/MemberNotifications";
 import ManagerNotifications from "../screens/Manager/ManagerNotification";
+import AdminTabNavigator from "./AdminTabNavigator";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -45,8 +46,10 @@ const AppNavigator = () => {
         console.log("Role: ", role);
         if (role == USER_ROLES.ROLE_MANAGER) {
           naviagtion.navigate("ManagerTab");
-        } else {
+        } else if (role == USER_ROLES.ROLE_MEMBER) {
           naviagtion.navigate("MemberTab");
+        } else if (role == "Admin") {
+          console.log("Fsfsfdsfs");
         }
       } else {
         setRole("Login");
@@ -77,6 +80,8 @@ const AppNavigator = () => {
             ? "MemberTab"
             : role == USER_ROLES.ROLE_MANAGER
             ? "ManagerTab"
+            : role == "Admin"
+            ? "AdminTab"
             : "Welcome"
         }
       >
@@ -88,6 +93,11 @@ const AppNavigator = () => {
         <Stack.Screen
           name="MemberTab"
           component={MemberTabNavigator}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="AdminTab"
+          component={AdminTabNavigator}
           options={{ headerShown: false }}
         />
         <Stack.Screen
