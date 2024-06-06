@@ -3,112 +3,32 @@
 </div>
 <main>
 
-  <div class="container">
-    <div *ngIf="organization" style="text-align: center;">
-      <h2>{{ organization.name }}</h2>
+  <div class="container" *ngIf="organization" style="text-align: center;">
+    <div style="text-align: center;">
+      <h2>My organization</h2>
     </div>
     <hr>
-
-    <div class="row">
-      <div class="col-md-4">
-
-
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">Create a new appication</h5>
-          
-            <form (ngSubmit)="createApplication()" ngNativeValidate *ngIf="newApplication">
-              <div class="col">
-                <label for="newApplicationName" class="form-label">
-                  Choose type of appication :</label>
-                <select class="form-select" id="newApplication" [(ngModel)]="newApplication.name"
-                  [ngModelOptions]="{standalone: true}" required="">>
-                  <option *ngFor="let applicationName of applicationNames" [value]="applicationName.name">
-                    {{ applicationName.name }}
-                  </option>
-                </select>
-              </div>
-              <br>
-              <button class="btn btn-primary" type="submit" [disabled]="loading">Send</button>
-            </form>
-
-          </div>
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ organization.name }}</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">BIN: {{ organization.bin }}</h6>
+        <p class="card-text">
+          <a>Address: {{ organization.address }}</a><br>
+          <a>Contact number: {{ organization.contactNumber }}</a>
+        </p>
+        <p *ngIf="organization.ownerManager">
+          Manager: <br>
+          <img src="{{ imagePrefixToDisplay+organization.ownerManager?.photoBase64 }}" alt="mdo" width="30" height="30"
+            style="margin-right: 5px;" class="rounded-circle" *ngIf="organization.ownerManager?.photoBase64">
+          <img src="assets/images/no-photo.png" alt="mdo" width="30" height="30" class="rounded-circle"
+            style="margin-right: 5px;" *ngIf="!organization.ownerManager?.photoBase64">
+          {{ organization.ownerManager?.firstName }} {{ organization.ownerManager?.lastName }}
+        </p>
+        <div>
+          <button class="btn btn-primary" routerLink="/member/my-applications"
+            style="text-align: center; width: 90%; margin-bottom: 5px;" [disabled]="loading">My applications</button>
         </div>
-
-
-      
-      </div>
-      <div class="col-md-8">
-        <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">№</th>
-              <!-- <th scope="col">Type</th> -->
-              <th scope="col">Status</th>
-              <th scope="col">Name</th>
-              <th scope="col">#</th>
-            </tr>
-          </thead>
-          <tbody *ngIf="applications.length > 0">
-            <tr *ngFor="let application of applications; let i = index;">
-              <th scope="row">{{ i + 1 }}</th>
-              <!-- <td>{{ application.type }}</td> -->
-              <td>{{ application.status }}</td>
-              <td>{{ application.name }}</td>
-              <td>
-                <button class="btn btn-info" [disabled]="loading"
-                  (click)="openApplicationDetailsModal(application)">Details</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </div>
     </div>
   </div>
 </main>
-
-
-
-
-
-
-
-
-
-
-<!-- Modal -->
-<div class="modal fade show" id="applicationDetailsModal" tabindex="-1" aria-labelledby="applicationDetailsModalLabel"
-  aria-hidden="true" style="display: block;" *ngIf="isApplicationDetailsModalOpened && selectedApplication">
-  <div class="modal-dialog modal-dialog-applicationDetailsModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="applicationDetailsModalLabel">Application
-          <button *ngIf="selectedApplication.document && selectedApplication.status == 'Signed'" class="btn btn-success" [disabled]="loading"
-            (click)="downloadApplicationDocumentPdf(selectedApplication)" style="float: right;"><i
-              class="bi bi-download"></i></button>
-        </h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-          (click)="closeApplicationDetailsModal()" [disabled]="loading"></button>
-      </div>
-      <div class="modal-body">
-        <!-- <div class="card Application-info-card"> -->
-        <div *ngIf="selectedApplication.document"
-          [innerHTML]="selectedApplication.document | safeHtml" id="application-document">
-        </div>
-        <div *ngIf="selectedApplication.status == 'Unsigned'">
-          <div class="alert alert-danger" role="alert">
-            This application is unsigned!
-          </div>
-        </div>
-        <div *ngIf="selectedApplication.status == 'Awaiting'">
-          <div class="alert alert-info" role="alert">
-            This application is not ready yet!
-          </div>
-        </div>
-        <!-- </div> -->
-      </div>
-      <!-- <div class="modal-footer">
-        </div> -->
-    </div>
-  </div>
-</div>

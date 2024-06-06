@@ -72,7 +72,12 @@
             <tbody>
                 <tr *ngFor="let member of organization.members; let i = index;">
                     <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ member.email }}</td>
+                    <td>
+                          <img src="{{ imagePrefixToDisplay+member.photoBase64 }}" alt="mdo" width="30" height="30" style="margin-right: 5px;"
+                            class="rounded-circle" *ngIf="member.photoBase64">
+                          <img src="assets/images/no-photo.png" alt="mdo" width="30" height="30" class="rounded-circle" style="margin-right: 5px;"
+                            *ngIf="!member.photoBase64">
+                      {{ member.email }}</td>
                     <td>{{ member.firstName }}</td>
                     <td>{{ member.lastName }}</td>
                 </tr>
