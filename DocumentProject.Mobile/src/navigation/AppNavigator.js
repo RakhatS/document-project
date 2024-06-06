@@ -21,6 +21,9 @@ import Drivers from "../screens/Manager/Drivers";
 import CreateDriver from "../screens/Manager/CreateDriver";
 import RegistrationScreen from "../screens/LoginPage/Registration";
 import OnlineSigningSystem from "../screens/Manager/OnlineSystem";
+import AboutUs from "../screens/Member/AboutUs";
+import MemberNotifications from "../screens/Member/MemberNotifications";
+import ManagerNotifications from "../screens/Manager/ManagerNotification";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -156,6 +159,27 @@ const AppNavigator = () => {
         <Stack.Screen
           name="CreateDriver"
           component={CreateDriver}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="AboutUs"
+          component={AboutUs}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="MemberNotifications"
+          component={MemberNotifications}
+          options={{
+            header: () => null,
+          }}
+        />
+        <Stack.Screen
+          name="ManagerNotifications"
+          component={ManagerNotifications}
           options={{
             header: () => null,
           }}

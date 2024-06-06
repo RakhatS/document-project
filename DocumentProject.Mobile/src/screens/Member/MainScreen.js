@@ -167,7 +167,10 @@ const MainScreen = ({ navigation }) => {
           <Text style={styles.userName}>
             {current?.firstName} {current?.lastName}
           </Text>
-          <TouchableOpacity style={styles.notificationIcon}>
+          <TouchableOpacity
+            style={styles.notificationIcon}
+            onPress={() => navigation.navigate("MemberNotifications")}
+          >
             <Icon name="notifications" size={24} color="#FFFFFF" />
           </TouchableOpacity>
         </View>

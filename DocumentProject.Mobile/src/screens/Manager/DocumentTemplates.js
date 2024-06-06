@@ -31,7 +31,7 @@ const data = [
 ];
 
 const DocumentTemplates = () => {
-  const naviagtion = useNavigation();
+  const navigation = useNavigation();
   const [current, setCurrent] = useState();
   const [loading, setLoading] = useState(false);
 
@@ -70,7 +70,10 @@ const DocumentTemplates = () => {
           <Text style={styles.userName}>
             {current?.firstName} {current?.lastName}
           </Text>
-          <TouchableOpacity style={styles.notificationIcon}>
+          <TouchableOpacity
+            style={styles.notificationIcon}
+            onPress={() => navigation.navigate("ManagerNotifications")}
+          >
             <Icon name="notifications" size={24} color="#FFFFFF" />
           </TouchableOpacity>
         </View>
@@ -80,7 +83,7 @@ const DocumentTemplates = () => {
         <View style={styles.statementsContainer}>
           <TouchableOpacity
             style={styles.statementButton}
-            onPress={() => naviagtion.navigate("OnlineSigningSystem")}
+            onPress={() => navigation.navigate("OnlineSigningSystem")}
           >
             <Image
               source={require("../../../assets/1.png")}
@@ -114,7 +117,7 @@ const DocumentTemplates = () => {
           <TouchableOpacity style={styles.requestButton}>
             <Text
               style={styles.statementText}
-              onPress={() => naviagtion.navigate("OnlineSigningSystem")}
+              onPress={() => navigation.navigate("OnlineSigningSystem")}
             >
               Didn’t find a suitable document?{" "}
               <Text style={styles.requestText}>Request</Text>
@@ -157,7 +160,7 @@ const DocumentTemplates = () => {
               return (
                 <TouchableOpacity
                   style={{ padding: 10, flexWrap: "wrap" }}
-                  onPress={() => naviagtion.navigate("OnlineSigningSystem")}
+                  onPress={() => navigation.navigate("OnlineSigningSystem")}
                 >
                   <Image
                     source={
