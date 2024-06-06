@@ -1,6 +1,28 @@
 <div *ngIf="organization" id="organization-applications">
-  <h3>Applications</h3>
+  <h3 style="text-align: center;">Applications</h3>
+  <hr>
   <div *ngIf="organization.applications">
+    <div class="filter">
+      <h5>Filter</h5>
+      <div class="row">
+        <button class="btn btn-primary col filter-btn" (click)="selectedStatus = null"
+          [disabled]="selectedStatus === null || selectedStatus === 'All' || loading">
+          All
+        </button>
+        <button class="btn btn-primary col filter-btn" (click)="selectedStatus = 'Awaiting'"
+          [disabled]="selectedStatus === 'Awaiting' || loading">
+          Awaiting
+        </button>
+        <button class="btn btn-success col filter-btn" (click)="selectedStatus = 'Signed'"
+          [disabled]="selectedStatus === 'Signed' || loading">
+          Signed
+        </button>
+        <button class="btn btn-danger col filter-btn" (click)="selectedStatus = 'Unsigned'"
+          [disabled]="selectedStatus === 'Unsigned' || loading">
+          Unsigned
+        </button>
+      </div>
+    </div>
     <table class="table">
       <thead>
         <tr>
@@ -12,7 +34,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let application of organization.applications; let i = index;">
+        <tr *ngFor="let application of getFilteredApplications(); let i = index;">
           <th scope="row">{{ i + 1 }}</th>
           <td>{{ application.status }}</td>
           <td>{{ application.name }}</td>
@@ -36,12 +58,13 @@
   <div class="modal-dialog modal-dialog-applicationDetailsModal">
     <div class="modal-content">
       <div class="modal-header">
-            <h1 class="modal-title fs-5" id="applicationDetailsModalLabel">Application
-              [{{selectedApplication.status}}]</h1>
-          
-            <button *ngIf="selectedApplication.document && selectedApplication.status == 'Signed'" class="btn btn-success" [disabled]="loading" (click)="downloadApplicationDocumentPdf(selectedApplication)"
-              style="float: right;"><i class="bi bi-download"></i></button>
-     
+        <h1 class="modal-title fs-5" id="applicationDetailsModalLabel">Application
+          [{{selectedApplication.status}}]</h1>
+
+        <button *ngIf="selectedApplication.document && selectedApplication.status == 'Signed'" class="btn btn-success"
+          [disabled]="loading" (click)="downloadApplicationDocumentPdf(selectedApplication)" style="float: right;"><i
+            class="bi bi-download"></i></button>
+
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
           (click)="closeApplicationDetailsModal()" [disabled]="loading"></button>
       </div>

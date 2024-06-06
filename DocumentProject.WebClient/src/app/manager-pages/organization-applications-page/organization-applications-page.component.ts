@@ -23,6 +23,7 @@ export class OrganizationApplicationsPageComponent implements OnInit {
   isApplicationDetailsModalOpened: boolean = false;
   selectedApplication: Application | undefined;
   loading:boolean=false;
+  selectedStatus: string | null = null;
 
   ngOnInit(): void {   
     this.getApplications();
@@ -86,6 +87,13 @@ export class OrganizationApplicationsPageComponent implements OnInit {
       this.toastr.error(error.message);
       this.loading = false;
     })
+  }
+
+  getFilteredApplications(): Application[] {
+    if (this.selectedStatus != null && this.selectedStatus != 'All') {
+      return this.organization!.applications.filter(x => x.status == this.selectedStatus);
+    }
+    return this.organization!.applications;
   }
 
 

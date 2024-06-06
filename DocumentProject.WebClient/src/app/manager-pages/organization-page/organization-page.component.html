@@ -4,7 +4,7 @@
 
 <main>
   <div class="container" *ngIf="organization">
-    <button class="btn btn-primary" routerLink="/my-organizations" style="margin-bottom: 20px;">Back</button>
+    <button class="btn btn-primary" routerLink="/manager/my-organizations" style="margin-bottom: 20px;">Back</button>
     <div class="row">
       <div class="col-md-3">
         <div class="card">
@@ -15,24 +15,33 @@
               <a>Address: {{ organization.address }}</a><br>
               <a>Contact number: {{ organization.contactNumber }}</a>
             </p>
-            <div class="row">
-
-              <div class="col-md" style="text-align: center;">
-                <button class="btn" (click)="selectedSection = 'Applications'"
-                [disabled]="loading" [ngClass]="{'btn-primary': selectedSection != 'Applications', 'btn-secondary': selectedSection == 'Applications'}">Applications</button>
-              </div>
-              <div class="col-md" style="text-align: center;">
-                <button class="btn btn-primary" (click)="selectedSection = 'Members'"
+            <p *ngIf="organization.ownerManager">
+              Manager: <br>
+              <img src="{{ imagePrefixToDisplay+organization.ownerManager?.photoBase64 }}" alt="mdo" width="30"
+                height="30" style="margin-right: 5px;" class="rounded-circle"
+                *ngIf="organization.ownerManager?.photoBase64">
+              <img src="assets/images/no-photo.png" alt="mdo" width="30" height="30" class="rounded-circle"
+                style="margin-right: 5px;" *ngIf="!organization.ownerManager?.photoBase64">
+              {{ organization.ownerManager?.firstName }} {{ organization.ownerManager?.lastName }}
+            </p>
+            <div>
+              <button class="btn" (click)="selectedSection = 'Applications'"
+                style="text-align: center; width: 100%; margin-bottom: 5px;" [disabled]="loading"
+                [ngClass]="{'btn-primary': selectedSection != 'Applications', 'btn-secondary': selectedSection == 'Applications'}">Applications</button>
+              <button class="btn btn-primary" (click)="selectedSection = 'Members'"
+                style="text-align: center; width: 100%;"
                 [ngClass]="{'btn-primary': selectedSection != 'Members', 'btn-secondary': selectedSection == 'Members'}"
                 [disabled]="loading">Members</button>
-              </div>
+
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-9">
-        <app-organization-members-page *ngIf="selectedSection == 'Members'" [organization]="organization"></app-organization-members-page>
-        <app-organization-applications-page *ngIf="selectedSection == 'Applications'" [organization]="organization"></app-organization-applications-page>
+        <app-organization-members-page *ngIf="selectedSection == 'Members'"
+          [organization]="organization"></app-organization-members-page>
+        <app-organization-applications-page *ngIf="selectedSection == 'Applications'"
+          [organization]="organization"></app-organization-applications-page>
       </div>
     </div>
 

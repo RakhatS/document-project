@@ -53,4 +53,10 @@ export class OrganizationService {
     let api = this.api + "/UpdateByAdmin";
     return this.http.put<Organization[]>(api, updatedOrganization);
   }
+
+
+  updateOrganization(updatedOrganization: Organization): Observable<Organization[]> {
+    let api = this.api + "/Update";
+    return this.http.put<Organization[]>(api, updatedOrganization);
+  }
 }

@@ -71,6 +71,7 @@ namespace DocumentProject.WebAPI.Controllers
         {
             var organization = await _dbContext.Organizations
                   .Include(x => x.Members)
+                  .Include(x => x.OwnerManager)
                   .SingleOrDefaultAsync(x => x.Id == organizationid);
 
             if (organization == null)
@@ -173,28 +174,6 @@ namespace DocumentProject.WebAPI.Controllers
 
             return newOrganizationReq;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

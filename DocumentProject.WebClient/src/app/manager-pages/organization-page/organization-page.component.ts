@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Organization } from '../../_models/organization';
 import { ApplicationService } from '../../_services/application.service';
 import { MemberService } from '../../_services/member.service';
+import { Constants } from 'src/app/_helpers/contants';
 
 @Component({
   selector: 'app-organization-page',
@@ -14,6 +15,8 @@ import { MemberService } from '../../_services/member.service';
 })
 export class OrganizationPageComponent implements OnInit {
 
+
+  imagePrefixToDisplay: string = Constants.ImagePrefixToDisplay;
 
   organizationId: string | undefined;
   organization: Organization | undefined;

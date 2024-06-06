@@ -67,6 +67,15 @@ namespace DocumentProject.WebAPI.Controllers
             }
             newMemberReq.Email = newMemberReq.Email.ToLower().Trim();
 
+            var existingEmail = await _userManager.FindByEmailAsync(newMemberReq.Email);
+            if (existingEmail != null)
+            {
+
+                Response.ContentType = "application/json";
+                Response.StatusCode = 409;
+                await Response.WriteAsync("Email exists");
+                return null;
+            }
 
             var manager = await _dbContext.Managers
                 .SingleOrDefaultAsync(x => x.IdentityUser.UserName == User.ToUserInfo().UserName);

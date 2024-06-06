@@ -16,6 +16,10 @@ export class MyOrganizationsPageComponent implements OnInit {
 
   organizations: Organization[] = [];
 
+  selectedOrganization: Organization | undefined;
+
+  isUpdateNewOrganizationModalOpened: boolean = false;
+
   constructor(private organizationService: OrganizationService,
     private accessTokenService: AccessTokenService,
     private router: Router,
@@ -42,5 +46,30 @@ export class MyOrganizationsPageComponent implements OnInit {
     })
   }
 
+  openUpdateNewOrganizationModal(organization: Organization) {
+    this.selectedOrganization = organization;
+    this.isUpdateNewOrganizationModalOpened = true;
+  }
+  closeUpdateNewOrganizationModal() {
+    this.isUpdateNewOrganizationModalOpened = false;
+    this.selectedOrganization = undefined;
+  }
 
+
+  updateOrganization() {
+    if (!this.selectedOrganization) {
+      return;
+    }
+
+    this.loading = true;
+
+    this.organizationService.updateOrganization(this.selectedOrganization).subscribe(res => {
+      this.loading = false;
+      this.closeUpdateNewOrganizationModal();
+
+    }, error => {
+      this.toastr.error(error.message);
+      this.loading = false;
+    })
+  }
 }

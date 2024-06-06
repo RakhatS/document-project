@@ -4,21 +4,97 @@
       <span class="visually-hidden"></span>
     </div>
     <div class="row">
-      <div class="col-7">
-        <h2>Organizations</h2>
-        <ol class="list-group list-group-numbered">
+      <div class="col">
+        <h2 style="text-align: center;">My organizations</h2>
+        <hr>
+        <!-- <ol class="list-group list-group-numbered">
           <li class="list-group-item d-flex justify-content-between align-items-start organization-list-item"
             *ngFor="let organization of organizations" [routerLink]="'/manager/organization/'+organization.id"
             style="cursor: pointer;">
             <div class="ms-2 me-auto" style="width: 100%;">
               <div class="fw-bold" style="width: 100%;">{{ organization.name }}</div>
-              <!-- Content for list item -->
             </div>
-            <!-- <button class="btn btn-danger" (click)="deleteOrganization(organization.id!)" style="z-index: 9999;"><i
-                class="bi bi-trash"></i></button> -->
           </li>
-        </ol>
+        </ol> -->
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">№</th>
+                <th scope="col">Name</th>
+                <th scope="col">BIN</th>
+                <th scope="col">Address</th>
+                <th scope="col">Contact number</th>
+                <th scope="col">#</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let organization of organizations; let i = index;">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ organization.name }}</td>
+                <td>{{ organization.bin }}</td>
+                <td>{{ organization.address }}</td>
+                <td>{{ organization.contactNumber }}</td>
+                
+                <td>
+                  <div class="row">
+                    <button class="btn btn-primary col-md-6" [disabled]="loading"
+                      [routerLink]="'/manager/organization/'+organization.id">Open</button>
+                    
+                      <button class="btn btn-info col-md-6" [disabled]="loading"
+                        (click)="openUpdateNewOrganizationModal(organization)">Edit</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
       </div>
     </div>
   </div>
 </main>
+
+
+
+<!-- Modal -->
+<div class="modal fade show" id="updateNewOrganizationModal" tabindex="-1"
+  aria-labelledby="updateNewOrganizationModalLabel" aria-hidden="true" style="display: block;"
+  *ngIf="isUpdateNewOrganizationModalOpened && selectedOrganization">
+  <div class="modal-dialog modal-dialog-updateNewOrganizationModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="updateNewOrganizationModalLabel">Update organization</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          (click)="closeUpdateNewOrganizationModal()" [disabled]="loading"></button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="updateOrganization()" ngNativeValidate>
+          <div class="mb-3">
+            <label for="inputOrganizationName" class="form-label">Name:</label>
+            <input type="text" class="form-control" id="inputOrganizationName" [(ngModel)]="selectedOrganization.name"
+              [ngModelOptions]="{standalone: true}" required [disabled]="loading">
+          </div>
+          <div class="mb-3">
+            <label for="inputOrganizationBIN" class="form-label">BIN:</label>
+            <input type="text" class="form-control" id="inputOrganizationBIN" [(ngModel)]="selectedOrganization.bin"
+              [ngModelOptions]="{standalone: true}" required [disabled]="loading">
+          </div>
+          <div class="mb-3">
+            <label for="inputOrganizationAddress" class="form-label">Address:</label>
+            <input type="text" class="form-control" id="inputOrganizationAddress"
+              [(ngModel)]="selectedOrganization.address" [ngModelOptions]="{standalone: true}" required
+              [disabled]="loading">
+          </div>
+          <div class="mb-3">
+            <label for="inputOrganizationContactNumber" class="form-label">Contact number:</label>
+            <input type="text" class="form-control" id="inputOrganizationContactNumber"
+              [(ngModel)]="selectedOrganization.contactNumber" [ngModelOptions]="{standalone: true}" required
+              [disabled]="loading">
+          </div>
+  
+          <button type="submit" class="btn btn-primary" [disabled]="loading">Update</button>
+        </form>
+      </div>
+      <!-- <div class="modal-footer">
+        </div> -->
+    </div>
+  </div>
+</div>
