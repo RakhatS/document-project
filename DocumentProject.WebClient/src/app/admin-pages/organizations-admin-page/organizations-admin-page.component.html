@@ -11,12 +11,13 @@
     <table class="table">
       <thead>
         <tr>
-          <th scope="col">#</th>
+          <th scope="col">№</th>
           <th scope="col">Name</th>
           <th scope="col">BIN</th>
           <th scope="col">Address</th>
           <th scope="col">Contact number</th>
           <th scope="col">Owner</th>
+          <th scope="col">#</th>
         </tr>
       </thead>
       <tbody>
@@ -27,7 +28,9 @@
           <td>{{ organization.address }}</td>
           <td>{{ organization.contactNumber }}</td>
           <td>{{ organization.ownerManager?.firstName }} {{ organization.ownerManager?.lastName }}</td>
-
+          <td>
+            <button class="btn btn-danger" [disabled]="loading" (click)="forceDelete(organization.id!)"><i class="bi bi-trash"></i></button>
+          </td>
         </tr>
       </tbody>
     </table>

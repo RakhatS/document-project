@@ -21,7 +21,7 @@ export class MembersAdminPageComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService
   ) { }
-  
+
   ngOnInit(): void {
     if (this.accessTokenService.getUserRole() != "Admin") {
       this.router.navigate(['/']);
@@ -36,6 +36,18 @@ export class MembersAdminPageComponent implements OnInit {
     this.memberService.getMembersList().subscribe(res => {
       this.members = res;
       this.loading = false;
+    }, error => {
+      this.toastr.error(error.message);
+      this.loading = false;
+    })
+  }
+
+
+  forceDelete(memberId: string) {
+    this.loading = true;
+    this.memberService.forceDeleteMember(memberId).subscribe(res => {
+      this.loading = false;
+      this.getMembers();
     }, error => {
       this.toastr.error(error.message);
       this.loading = false;

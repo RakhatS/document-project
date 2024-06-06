@@ -39,6 +39,15 @@ export class OrganizationsAdminPageComponent implements OnInit {
       this.loading = false;
     })
   }
-
+  forceDelete(organizationId: string) {
+    this.loading = true;
+    this.organizationService.forceDeleteOrganization(organizationId).subscribe(res => {
+      this.loading = false;
+      this.getOrganizations();
+    }, error => {
+      this.toastr.error(error.message);
+      this.loading = false;
+    })
+  }
 
 }

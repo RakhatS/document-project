@@ -11,13 +11,14 @@
         <table class="table">
           <thead>
             <tr>
-              <th scope="col">#</th>
+              <th scope="col">№</th>
               <th scope="col">Full name</th>
               <th scope="col">Email</th>
               <th scope="col">Position</th>
               <th scope="col">Address</th>
               <th scope="col">Phone number</th>
               <th scope="col">Organization</th>
+              <th scope="col">#</th>
             </tr>
           </thead>
           <tbody>
@@ -29,7 +30,9 @@
               <td>{{ member.address }}</td>
               <td>{{ member.phoneNumber }}</td>
               <td>{{ member.organization?.name }}</td>
-        
+              <td>
+                <button class="btn btn-danger" [disabled]="loading" (click)="forceDelete(member.id!)"><i class="bi bi-trash"></i></button>
+              </td>
             </tr>
           </tbody>
         </table>

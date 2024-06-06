@@ -39,4 +39,16 @@ export class ManagersAdminPageComponent implements OnInit {
       this.loading = false;
     })
   }
+
+
+  forceDelete(managerId: string) {
+    this.loading = true;
+    this.managerService.forceDeleteManager(managerId).subscribe(res => {
+      this.loading = false;
+      this.getManagers();
+    }, error => {
+      this.toastr.error(error.message);
+      this.loading = false;
+    })
+  }
 }

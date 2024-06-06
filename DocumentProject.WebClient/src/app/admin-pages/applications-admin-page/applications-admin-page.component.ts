@@ -41,10 +41,22 @@ export class ApplicationsAdminPageComponent implements OnInit {
     })
   }
 
-  getFilteredApplications(): Application[]{
-    if(this.selectedStatus != null && this.selectedStatus != 'All'){
+  getFilteredApplications(): Application[] {
+    if (this.selectedStatus != null && this.selectedStatus != 'All') {
       return this.applications.filter(x => x.status == this.selectedStatus);
     }
     return this.applications;
+  }
+
+
+  forceDelete(applicationId: string) {
+    this.loading = true;
+    this.applicationService.forceDeleteApplication(applicationId).subscribe(res => {
+      this.loading = false;
+      this.getApplications();
+    }, error => {
+      this.toastr.error(error.message);
+      this.loading = false;
+    })
   }
 }
