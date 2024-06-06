@@ -33,4 +33,10 @@ export class ManagerService {
     let api = this.api + "/ManagersList";
     return this.http.get<Manager[]>(api);
   }
+
+
+  forceDeleteManager(managerId: string): Observable<any> {
+    let api = this.api + "/ForceDelete?managerId=" + managerId;
+    return this.http.delete<any>(api);
+  }
 }

@@ -35,4 +35,10 @@ export class OrganizationService {
     let api = this.api + "/OrganizationsList";
     return this.http.get<Organization[]>(api);
   }
+
+
+  forceDeleteOrganization(organizationId: string): Observable<any> {
+    let api = this.api + "/ForceDelete?organizationId=" + organizationId;
+    return this.http.delete<any>(api);
+  }
 }

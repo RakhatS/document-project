@@ -47,4 +47,10 @@ export class ApplicationService {
     let api = this.api + "/ApplicationsList";
     return this.http.get<Application[]>(api);
   }
+
+
+  forceDeleteApplication(applicationId: string): Observable<any> {
+    let api = this.api + "/ForceDelete?applicationId=" + applicationId;
+    return this.http.delete<any>(api);
+  }
 }

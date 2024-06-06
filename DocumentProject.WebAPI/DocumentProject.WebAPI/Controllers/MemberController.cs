@@ -217,5 +217,37 @@ namespace DocumentProject.WebAPI.Controllers
             return Mapper.Map<List<Member>, List<MemberDTO>>(members);
         }
 
+
+
+
+
+
+
+
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("ForceDelete")]
+        public async Task ForceDeleteMember([FromQuery] Guid memberId)
+        {
+
+            var member = await _dbContext.Members
+                .Include(x => x.IdentityUser)
+                .Include(x => x.Applications)
+                .SingleOrDefaultAsync(x => x.Id == memberId);
+            if (member == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Member not found");
+                return;
+            }
+            _dbContext.Members.Remove(member);
+
+
+            await _userManager.DeleteAsync(member.IdentityUser);
+
+            await _dbContext.SaveChangesAsync();
+        }
+
     }
 }

@@ -284,5 +284,40 @@ namespace DocumentProject.WebAPI.Controllers
             return Mapper.Map<List<Application>, List<ApplicationDTO>>(applications);
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("ForceDelete")]
+        public async Task ForceDeleteApplication([FromQuery] Guid applicationId)
+        {
+
+            var application = await _dbContext.Applications
+                .SingleOrDefaultAsync(x => x.Id == applicationId);
+            if (application == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Application not found");
+                return;
+            }
+            _dbContext.Applications.Remove(application);
+            await _dbContext.SaveChangesAsync();
+        }
+
+
     }
 }

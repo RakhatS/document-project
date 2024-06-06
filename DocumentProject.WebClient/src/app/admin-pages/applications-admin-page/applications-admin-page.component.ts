@@ -14,6 +14,7 @@ export class ApplicationsAdminPageComponent implements OnInit {
 
   loading: boolean = false;
   applications: Application[] = [];
+  selectedStatus: string | null = null;
 
   constructor(private applicationService: ApplicationService,
     private accessTokenService: AccessTokenService,
@@ -38,5 +39,12 @@ export class ApplicationsAdminPageComponent implements OnInit {
       this.toastr.error(error.message);
       this.loading = false;
     })
+  }
+
+  getFilteredApplications(): Application[]{
+    if(this.selectedStatus != null && this.selectedStatus != 'All'){
+      return this.applications.filter(x => x.status == this.selectedStatus);
+    }
+    return this.applications;
   }
 }

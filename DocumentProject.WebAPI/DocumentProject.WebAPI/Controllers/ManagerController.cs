@@ -6,6 +6,7 @@ using DocumentProject.WebAPI.Helpers;
 using DocumentProject.WebAPI.Views;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Asn1.Ocsp;
@@ -18,12 +19,14 @@ namespace DocumentProject.WebAPI.Controllers
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IFilesDestination _filesDestination;
+        private readonly UserManager<IdentityUser> _userManager;
 
         public ManagerController(ApplicationDbContext dbContext,
-            IFilesDestination filesDestination)
+            IFilesDestination filesDestination, UserManager<IdentityUser> userManager)
         {
             _dbContext = dbContext;
             _filesDestination = filesDestination;
+            _userManager = userManager;
         }
 
 
@@ -68,12 +71,6 @@ namespace DocumentProject.WebAPI.Controllers
             await _dbContext.SaveChangesAsync();
 
         }
-
-
-
-
-
-
 
 
 
@@ -124,6 +121,42 @@ namespace DocumentProject.WebAPI.Controllers
 
 
             return Mapper.Map<List<ManagerDTO>>(managers);
+        }
+
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("ForceDelete")]
+        public async Task ForceDeleteManager([FromQuery] Guid managerId)
+        {
+
+            var manager = await _dbContext.Managers
+                .Include(x => x.IdentityUser)
+                .Include(x => x.Organizations)
+                .SingleOrDefaultAsync(x => x.Id == managerId);
+            if (manager == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Manager not found");
+                return;
+            }
+
+            foreach(var organization in manager.Organizations)
+            {
+                organization.OwnerManager = null;
+                organization.OwnerManagerId = null;
+            }
+
+            await _dbContext.SaveChangesAsync();
+
+            manager.Organizations = new List<Organization>();
+
+            _dbContext.Managers.Remove(manager);
+
+
+            await _userManager.DeleteAsync(manager.IdentityUser);
+
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

@@ -271,6 +271,7 @@ namespace DocumentProject.WebAPI.Controllers
             organization.Address = updatedOrganizationReq.Address;
             organization.ContactNumber = updatedOrganizationReq.ContactNumber;
             organization.Name = updatedOrganizationReq.Name;
+            organization.OwnerManagerId = updatedOrganizationReq.OwnerManagerId;
 
             await _dbContext.SaveChangesAsync();
 
@@ -280,7 +281,23 @@ namespace DocumentProject.WebAPI.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("ForceDelete")]
+        public async Task ForceDeleteOrganization([FromQuery] Guid organizationId)
+        {
 
-
+            var organization = await _dbContext.Organizations
+                .Include(x => x.Members)
+                .Include(x => x.Applications)
+                .SingleOrDefaultAsync(x => x.Id == organizationId);
+            if (organization == null)
+            {
+                Response.StatusCode = 400;
+                await Response.WriteAsync("Organization not found");
+                return;
+            }
+            _dbContext.Organizations.Remove(organization);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

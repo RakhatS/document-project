@@ -40,10 +40,14 @@ export class MemberService {
     return this.http.put<any>(api, updatedMember);
   }
 
-
-
   getMembersList(): Observable<Member[]> {
     let api = this.api + "/MembersList";
     return this.http.get<Member[]>(api);
+  }
+
+
+  forceDeleteMember(memberId: string): Observable<any> {
+    let api = this.api + "/ForceDelete?memberId=" + memberId;
+    return this.http.delete<any>(api);
   }
 }
