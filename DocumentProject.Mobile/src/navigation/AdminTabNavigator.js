@@ -16,16 +16,16 @@ const AdminTabNavigator = () => {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
-          if (route.name == "Home") {
+          if (route.name == "Organizations") {
             iconName = "home-outline";
-          } else if (route.name == "Profile") {
+          } else if (route.name == "Members") {
             iconName = "person-outline";
           } else if (route.name == "Applications") {
             iconName = "document-text-outline";
+          } else if (route.name == "Managers") {
+            iconName = "document-text-outline";
           } else if (route.name == "Profile") {
             iconName = "person-outline";
-          } else if (route.name == "Applications") {
-            iconName = "document-text-outline";
           }
           return (
             <Icon name={iconName} size={size} color={color} focused={focused} />
@@ -36,11 +36,12 @@ const AdminTabNavigator = () => {
         //  header: () => <Header />,
       })}
     >
-      <Tab.Screen name="AdminApplications" component={AdminApplications} />
-      <Tab.Screen name="AdminManagers" component={AdminManagers} />
-      <Tab.Screen name="AdminMembers" component={AdminMembers} />
-      <Tab.Screen name="AdminOrganizations" component={AdminOrganizations} />
-      <Tab.Screen name="AdminProfile" component={AdminProfile} />
+      <Tab.Screen name="Organizations" component={AdminOrganizations} />
+      <Tab.Screen name="Members" component={AdminMembers} />
+      <Tab.Screen name="Applications" component={AdminApplications} />
+      <Tab.Screen name="Managers" component={AdminManagers} />
+
+      <Tab.Screen name="Profile" component={AdminProfile} />
     </Tab.Navigator>
   );
 };
